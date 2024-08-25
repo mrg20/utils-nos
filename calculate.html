@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attacker vs Defender Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1500px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        /* For large screens */
+        @media (max-width: 1600px) {
+            .container {
+                max-width: 1200px;
+            }
+        }
+
+        /* For medium screens */
+        @media (max-width: 1200px) {
+            .container {
+                max-width: 900px;
+            }
+        }
+
+        /* For small screens */
+        @media (max-width: 768px) {
+            .container {
+                max-width: 600px;
+            }
+        }
+
+        .box {
+            border: 2px solid #000; /* 2px solid black border */
+            padding: 20px;          /* Optional: Add padding to create space inside the border */
+            border-radius: 5px;     /* Optional: Rounded corners */
+        }
+
+        h1 {
+            text-align: center;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            width: 100%;
+        }
+
+        .section {
+            flex: 1;
+            margin: 10px;
+            min-width: 400px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input[type="number"], input[type="text"], select, input[type="checkbox"] {
+            width: calc(25% - 5px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Attacker vs Defender Calculator</h1>
+
+        <div class="section">
+            <h2>Attacker</h2>
+            <label for="atkIsMob">Is Mob:</label>
+            <input type="checkbox" id="atkIsMob">
+
+            <label for="atkBase">Base Attack:</label>
+            <input type="number" id="atkBase" value="0">
+
+            <label for="atkWeaponUp">Weapon Upgrade:</label>
+            <input type="number" id="atkWeaponUp" value="0">
+
+            <label for="atkEffects">Attack Effects:</label>
+            <input type="number" id="atkEffects" value="0">
+
+            <label for="atkSp">Special Attack:</label>
+            <input type="number" id="atkSp" value="0">
+
+            <label for="dmgEnhanced">Damage Enhanced:</label>
+            <input type="number" id="dmgEnhanced" value="0">
+
+            <label for="dmgIncreasePvp">Damage Increase PvP:</label>
+            <input type="number" id="dmgIncreasePvp" value="0">
+
+            <label for="dmgIncreaseLowSociety">Damage Increase Low Society:</label>
+            <input type="number" id="dmgIncreaseLowSociety" value="0">
+
+            <label for="dmgIncreaseEvil">Damage Increase Evil:</label>
+            <input type="number" id="dmgIncreaseEvil" value="0">
+
+            <label for="dmgIncreaseUndead">Damage Increase Undead:</label>
+            <input type="number" id="dmgIncreaseUndead" value="0">
+
+            <label for="dmgIncreasePlant">Damage Increase Plant:</label>
+            <input type="number" id="dmgIncreasePlant" value="0">
+
+            <label for="dmgIncreaseLarge">Damage Increase Large:</label>
+            <input type="number" id="dmgIncreaseLarge" value="0">
+
+            <label for="dmgIncreaseAnimal">Damage Increase Animal:</label>
+            <input type="number" id="dmgIncreaseAnimal" value="0">
+
+            <label for="atkSkill">Attack Skill:</label>
+            <input type="number" id="atkSkill" value="0">
+
+            <label for="dmgIncreaseS">Damage Increase S:</label>
+            <input type="number" id="dmgIncreaseS" value="0">
+
+            <label for="dmgIncreaseEq">Damage Increase Equipment:</label>
+            <input type="number" id="dmgIncreaseEq" value="0">
+
+            <label for="fairy">Fairy:</label>
+            <input type="number" id="fairy" value="0">
+
+            <label for="eleSp">Element Special:</label>
+            <input type="number" id="eleSp" value="0">
+
+            <label for="eleSkill">Element Skill:</label>
+            <input type="number" id="eleSkill" value="0">
+
+
+        </div>
+        <div class="section">
+            <h2>-</h2>
+            
+            <label for="eleEffects">Element Effects:</label>
+            <input type="number" id="eleEffects" value="0">
+
+            <label for="elePropIncrease">Element Property Increase:</label>
+            <input type="number" id="elePropIncrease" value="0">
+
+            <label for="atkOil">Attack Oil:</label>
+            <input type="number" id="atkOil" value="0">
+
+            <label for="critDmg">Critical Damage:</label>
+            <input type="number" id="critDmg" value="0">
+
+            <label for="resReduction">Resistance Reduction:</label>
+            <input type="number" id="resReduction" value="0">
+
+            <label for="resReductionPvp">Resistance Reduction PvP:</label>
+            <input type="number" id="resReductionPvp" value="0">
+
+            <label for="morale">Morale:</label>
+            <input type="number" id="morale" value="0">
+
+            <label for="mobDamage">Mob Damage:</label>
+            <input type="number" id="mobDamage" value="0">
+
+            <label for="atkPvpBook">Attack PvP Book:</label>
+            <input type="number" id="atkPvpBook" value="0">
+
+            <label for="atkPvpHono">Attack PvP Honor:</label>
+            <input type="number" id="atkPvpHono" value="0">
+
+            <label for="atkHat">Attack Hat:</label>
+            <input type="number" id="atkHat" value="0">
+
+            <label for="atkPet">Attack Pet:</label>
+            <input type="number" id="atkPet" value="0">
+
+            <label for="atkPot">Attack Potion:</label>
+            <input type="number" id="atkPot" value="0">
+
+            <label for="atkEquipMax">Attack Equipment Max:</label>
+            <input type="number" id="atkEquipMax" value="0">
+
+            <label for="atkEquipMin">Attack Equipment Min:</label>
+            <input type="number" id="atkEquipMin" value="0">
+
+            <label for="type">Element Type (Numeric):</label>
+            <input type="number" id="type" value="0">
+
+            <label for="dmgIncreaseEqProb">Damage Increase Equipment Probability:</label>
+            <input type="number" id="dmgIncreaseEqProb" value="0">
+
+            <label for="critProb">Critical Probability:</label>
+            <input type="number" id="critProb" value="0">
+
+            <label for="defReductionPvp">Defense Reduction PvP:</label>
+            <input type="number" id="defReductionPvp" value="0">
+
+        </div>
+
+        
+
+        <!-- Add more attacker fields here as needed -->
+
+        <div class="section box">
+            <h2>Defender</h2>
+            <label for="defIsMob">Is Mob:</label>
+            <input type="checkbox" id="defIsMob">
+
+            <label for="armorUp">Armor Up:</label>
+            <input type="number" id="armorUp" value="0">
+
+            <label for="defEquip">Defense Equipment:</label>
+            <input type="number" id="defEquip" value="0">
+
+            <label for="defBase">Base Defense:</label>
+            <input type="number" id="defBase" value="0">
+
+            <label for="defEffects">Defense Effects:</label>
+            <input type="number" id="defEffects" value="0">
+
+            <label for="defSp">Special Defense:</label>
+            <input type="number" id="defSp" value="0">
+
+            <label for="defEnhanced">Defense Enhanced:</label>
+            <input type="number" id="defEnhanced" value="0">
+
+            <label for="defIncreaseS">Defense Increase S:</label>
+            <input type="number" id="defIncreaseS" value="0">
+
+            <label for="defIncreasePvp">Defense Increase PvP:</label>
+            <input type="number" id="defIncreasePvp" value="0">
+
+            <label for="defSkill">Defense Skill:</label>
+            <input type="number" id="defSkill" value="0">
+
+            <label for="defPetPvp">Defense Pet PvP:</label>
+            <input type="number" id="defPetPvp" value="0">
+
+            <label for="defPot">Defense Potion:</label>
+            <input type="checkbox" id="defPot">
+
+            <label for="defOil">Defense Oil:</label>
+            <input type="checkbox" id="defOil">
+
+            <label for="defCostume">Defense Costume:</label>
+            <input type="number" id="defCostume" value="0">
+
+            <label for="defPet">Defense Pet:</label>
+            <input type="number" id="defPet" value="0">
+
+            <label for="res">Resistance:</label>
+            <input type="number" id="res" value="0">
+
+            <label for="critDmgReduction">Critical Damage Reduction:</label>
+            <input type="number" id="critDmgReduction" value="0">
+
+            <label for="defPvpBook">Defense PvP Book:</label>
+            <input type="number" id="defPvpBook" value="0">
+
+            <label for="defPvpHono">Defense PvP Honor:</label>
+            <input type="number" id="defPvpHono" value="0">
+
+            <label for="magicDmgReduction">Magic Damage Reduction:</label>
+            <input type="number" id="magicDmgReduction" value="0">
+
+            <label for="mobType">Mob Type:</label>
+            <select id="mobType">
+                <option value="0">None</option>
+                <option value="1">Low Society</option>
+                <option value="2">Evil</option>
+                <option value="3">Undead</option>
+                <option value="4">Plant</option>
+                <option value="5">Large</option>
+                <option value="6">Animal</option>
+            </select>
+
+            <label for="defType">Element Type (Numeric):</label>
+            <input type="number" id="defType" value="0">
+
+            <label for="defMorale">Morale:</label>
+            <input type="number" id="defMorale" value="0">
+        </div>
+
+        <!-- Add more defender fields here as needed -->
+
+        <button onclick="calculateDamage()">Calculate</button>
+
+        <div id="result" class="result">
+
+        </div>
+    </div>
+
+    <script>
+
+        const equip_up_bonus = [0, 0.1, 0.15, 0.22, 0.32, 0.43, 0.54, 0.65, 0.9, 1.2, 2];
+        const sp_up_bonus = [0, 5, 10, 15, 20, 28, 36, 46, 56, 68, 80, 95, 110, 128, 148, 173];
+
+        const type_matchups = {
+            "FIRE>WATER": 1,
+            "WATER>FIRE": 1,
+            "LIGHT>SHADOW": 2,
+            "SHADOW>LIGHT": 2,
+            "FIRE>SHADOW": 0.5,
+            "SHADOW>WATER": 0.5,
+            "WATER>LIGHT": 0.5,
+            "LIGHT>FIRE": 0.5,
+            "FIRE>NO_ELEMENT": 0.3,
+            "WATER>NO_ELEMENT": 0.3,
+            "LIGHT>NO_ELEMENT": 0.3,
+            "SHADOW>NO_ELEMENT": 0.3
+        };
+
+        function elemental_bonus(matchup) {
+            return type_matchups[matchup] || 0;
+        }
+
+        const Element = {
+            NO_ELEMENT: 0,
+            LIGHT: 1,
+            SHADOW: 2,
+            WATER: 3,
+            FIRE: 4
+        };
+
+        const DamageType = {
+            ALL: 0,
+            NORMAL: 1,
+            SOFT: 2,
+            CRIT: 3,
+            SOFTCRIT: 4
+        };
+
+        const MobType = {
+            NONE: 0,
+            LOW_SOCIETY: 1,
+            EVIL: 2,
+            UNDEAD: 3,
+            PLANT: 4,
+            LARGE: 5,
+            ANIMAL: 6
+        };
+
+
+
+        class Calculator {
+            constructor(attacker, defender, defendersList = []) {
+                this.attacker = attacker;
+                this.defender = defender;
+                this.defendersList = defendersList;
+            }
+
+            _atk_tot(atk_eq, soft = false) {
+                const is_pvp = !this.attacker.is_mob && !this.defender.is_mob ? 1 : 0;
+                const up = Math.min(Math.max(this.attacker.weapon_up - this.defender.armor_up, 0), 10);
+                
+                const atk_char = (
+                    (atk_eq * (1 + equip_up_bonus[up])
+                    + this.attacker.atk_base
+                    + this.attacker.atk_effects
+                    + this.attacker.atk_sp()
+                    + this.attacker.dmg_enhanced)
+                    * (1 + is_pvp * this.attacker.dmg_increase_pvp / 100)
+                );
+
+                let mob_type_dmg = 0;
+                if (this.defender.is_mob) {
+                    switch (this.defender.mob_type) {
+                        case 'LOW_SOCIETY':
+                            mob_type_dmg = this.attacker.dmg_increase_low_society;
+                            break;
+                        case 'EVIL':
+                            mob_type_dmg = this.attacker.dmg_increase_evil;
+                            break;
+                        case 'UNDEAD':
+                            mob_type_dmg = this.attacker.dmg_increase_undead;
+                            break;
+                        case 'PLANT':
+                            mob_type_dmg = this.attacker.dmg_increase_plant;
+                            break;
+                        case 'LARGE':
+                            mob_type_dmg = this.attacker.dmg_increase_large;
+                            break;
+                        case 'ANIMAL':
+                            mob_type_dmg = this.attacker.dmg_increase_animal;
+                            break;
+                        default:
+                            mob_type_dmg = 0;
+                    }
+                }
+
+                return (
+                    (atk_char + this.attacker.atk_skill + 15)
+                    * (1 + (this.attacker.dmg_increase_s + mob_type_dmg) / 100)
+                    * (1 + this.attacker.dmg_increase_eq / 100 * (soft ? 1 : 0))
+                );
+            }
+
+
+            _def_tot() {
+                const is_pvp = !this.attacker.is_mob && !this.defender.is_mob ? 1 : 0;
+                const up = Math.min(Math.max(this.defender.armor_up - this.attacker.weapon_up, 0), 10);
+
+                const def_char = (
+                    (this.defender.def_equip * (1 + equip_up_bonus[up])
+                    + this.defender.def_base
+                    + this.defender.def_effects
+                    + this.defender.def_sp
+                    + this.defender.def_enhanced)
+                    * (1 + (this.defender.def_increase_s
+                        + is_pvp * this.defender.def_increase_pvp
+                        - is_pvp * this.attacker.def_reduction_pvp) / 100)
+                );
+                console.log(this.attacker.def_reduction_pvp)
+                return (
+                    (def_char + this.defender.def_skill)
+                    * (1 + is_pvp * this.defender.def_pet_pvp / 100)
+                    * (1 + (this.defender.def_pot ? 20 : 0
+                        + this.defender.def_oil ? 5 : 0
+                        + this.defender.def_costume
+                        + this.defender.def_pet) / 100)
+                );
+            }
+
+            _atk_ele_tot(atk_eq, soft = false) {
+                const atk_ele = (
+                    (this._atk_tot(atk_eq, soft) + 100)
+                    * (this.attacker.fairy + this.attacker.ele_sp) / 100
+                );
+
+                return (
+                    atk_ele
+                    + this.attacker.ele_skill
+                    + this.attacker.ele_effects
+                    + this.attacker.ele_prop_increase
+                );
+            }
+
+            _physical_damage(atk_eq, crit = false, soft = false) {
+                let dmg = (
+                    (this._atk_tot(atk_eq, soft) - this._def_tot())
+                    * (1 + (this.attacker.atk_oil ? 0.05 : 0))
+                );
+                
+                if (crit) {
+                    dmg *= (
+                        1 + this.attacker.crit_dmg / 100
+                        - this.defender.crit_dmg_reduction / 100
+                    );
+                }
+
+                return dmg;
+            }
+
+            _elemental_damage(atk_eq, soft = false) {
+                const is_pvp = !this.attacker.is_mob && !this.defender.is_mob ? 1 : 0;
+
+                const attacker_type = this.attacker.type; // Assuming type is a string, like "FIRE"
+                const defender_type = this.defender.type; // Assuming type is a string, like "WATER"
+                const matchup = `${Element[attacker_type]}>${Element[defender_type]}`;
+
+                const res = (
+                    this.defender.res
+                    - this.attacker.res_reduction
+                    - is_pvp * this.attacker.res_reduction_pvp
+                );
+
+                return (
+                    this._atk_ele_tot(atk_eq, soft)
+                    * (1 + elemental_bonus(matchup))
+                    * (1 - res / 100)
+                );
+            }
+
+
+            _final_damage(atk_eq, crit = false, soft = false, no_ele = false, is_min = false, max_crit_dmg = 0) {
+                const is_pvp = !this.attacker.is_mob && !this.defender.is_mob ? 1 : 0;
+                const morale = this.attacker.morale - this.defender.morale;
+
+                const elemental_damage = no_ele ? 0 : this._elemental_damage(atk_eq, soft);
+                let physical_damage = this._physical_damage(atk_eq, crit, soft);
+                
+                if (crit && is_min) {
+                    physical_damage = (physical_damage + max_crit_dmg) / 2;
+                }
+
+                let dmg = (
+                    morale
+                    + physical_damage
+                    + elemental_damage
+                    + this.attacker.mob_damage
+                );
+
+                dmg *= (
+                    (1 + is_pvp * this.attacker.atk_pvp_book / 100)
+                    * (1 + is_pvp * this.attacker.atk_pvp_hono / 100)
+                    * (1 - is_pvp * this.defender.def_pvp_book / 100)
+                    * (1 - is_pvp * this.defender.def_pvp_hono / 100)
+                    * (1 - this.defender.magic_dmg_reduction / 100)
+                    * (1 + (this.attacker.atk_hat
+                        + this.attacker.atk_pet
+                        + (this.attacker.atk_pot ? 20 : 0)) / 100)
+                );
+
+                return dmg;
+            }
+
+            damage(crit = false, soft = false, no_ele = false, average = false) {
+                if (this.attacker.type === Element.NO_ELEMENT) {
+                    no_ele = true;
+                }
+
+                let dmg_max = this._final_damage(
+                    this.attacker.atk_equip_max,
+                    crit,
+                    soft,
+                    no_ele
+                );
+                
+                let max_crit_dmg = 0;
+                if (crit) {
+                    max_crit_dmg = this._physical_damage(
+                        this.attacker.atk_equip_max,
+                        crit,
+                        soft
+                    );
+                }
+
+                let dmg_min = this._final_damage(
+                    this.attacker.atk_equip_min,
+                    crit,
+                    soft,
+                    no_ele,
+                    true,
+                    max_crit_dmg
+                );
+                
+                dmg_min = Math.max(dmg_min, 1);
+                dmg_max = Math.max(dmg_max, 5);
+
+                if (average) {
+                    return (dmg_min + dmg_max) / 2;
+                }
+                console.log([Math.floor(dmg_min), Math.floor(dmg_max)])
+                return [Math.floor(dmg_min), Math.floor(dmg_max)];
+            }
+
+
+            average_damage() {
+                const soft = this.attacker.dmg_increase_eq_prob / 100;
+                const crit = this.attacker.crit_prob() / 100;
+                const soft_crit = (soft * crit) / 100;
+                const normal = 1 - soft - crit - soft_crit;
+
+                return Math.floor(
+                    this.damage(true) * normal +
+                    this.damage(true, true) * soft +
+                    this.damage(true, false, true) * crit +
+                    this.damage(true, true, true) * soft_crit
+                );
+            }
+
+            swap_attacker_defender() {
+                const tmp = this.attacker;
+                this.attacker = this.defender;
+                this.defender = tmp;
+            }
+
+            damage_multiple_defenders(defendersList = null) {
+                if (defendersList) {
+                    this.defendersList = defendersList;
+                }
+
+                if (this.defendersList.length === 0) {
+                    this.defendersList.push(this.defender);
+                }
+
+                const tmp = this.defender;
+                const dmg = this.defendersList.map(defender => {
+                    this.defender = defender;
+                    return this.average_damage();
+                });
+
+                this.defender = tmp;
+                return dmg.reduce((a, b) => a + b, 0) / dmg.length;
+            }
+        }
+
+
+
+
+        function calculateDamage() {
+            const attacker = {
+                is_mob: document.getElementById('atkIsMob').checked,
+                weapon_up: parseInt(document.getElementById('atkWeaponUp').value),
+                atk_base: parseFloat(document.getElementById('atkBase').value),
+                atk_effects: parseFloat(document.getElementById('atkEffects').value),
+                atk_sp: function() { return parseFloat(document.getElementById('atkSp').value); },
+                dmg_enhanced: parseFloat(document.getElementById('dmgEnhanced').value),
+                dmg_increase_pvp: parseFloat(document.getElementById('dmgIncreasePvp').value),
+                dmg_increase_low_society: parseFloat(document.getElementById('dmgIncreaseLowSociety').value),
+                dmg_increase_evil: parseFloat(document.getElementById('dmgIncreaseEvil').value),
+                dmg_increase_undead: parseFloat(document.getElementById('dmgIncreaseUndead').value),
+                dmg_increase_plant: parseFloat(document.getElementById('dmgIncreasePlant').value),
+                dmg_increase_large: parseFloat(document.getElementById('dmgIncreaseLarge').value),
+                dmg_increase_animal: parseFloat(document.getElementById('dmgIncreaseAnimal').value),
+                atk_skill: parseFloat(document.getElementById('atkSkill').value),
+                dmg_increase_s: parseFloat(document.getElementById('dmgIncreaseS').value),
+                dmg_increase_eq: parseFloat(document.getElementById('dmgIncreaseEq').value),
+                fairy: parseFloat(document.getElementById('fairy').value),
+                ele_sp: parseFloat(document.getElementById('eleSp').value),
+                ele_skill: parseFloat(document.getElementById('eleSkill').value),
+                ele_effects: parseFloat(document.getElementById('eleEffects').value),
+                ele_prop_increase: parseFloat(document.getElementById('elePropIncrease').value),
+                atk_oil: document.getElementById('atkOil').checked,
+                crit_dmg: document.getElementById('critDmg').value,
+                res_reduction: parseFloat(document.getElementById('resReduction').value),
+                res_reduction_pvp: parseFloat(document.getElementById('resReductionPvp').value),
+                morale: document.getElementById('morale').value,
+                mob_damage: document.getElementById('mobDamage').value,
+                atk_pvp_book: parseFloat(document.getElementById('atkPvpBook').value),
+                atk_pvp_hono: parseFloat(document.getElementById('atkPvpHono').value),
+                atk_hat: parseFloat(document.getElementById('atkHat').value),
+                atk_pet: parseFloat(document.getElementById('atkPet').value),
+                atk_pot: document.getElementById('atkPot').checked,
+                atk_equip_max: parseFloat(document.getElementById('atkEquipMax').value),
+                atk_equip_min: parseFloat(document.getElementById('atkEquipMin').value),
+                type: parseInt(document.getElementById('type').value),
+                def_reduction_pvp: parseFloat(document.getElementById('defReductionPvp').value)
+            };
+
+
+            const defender = {
+                is_mob: document.getElementById('defIsMob').checked,
+                armor_up: parseInt(document.getElementById('armorUp').value),
+                def_equip: parseFloat(document.getElementById('defEquip').value),
+                def_base: parseFloat(document.getElementById('defBase').value),
+                def_effects: parseFloat(document.getElementById('defEffects').value),
+                def_sp: parseFloat(document.getElementById('defSp').value),
+                def_enhanced: parseFloat(document.getElementById('defEnhanced').value),
+                def_increase_s: parseFloat(document.getElementById('defIncreaseS').value),
+                def_increase_pvp: parseFloat(document.getElementById('defIncreasePvp').value),
+                def_skill: parseFloat(document.getElementById('defSkill').value),
+                def_pet_pvp: parseFloat(document.getElementById('defPetPvp').value),
+                def_pot: document.getElementById('defPot').checked,
+                def_oil: document.getElementById('defOil').checked,
+                def_costume: parseFloat(document.getElementById('defCostume').value),
+                def_pet: parseFloat(document.getElementById('defPet').value),
+                res: parseFloat(document.getElementById('res').value),
+                crit_dmg_reduction: parseFloat(document.getElementById('critDmgReduction').value),
+                def_pvp_book: parseFloat(document.getElementById('defPvpBook').value),
+                def_pvp_hono: parseFloat(document.getElementById('defPvpHono').value),
+                magic_dmg_reduction: parseFloat(document.getElementById('magicDmgReduction').value),
+                morale: parseFloat(document.getElementById('defMorale').value),
+                mob_type: parseInt(document.getElementById('mobType').value),
+                type: parseInt(document.getElementById('defType').value)
+            };
+
+            // Instantiate the Calculator
+            const calc = new Calculator(attacker, defender);
+
+            // Calculate damage using the class method
+            const [damage_min, damage_max] = calc.damage(crit = true, soft = true);
+            
+            // Display the result
+            document.getElementById('result').innerHTML = `Damage Min: ${damage_min}, Damage Max: ${damage_max}`;
+        }
+    </script>
+</body>
+</html>
