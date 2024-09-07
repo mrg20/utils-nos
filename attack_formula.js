@@ -67,31 +67,7 @@ class Calculator {
             + this.attacker.dmg_enhanced)
         );
 
-        let mob_type_dmg = 0;
-
-        switch (this.defender.mob_type) {
-            case 'LOW_SOCIETY':
-                mob_type_dmg = this.attacker.dmg_increase_low_society;
-                break;
-            case 'EVIL':
-                mob_type_dmg = this.attacker.dmg_increase_evil;
-                break;
-            case 'UNDEAD':
-                mob_type_dmg = this.attacker.dmg_increase_undead;
-                break;
-            case 'PLANT':
-                mob_type_dmg = this.attacker.dmg_increase_plant;
-                break;
-            case 'LARGE':
-                mob_type_dmg = this.attacker.dmg_increase_large;
-                break;
-            case 'ANIMAL':
-                mob_type_dmg = this.attacker.dmg_increase_animal;
-                break;
-            default:
-                mob_type_dmg = 0;
-        }
-        
+        let mob_type_dmg = this.attacker.mob_damage;
 
         return (
             (atk_char + this.attacker.atk_skill + 15)
@@ -164,7 +140,6 @@ class Calculator {
 
 
     _final_damage(atk_eq, crit = false, soft = false, no_ele = false, is_min = false, max_crit_dmg = 0) {
-        const morale = this.attacker.morale - this.defender.morale;
 
         const elemental_damage = no_ele ? 0 : this._elemental_damage(atk_eq, soft);
         let physical_damage = this._physical_damage(atk_eq, crit, soft);
@@ -174,8 +149,7 @@ class Calculator {
         }
 
         let dmg = (
-            morale
-            + physical_damage
+            physical_damage
             + elemental_damage
             + this.attacker.mob_damage
         );
@@ -275,36 +249,39 @@ class Calculator {
 
 function calculateDamage() {
     const attacker = {
-        weapon_up: parseInt(document.getElementById('atkWeaponUp').value),
         atk_base: parseFloat(document.getElementById('atkBase').value),
         atk_effects: parseFloat(document.getElementById('atkEffects').value),
-        atk_sp: function() { return parseFloat(document.getElementById('atkSp').value); },
         dmg_enhanced: parseFloat(document.getElementById('dmgEnhanced').value),
-        dmg_increase_low_society: parseFloat(document.getElementById('dmgIncreaseLowSociety').value),
-        dmg_increase_evil: parseFloat(document.getElementById('dmgIncreaseEvil').value),
-        dmg_increase_undead: parseFloat(document.getElementById('dmgIncreaseUndead').value),
-        dmg_increase_plant: parseFloat(document.getElementById('dmgIncreasePlant').value),
-        dmg_increase_large: parseFloat(document.getElementById('dmgIncreaseLarge').value),
-        dmg_increase_animal: parseFloat(document.getElementById('dmgIncreaseAnimal').value),
         atk_skill: parseFloat(document.getElementById('atkSkill').value),
         dmg_increase_s: parseFloat(document.getElementById('dmgIncreaseS').value),
-        dmg_increase_eq: parseFloat(document.getElementById('dmgIncreaseEq').value),
         fairy: parseFloat(document.getElementById('fairy').value),
-        ele_sp: parseFloat(document.getElementById('eleSp').value),
         ele_skill: parseFloat(document.getElementById('eleSkill').value),
+        
+        atk_equip_min: parseFloat(document.getElementById('atkEquipMin').value),
+        atk_equip_max: parseFloat(document.getElementById('atkEquipMax').value),
+        weapon_up: parseInt(document.getElementById('atkWeaponUp').value),
+        crit_prob: document.getElementById('critProb').value,
+        crit_dmg: document.getElementById('critDmg').value,
         ele_effects: parseFloat(document.getElementById('eleEffects').value),
         ele_prop_increase: parseFloat(document.getElementById('elePropIncrease').value),
-        atk_oil: document.getElementById('atkOil').checked,
-        crit_dmg: document.getElementById('critDmg').value,
         res_reduction: parseFloat(document.getElementById('resReduction').value),
-        morale: document.getElementById('atkLevel').value,
         mob_damage: document.getElementById('mobDamage').value,
         atk_hat: parseFloat(document.getElementById('atkHat').value),
         atk_pet: parseFloat(document.getElementById('atkPet').value),
         atk_pot: document.getElementById('atkPot').checked,
-        atk_equip_max: parseFloat(document.getElementById('atkEquipMax').value),
-        atk_equip_min: parseFloat(document.getElementById('atkEquipMin').value),
+        atk_oil: document.getElementById('atkOil').checked,
         type: document.getElementById('type').value,
+        dmg_increase_eq_prob: document.getElementById('dmgIncreaseEqProb').value,
+        
+        atk_sp: parseFloat(document.getElementById('atkSp').value),
+        def_sp: parseFloat(document.getElementById('defSp').value),
+        ele_sp: parseFloat(document.getElementById('eleSp').value),
+        ene_sp: parseFloat(document.getElementById('eneSp').value),
+
+        atk_pp: parseFloat(document.getElementById('atkPP').value),
+        def_pp: parseFloat(document.getElementById('defPP').value),
+        ele_pp: parseFloat(document.getElementById('elePP').value),
+        ene_pp: parseFloat(document.getElementById('enePP').value),
     };
 
 
@@ -324,8 +301,6 @@ function calculateDamage() {
         res: parseFloat(document.getElementById('res').value),
         crit_dmg_reduction: parseFloat(document.getElementById('critDmgReduction').value),
         magic_dmg_reduction: parseFloat(document.getElementById('magicDmgReduction').value),
-        morale: parseFloat(document.getElementById('mobLevel').value),
-        mob_type: parseInt(document.getElementById('mobType').value),
         type: document.getElementById('defType').value
     };
 

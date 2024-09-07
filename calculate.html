@@ -113,35 +113,11 @@
             <label for="atkBase">Base Attack:</label>
             <input type="number" id="atkBase" value="0">
 
-            <label for="atkWeaponUp">Weapon Upgrade:</label>
-            <input type="number" id="atkWeaponUp" value="0">
-
             <label for="atkEffects">Attack Effects:</label>
             <input type="number" id="atkEffects" value="0">
 
-            <label for="atkSp">Special Attack:</label>
-            <input type="number" id="atkSp" value="0">
-
             <label for="dmgEnhanced">Damage Enhanced:</label>
             <input type="number" id="dmgEnhanced" value="0">
-
-            <label for="dmgIncreaseLowSociety">Damage Increase Low Society:</label>
-            <input type="number" id="dmgIncreaseLowSociety" value="0">
-
-            <label for="dmgIncreaseEvil">Damage Increase Evil:</label>
-            <input type="number" id="dmgIncreaseEvil" value="0">
-
-            <label for="dmgIncreaseUndead">Damage Increase Undead:</label>
-            <input type="number" id="dmgIncreaseUndead" value="0">
-
-            <label for="dmgIncreasePlant">Damage Increase Plant:</label>
-            <input type="number" id="dmgIncreasePlant" value="0">
-
-            <label for="dmgIncreaseLarge">Damage Increase Large:</label>
-            <input type="number" id="dmgIncreaseLarge" value="0">
-
-            <label for="dmgIncreaseAnimal">Damage Increase Animal:</label>
-            <input type="number" id="dmgIncreaseAnimal" value="0">
 
             <label for="atkSkill">Attack Skill:</label>
             <input type="number" id="atkSkill" value="0">
@@ -149,14 +125,8 @@
             <label for="dmgIncreaseS">Damage Increase S:</label>
             <input type="number" id="dmgIncreaseS" value="0">
 
-            <label for="dmgIncreaseEq">Damage Increase Equipment:</label>
-            <input type="number" id="dmgIncreaseEq" value="0">
-
             <label for="fairy">Fairy:</label>
             <input type="number" id="fairy" value="0">
-
-            <label for="eleSp">Element Special:</label>
-            <input type="number" id="eleSp" value="0">
 
             <label for="eleSkill">Element Skill:</label>
             <input type="number" id="eleSkill" value="0">
@@ -165,6 +135,21 @@
         </div>
         <div class="section">
             <h2>Attacker Equipment</h2>
+
+            <label for="atkEquipMin">Attack Equipment Min Damage:</label>
+            <input type="number" id="atkEquipMin" value="0">
+
+            <label for="atkEquipMax">Attack Equipment Max Damage:</label>
+            <input type="number" id="atkEquipMax" value="0">
+
+            <label for="atkWeaponUp">Equipment +Level:</label>
+            <input type="number" id="atkWeaponUp" value="0">
+
+            <label for="critProb">Critical Probability:</label>
+            <input type="number" id="critProb" value="0">
+
+            <label for="critDmg">Critical Damage:</label>
+            <input type="number" id="critDmg" value="0">
             
             <label for="eleEffects">Element Effects:</label>
             <input type="number" id="eleEffects" value="0">
@@ -172,19 +157,10 @@
             <label for="elePropIncrease">Element Property Increase:</label>
             <input type="number" id="elePropIncrease" value="0">
 
-            <label for="atkOil">Attack Oil:</label>
-            <input type="number" id="atkOil" value="0">
-
-            <label for="critDmg">Critical Damage:</label>
-            <input type="number" id="critDmg" value="0">
-
             <label for="resReduction">Resistance Reduction:</label>
             <input type="number" id="resReduction" value="0">
 
-            <label for="atkLevel">Level:</label>
-            <input type="number" id="atkLevel" value="0">
-
-            <label for="mobDamage">Mob Damage:</label>
+            <label for="mobDamage">Damage to mob type:</label>
             <input type="number" id="mobDamage" value="0">
 
             <label for="atkHat">Attack Hat:</label>
@@ -196,11 +172,8 @@
             <label for="atkPot">Attack Potion:</label>
             <input type="number" id="atkPot" value="0">
 
-            <label for="atkEquipMax">Attack Equipment Max:</label>
-            <input type="number" id="atkEquipMax" value="0">
-
-            <label for="atkEquipMin">Attack Equipment Min:</label>
-            <input type="number" id="atkEquipMin" value="0">
+            <label for="atkOil">Attack Oil:</label>
+            <input type="number" id="atkOil" value="0">
 
             <label for="type">Element Type:</label>
             <select id="type">
@@ -210,16 +183,39 @@
                 <option value="LIGHT">LIGHT</option>
             </select>
 
-            <label for="dmgIncreaseEqProb">Damage Increase Equipment Probability:</label>
+            <label for="dmgIncreaseEqProb">Damage Increase (Equipment) Probability:</label>
             <input type="number" id="dmgIncreaseEqProb" value="0">
-
-            <label for="critProb">Critical Probability:</label>
-            <input type="number" id="critProb" value="0">
 
         </div>
 
         <div class="section">
             <h2>Attacker SP</h2>
+
+            <label for="atkSp">Attack SL:</label>
+            <input type="number" id="atkSp" value="0">
+
+            <label for="defSp">Def SL:</label>
+            <input type="number" id="defSp" value="0">
+
+            <label for="eleSp">Prop SL:</label>
+            <input type="number" id="eleSp" value="0">
+
+            <label for="eneSp">Energy SL:</label>
+            <input type="number" id="eneSp" value="0">
+
+            <hr>
+
+            <label for="atkPP">Attack Perfection Points:</label>
+            <input type="number" id="atkPP" value="0">
+
+            <label for="defPP">Defense Perfection Points:</label>
+            <input type="number" id="defPP" value="0">
+
+            <label for="elePP">Element Perfection Points:</label>
+            <input type="number" id="elePP" value="0">
+
+            <label for="enePP">Energy Perfection Points:</label>
+            <input type="number" id="enePP" value="0">
 
         </div>
         
@@ -249,17 +245,6 @@
                 <label for="critDmgReduction">Critical Damage Reduction:</label>
                 <input type="number" id="critDmgReduction" value="0">
     
-                <label for="mobType">Mob Type:</label>
-                <select id="mobType">
-                    <option value="0">None</option>
-                    <option value="1">Low Society</option>
-                    <option value="2">Evil</option>
-                    <option value="3">Undead</option>
-                    <option value="4">Plant</option>
-                    <option value="5">Large</option>
-                    <option value="6">Animal</option>
-                </select>
-    
                 <label for="defType">Element Type:</label>
                 <select id="defType">
                     <option value="FIRE">FIRE</option>
@@ -268,7 +253,7 @@
                     <option value="LIGHT">LIGHT</option>
                 </select>
     
-                <label for="dmgReduction">Damage Reduction (Melee or short distance):</label>
+                <label for="dmgReduction">Melee/short distance damage Reduction:</label>
                 <input type="number" id="dmgReduction" value="0">
 
                 <label for="magicDmgReduction">Magic Damage Reduction:</label>
