@@ -37,16 +37,6 @@ const DamageType = {
     SOFTCRIT: 4
 };
 
-const MobType = {
-    NONE: 0,
-    LOW_SOCIETY: 1,
-    EVIL: 2,
-    UNDEAD: 3,
-    PLANT: 4,
-    LARGE: 5,
-    ANIMAL: 6
-};
-
 
 
 class Calculator {
@@ -63,7 +53,7 @@ class Calculator {
             (atk_eq * (1 + equip_up_bonus[up])
             + this.attacker.atk_base
             + this.attacker.atk_effects
-            + this.attacker.atk_sp()
+            + this._atk_sp()
             + this.attacker.dmg_enhanced)
         );
 
@@ -76,6 +66,56 @@ class Calculator {
         );
     }
 
+    _atk_sp(attack, ene_SL, atk_pp) {
+        if (attack === 0) {
+            return 0;
+        }
+        if (1 <= attack && attack <= 10) {
+            return 5 + this._atk_sp(attack - 1);
+        }
+        if (11 <= attack && attack <= 20) {
+            return 6 + this._atk_sp(attack - 1);
+        }
+        if (21 <= attack && attack <= 30) {
+            return 8 + this._atk_sp(attack - 1);
+        }
+        if (31 <= attack && attack <= 40) {
+            return 7 + this._atk_sp(attack - 1);
+        }
+        if (41 <= attack && attack <= 50) {
+            return 9 + this._atk_sp(attack - 1);
+        }
+        if (51 <= attack && attack <= 60) {
+            return 10 + this._atk_sp(attack - 1);
+        }
+        if (61 <= attack && attack <= 70) {
+            return 11 + this._atk_sp(attack - 1);
+        }
+        if (71 <= attack && attack <= 80) {
+            return 13 + this._atk_sp(attack - 1);
+        }
+        if (81 <= attack && attack <= 90) {
+            return 14 + this._atk_sp(attack - 1);
+        }
+        if (91 <= attack && attack <= 94) {
+            return 15 + this._atk_sp(attack - 1);
+        }
+        if (attack === 95) {
+            return 16 + this._atk_sp(attack - 1);
+        }
+        if (96 <= attack && attack <= 97) {
+            return 17 + this._atk_sp(attack - 1);
+        }
+        if (98 <= attack && attack <= 100) {
+            return 20 + this._atk_sp(attack - 1);
+        }
+        if (101 <= attack && attack <= 110) {
+            return 15 + this._atk_sp(attack - 1);
+        }
+        if (111 <= attack && attack <= 120) {
+            return 20 + this._atk_sp(attack - 1);
+        }
+    }
 
     _def_tot() {
         const up = Math.min(Math.max(this.defender.armor_up - this.attacker.weapon_up, 0), 10);
