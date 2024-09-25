@@ -6,19 +6,20 @@
     <title>Attacker vs Defender Calculator</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
             margin: 0;
             padding: 20px;
+            color: #333;
         }
 
         .container {
             max-width: 1500px;
             margin: auto;
             background: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-wrap: wrap;
         }
@@ -44,62 +45,117 @@
             }
         }
 
-        .box {
-            border: 2px solid #000; /* 2px solid black border */
-            padding: 20px;          /* Optional: Add padding to create space inside the border */
-            border-radius: 5px;     /* Optional: Rounded corners */
+        .box1, .box2, .box3, .box4 {
+            border: 2px solid;
+            padding: 25px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .box1 { border-color: #3498db; }
+        .box2 { border-color: #2ecc71; }
+        .box3 { border-color: #e74c3c; }
+        .box4 { border-color: #f39c12; }
+
+        .box1:hover, .box2:hover, .box3:hover, .box4:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            transform: translateY(-5px);
+        }
+
+        h1, h2 {
+            text-align: center;
+            width: 100%;
+            color: #2c3e50;
         }
 
         h1 {
-            text-align: center;
-            width: 100%;
+            font-size: 2.5em;
+            margin-bottom: 30px;
         }
 
         h2 {
-            text-align: center;
-            width: 100%;
+            font-size: 1.8em;
+            margin-bottom: 20px;
         }
 
         .section {
             flex: 1;
-            margin: 10px;
+            margin: 15px;
             min-width: 400px;
         }
 
         label {
             display: block;
-            margin: 10px 0 5px;
+            margin: 15px 0 8px;
+            font-weight: 600;
         }
 
         input[type="number"], input[type="text"], select, input[type="checkbox"] {
-            width: calc(25% - 5px);
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
+            width: calc(50% - 10px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #bdc3c7;
             border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="number"]:focus, input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: #3498db;
         }
 
         button {
-            padding: 10px 20px;
-            background-color: #28a745;
+            padding: 12px 25px;
+            background-color: #3498db;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             width: 100%;
-            margin-top: 20px;
+            margin-top: 25px;
+            font-size: 18px;
+            transition: background-color 0.3s ease;
         }
 
         button:hover {
-            background-color: #218838;
+            background-color: #2980b9;
         }
 
         .result {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #e9ecef;
-            border-radius: 5px;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #ecf0f1;
+            border-radius: 8px;
             width: 100%;
+            font-size: 18px;
+        }
+
+        #content {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        code {
+            background-color: #f7f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            display: block;
+            white-space: pre-wrap;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .info-btn {
+            padding: 5px 10px;
+            font-size: 12px;
+            width: auto;
+            margin-top: 0;
+            margin-left: 5px;
         }
     </style>
 </head>
@@ -107,144 +163,188 @@
     <div class="container">
         <h1>Attacker vs Defender Calculator</h1>
 
-        <div class="section">
+        <div class="section box1">
             <h2>Attacker Stats</h2>
 
             <label for="atkBase">Base Attack:</label>
             <input type="number" id="atkBase" value="0">
+            <button class="info-btn" onclick="showInfo('atkBase')">?</button>
 
-            <label for="atkEffects">Attack Effects:</label>
-            <input type="number" id="atkEffects" value="0">
-
-            <label for="dmgEnhanced">Damage Enhanced:</label>
-            <input type="number" id="dmgEnhanced" value="0">
-
-            <label for="atkSkill">Attack Skill:</label>
+            <label for="atkSkill">Skill damage:</label>
             <input type="number" id="atkSkill" value="0">
+            <button class="info-btn" onclick="showInfo('atkSkill')">?</button>
 
-            <label for="dmgIncreaseS">Damage Increase S:</label>
-            <input type="number" id="dmgIncreaseS" value="0">
+            <label for="atkSkillElement">Skill element:</label>
+            <input type="number" id="atkSkillElement" value="0">
+            <button class="info-btn" onclick="showInfo('atkSkillElement')">?</button>
 
-            <label for="fairy">Fairy:</label>
-            <input type="number" id="fairy" value="0">
+            <label for="dmgIncreaseTattoo">Damage S% Increase in Tattoo:</label>
+            <input type="number" id="dmgIncreaseTattoo" value="0">
+            <button class="info-btn" onclick="showInfo('dmgIncreaseTattoo')">?</button>
 
-            <label for="eleSkill">Element Skill:</label>
-            <input type="number" id="eleSkill" value="0">
+            <label for="critDmgTattoo">Final crit dmg Tattoo:</label>
+            <input type="number" id="critDmgTattoo" value="0">
+            <button class="info-btn" onclick="showInfo('critDmgTattoo')">?</button>
 
-
-        </div>
-        <div class="section">
-            <h2>Attacker Equipment</h2>
-
-            <label for="atkEquipMin">Attack Equipment Min Damage:</label>
-            <input type="number" id="atkEquipMin" value="0">
-
-            <label for="atkEquipMax">Attack Equipment Max Damage:</label>
-            <input type="number" id="atkEquipMax" value="0">
-
-            <label for="atkWeaponUp">Equipment +Level:</label>
-            <input type="number" id="atkWeaponUp" value="0">
-
-            <label for="critProb">Critical Probability:</label>
-            <input type="number" id="critProb" value="0">
-
-            <label for="critDmg">Critical Damage:</label>
-            <input type="number" id="critDmg" value="0">
-            
-            <label for="eleEffects">Element Effects:</label>
-            <input type="number" id="eleEffects" value="0">
-
-            <label for="elePropIncrease">Element Property Increase:</label>
-            <input type="number" id="elePropIncrease" value="0">
-
-            <label for="resReduction">Resistance Reduction:</label>
-            <input type="number" id="resReduction" value="0">
-
-            <label for="mobDamage">Damage to mob type:</label>
-            <input type="number" id="mobDamage" value="0">
-
-            <label for="atkHat">Attack Hat:</label>
+            <label for="atkHat">Hat S% dmg:</label>
             <input type="number" id="atkHat" value="0">
+            <button class="info-btn" onclick="showInfo('atkHat')">?</button>
 
-            <label for="atkPet">Attack Pet:</label>
+            <label for="atkPet">Pet S% dmg:</label>
             <input type="number" id="atkPet" value="0">
+            <button class="info-btn" onclick="showInfo('atkPet')">?</button>
+
+            <label for="atkFairy">Fairy S% dmg:</label>
+            <input type="number" id="atkFairy" value="0">
+            <button class="info-btn" onclick="showInfo('atkFairy')">?</button>
 
             <label for="atkPot">Attack Potion:</label>
             <input type="number" id="atkPot" value="0">
+            <button class="info-btn" onclick="showInfo('atkPot')">?</button>
 
-            <label for="atkOil">Attack Oil:</label>
+            <label for="atkOil">Ice Oil:</label>
             <input type="number" id="atkOil" value="0">
+            <button class="info-btn" onclick="showInfo('atkOil')">?</button>
 
-            <label for="type">Element Type:</label>
+            <label for="dmgEnhanced">Enhanced DMG from accesories:</label>
+            <input type="number" id="dmgEnhanced" value="0">
+            <button class="info-btn" onclick="showInfo('dmgEnhanced')">?</button>
+
+            <label for="fairy">Fairy level:</label>
+            <input type="number" id="fairy" value="0">
+            <button class="info-btn" onclick="showInfo('fairy')">?</button>
+
+            <label for="type">Fairy Type:</label>
             <select id="type">
                 <option value="FIRE">FIRE</option>
                 <option value="WATER">WATER</option>
                 <option value="SHADOW">SHADOW</option>
                 <option value="LIGHT">LIGHT</option>
             </select>
+            <button class="info-btn" onclick="showInfo('type')">?</button>
+        </div>
+        <div class="section box2">
+            <h2>Weapons and options</h2>
 
-            <label for="dmgIncreaseEqProb">Damage Increase (Equipment) Probability:</label>
+            <label for="atkEquipMin">Attack Equipment Min Damage:</label>
+            <input type="number" id="atkEquipMin" value="0">
+            <button class="info-btn" onclick="showInfo('atkEquipMin')">?</button>
+
+            <label for="atkEquipMax">Attack Equipment Max Damage:</label>
+            <input type="number" id="atkEquipMax" value="0">
+            <button class="info-btn" onclick="showInfo('atkEquipMax')">?</button>
+
+            <label for="atkWeaponUp">Equipment +Level:</label>
+            <input type="number" id="atkWeaponUp" value="0">
+            <button class="info-btn" onclick="showInfo('atkWeaponUp')">?</button>
+
+            <label for="dmgIncrease">Damage S%:</label>
+            <input type="number" id="dmgIncrease" value="0">
+            <button class="info-btn" onclick="showInfo('dmgIncrease')">?</button>
+
+            <label for="dmgIncreaseRune">Damage S% Rune:</label>
+            <input type="number" id="dmgIncreaseRune" value="0">
+            <button class="info-btn" onclick="showInfo('dmgIncreaseRune')">?</button>
+
+            <label for="atkBonus">Bonus/enhanced Attack Weapon + rune:</label>
+            <input type="number" id="atkBonus" value="0">
+            <button class="info-btn" onclick="showInfo('atkBonus')">?</button>
+
+            <label for="critProb">Critical Probability (weapons + fairy + ... + all):</label>
+            <input type="number" id="critProb" value="0">
+            <button class="info-btn" onclick="showInfo('critProb')">?</button>
+
+            <label for="critDmg">Critical Damage  (weapons + fairy + ... + all):</label>
+            <input type="number" id="critDmg" value="0">
+            <button class="info-btn" onclick="showInfo('critDmg')">?</button>
+
+            <label for="elePropIncrease">Element Property Increase:</label>
+            <input type="number" id="elePropIncrease" value="0">
+            <button class="info-btn" onclick="showInfo('elePropIncrease')">?</button>
+
+            <label for="resReduction">Resistance Reduction:</label>
+            <input type="number" id="resReduction" value="0">
+            <button class="info-btn" onclick="showInfo('resReduction')">?</button>
+
+            <label for="mobDamage">Damage to mob type:</label>
+            <input type="number" id="mobDamage" value="0">
+            <button class="info-btn" onclick="showInfo('mobDamage')">?</button>
+
+            <label for="dmgIncreaseEqProb">Damage % Increase (weapons + costume + ...):</label>
             <input type="number" id="dmgIncreaseEqProb" value="0">
+            <button class="info-btn" onclick="showInfo('dmgIncreaseEqProb')">?</button>
 
         </div>
 
-        <div class="section">
+        <div class="section box3">
             <h2>Attacker SP</h2>
 
             <label for="atkSp">Attack SL:</label>
             <input type="number" id="atkSp" value="0">
+            <button class="info-btn" onclick="showInfo('atkSp')">?</button>
 
             <label for="defSp">Def SL:</label>
             <input type="number" id="defSp" value="0">
+            <button class="info-btn" onclick="showInfo('defSp')">?</button>
 
             <label for="eleSp">Prop SL:</label>
             <input type="number" id="eleSp" value="0">
+            <button class="info-btn" onclick="showInfo('eleSp')">?</button>
 
             <label for="eneSp">Energy SL:</label>
             <input type="number" id="eneSp" value="0">
+            <button class="info-btn" onclick="showInfo('eneSp')">?</button>
 
             <hr>
 
             <label for="atkPP">Attack Perfection Points:</label>
             <input type="number" id="atkPP" value="0">
+            <button class="info-btn" onclick="showInfo('atkPP')">?</button>
 
             <label for="defPP">Defense Perfection Points:</label>
             <input type="number" id="defPP" value="0">
+            <button class="info-btn" onclick="showInfo('defPP')">?</button>
 
             <label for="elePP">Element Perfection Points:</label>
             <input type="number" id="elePP" value="0">
+            <button class="info-btn" onclick="showInfo('elePP')">?</button>
 
             <label for="enePP">Energy Perfection Points:</label>
             <input type="number" id="enePP" value="0">
+            <button class="info-btn" onclick="showInfo('enePP')">?</button>
 
         </div>
         
 
-        <!-- Add more attacker fields here as needed -->
-
-        <div class="section box">
+        <div class="section box4">
             <h2>Defender Mob</h2>
 
             <div class="section">
 
                 <label for="mobLevel">Level:</label>
                 <input type="number" id="mobLevel" value="0">
+                <button class="info-btn" onclick="showInfo('mobLevel')">?</button>
 
                 <label for="armorUp">Armor Up:</label>
                 <input type="number" id="armorUp" value="0">
+                <button class="info-btn" onclick="showInfo('armorUp')">?</button>
     
-                <label for="defEquip">Defense Equipment:</label>
+                <label for="defEquip">Defense:</label>
                 <input type="number" id="defEquip" value="0">
-    
-                <label for="defSkill">Defense Skill:</label>
-                <input type="number" id="defSkill" value="0">
-    
-                <label for="res">Resistance:</label>
-                <input type="number" id="res" value="0">
+                <button class="info-btn" onclick="showInfo('defEquip')">?</button>
+
+                <label for="dmgReduction">Damage Reduction:</label>
+                <input type="number" id="dmgReduction" value="0">
+                <button class="info-btn" onclick="showInfo('dmgReduction')">?</button>
     
                 <label for="critDmgReduction">Critical Damage Reduction:</label>
                 <input type="number" id="critDmgReduction" value="0">
+                <button class="info-btn" onclick="showInfo('critDmgReduction')">?</button>
     
+                <label for="res">Resistance:</label>
+                <input type="number" id="res" value="0">
+                <button class="info-btn" onclick="showInfo('res')">?</button>
+
                 <label for="defType">Element Type:</label>
                 <select id="defType">
                     <option value="FIRE">FIRE</option>
@@ -252,17 +352,9 @@
                     <option value="SHADOW">SHADOW</option>
                     <option value="LIGHT">LIGHT</option>
                 </select>
-    
-                <label for="dmgReduction">Melee/short distance damage Reduction:</label>
-                <input type="number" id="dmgReduction" value="0">
-
-                <label for="magicDmgReduction">Magic Damage Reduction:</label>
-                <input type="number" id="magicDmgReduction" value="0">
-
+                <button class="info-btn" onclick="showInfo('defType')">?</button>
             </div>
         </div>
-
-        <!-- Add more defender fields here as needed -->
 
         <button onclick="calculateDamage()">Calculate</button>
 
@@ -270,6 +362,114 @@
 
         </div>
     </div>
+
+    <button onclick="toggleContent()">Show/Hide DMG formula</button>
+
+    <div id="content">
+        <h2>Common DMG (Cdmg):</h2>
+        <p>
+            This dmg considers the basic attack values, and will be applied to both elemental and physical dmg afterwards.
+        </p>
+        <p>
+            <code>
+            Cdmg = (character base dmg ("P" without anything equipped) + tarot + equipment dmg (base + %bonus) + SP attack + enhanced dmg + all atk increased + 15) * <br>
+            (1 + S% dmg weapon option + S% monster) * <br>
+            (1 + bonus atk weapon 1 + weapon 2)
+            </code>
+        </p>
+
+        <h2>Elemental DMG (Edmg):</h2>
+        <p>
+            Everything related to the element applies here. Most important stat being enemy resistance, followed by elemental counter (especially dark/light), the SP and fairy bonus, and the somewhat useful element.
+        </p>
+        <p>
+            <code>
+            Edmg = [Weapons element (both) + accessories elements (all) + skill element + buffs element + (Cdmg + 100) * (% fairy + SP element bonus)] * <br>
+            (1 + % Elemental counter) * <br>
+            (100% - % opponent final resistance)
+            </code>
+        </p>
+
+        <h2>Physical DMG (Pdmg):</h2>
+        <p>
+            <code>
+            Pdmg = (Cdmg - mob armor) * (1 + % crit dmg - % mob crit reduction)
+            </code>
+        </p>
+
+        <h2>Morale DMG (Mdmg):</h2>
+        <p>
+            Really useless nowadays.
+        </p>
+        <p>
+            <code>
+            Mdmg = Player level + Morale buff - Enemy level - Enemy buff
+            </code>
+        </p>
+
+        <h2>Bonus damage:</h2>
+        <p>
+            Adds the S% from tattoo, Title, costume, atk pot, oil... still testing -> (runes, fairy)
+        </p>
+
+        <h2>DMG:</h2>
+        <p>
+            Everything sums up or multiplies.
+        </p>
+        <p>
+            <code>
+            DMG = (Pdmg + Edmg + Mdmg) * (1 + % Bonus damage) * (1 + % final crit dmg)
+            </code>
+        </p>
+    </div>
+
+    <script>
+        function toggleContent() {
+            var content = document.getElementById("content");
+            if (content.style.display === "none") {
+                content.style.display = "block";
+            } else {
+                content.style.display = "none";
+            }
+        }
+
+        function showInfo(str) {
+            // Create a new div element for the popup
+            var popup = document.createElement('div');
+            popup.style.position = 'fixed';
+            popup.style.left = '50%';
+            popup.style.top = '50%';
+            popup.style.transform = 'translate(-50%, -50%)';
+            popup.style.backgroundColor = 'white';
+            popup.style.padding = '20px';
+            popup.style.border = '1px solid black';
+            popup.style.zIndex = '1000';
+
+            // Create an image element
+            var img = document.createElement('img');
+            img.src = '/img/' + str + '.png';
+            img.style.maxWidth = '100%';
+            img.style.maxHeight = '80vh';
+
+            // Add the image to the popup
+            popup.appendChild(img);
+
+            // Create a close button
+            var closeButton = document.createElement('button');
+            closeButton.textContent = 'Close';
+            closeButton.style.display = 'block';
+            closeButton.style.marginTop = '10px';
+            closeButton.onclick = function() {
+                document.body.removeChild(popup);
+            };
+
+            // Add the close button to the popup
+            popup.appendChild(closeButton);
+
+            // Add the popup to the body
+            document.body.appendChild(popup);
+        }
+    </script>
 
     <script src="attack_formula.js"></script>
 </body>
