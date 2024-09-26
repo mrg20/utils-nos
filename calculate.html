@@ -521,6 +521,29 @@
             // Add the popup to the body
             document.body.appendChild(popup);
         }
+
+        function saveInputToLocalStorage(event) {
+            var input = event.target;
+            localStorage.setItem(input.id, input.value);
+        }
+
+        function loadInputsFromLocalStorage() {
+            var inputs = document.querySelectorAll('input[type="number"], input[type="text"], select');
+            inputs.forEach(function(input) {
+                var savedValue = localStorage.getItem(input.id);
+                if (savedValue !== null) {
+                    input.value = savedValue;
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadInputsFromLocalStorage();
+            var inputs = document.querySelectorAll('input[type="number"], input[type="text"], select');
+            inputs.forEach(function(input) {
+                input.addEventListener('input', saveInputToLocalStorage);
+            });
+        });
     </script>
 
     <script src="attack_formula.js"></script>
