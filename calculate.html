@@ -41,7 +41,8 @@
         /* For small screens */
         @media (max-width: 768px) {
             .container {
-                max-width: 600px;
+                max-width: 100%;
+                padding: 15px;
             }
         }
 
@@ -84,6 +85,16 @@
             min-width: 400px;
         }
 
+        @media (max-width: 768px) {
+            .section {
+                min-width: 100%;
+                margin: 15px 0;
+            }
+            .box1, .box2, .box3, .box4 {
+                padding: 15px;
+            }
+        }
+
         label {
             display: block;
             margin: 15px 0 8px;
@@ -98,6 +109,16 @@
             border-radius: 5px;
             font-size: 16px;
             transition: border-color 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            input[type="number"], input[type="text"], select, input[type="checkbox"] {
+                width: 100%;
+            }
+            label {
+                font-size: 14px;
+                margin: 10px 0 5px;
+            }
         }
 
         input[type="number"]:focus, input[type="text"]:focus, select:focus {
@@ -148,6 +169,7 @@
             font-family: 'Courier New', Courier, monospace;
             font-size: 14px;
             line-height: 1.6;
+            overflow-x: auto;
         }
 
         .info-btn {
@@ -156,6 +178,14 @@
             width: auto;
             margin-top: 0;
             margin-left: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .info-btn {
+                display: block;
+                margin-left: 0;
+                margin-top: 5px;
+            }
         }
     </style>
 </head>
@@ -444,6 +474,9 @@
             popup.style.padding = '20px';
             popup.style.border = '1px solid black';
             popup.style.zIndex = '1000';
+            popup.style.maxWidth = '90%';
+            popup.style.maxHeight = '90%';
+            popup.style.overflow = 'auto';
 
             // Create an image element
             var img = document.createElement('img');
