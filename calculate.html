@@ -224,10 +224,6 @@
             <input type="number" id="atkPet" value="0">
             <button class="info-btn" onclick="showInfo('atkPet')">?</button>
 
-            <label for="atkFairy">Fairy S% dmg:</label>
-            <input type="number" id="atkFairy" value="0">
-            <button class="info-btn" onclick="showInfo('atkFairy')">?</button>
-
             <label for="atkPot">Attack Potion:</label>
             <input type="number" id="atkPot" value="0">
             <button class="info-btn" onclick="showInfo('atkPot')">?</button>
@@ -236,13 +232,17 @@
             <input type="number" id="atkOil" value="0">
             <button class="info-btn" onclick="showInfo('atkOil')">?</button>
 
-            <label for="dmgEnhanced">Enhanced DMG from accesories:</label>
-            <input type="number" id="dmgEnhanced" value="0">
-            <button class="info-btn" onclick="showInfo('dmgEnhanced')">?</button>
+            <label for="atkTitle">Title and wings S% dmg:</label>
+            <input type="number" id="atkTitle" value="0">
+            <button class="info-btn" onclick="showInfo('atkTitle')">?</button>
 
-            <label for="fairy">Fairy level:</label>
+            <label for="fairy">Fairy level (when equipped):</label>
             <input type="number" id="fairy" value="0">
             <button class="info-btn" onclick="showInfo('fairy')">?</button>
+
+            <label for="atkFairy">Fairy S% dmg:</label>
+            <input type="number" id="atkFairy" value="0">
+            <button class="info-btn" onclick="showInfo('atkFairy')">?</button>
 
             <label for="type">Fairy Type:</label>
             <select id="type">
@@ -258,11 +258,11 @@
 
             <label for="atkEquipMin">Attack Equipment Min Damage:</label>
             <input type="number" id="atkEquipMin" value="0">
-            <button class="info-btn" onclick="showInfo('atkEquipMin')">?</button>
+            <button class="info-btn" onclick="showInfo('atkEquip')">?</button>
 
             <label for="atkEquipMax">Attack Equipment Max Damage:</label>
             <input type="number" id="atkEquipMax" value="0">
-            <button class="info-btn" onclick="showInfo('atkEquipMax')">?</button>
+            <button class="info-btn" onclick="showInfo('atkEquip')">?</button>
 
             <label for="atkWeaponUp">Equipment +Level:</label>
             <input type="number" id="atkWeaponUp" value="0">
@@ -276,9 +276,13 @@
             <input type="number" id="dmgIncreaseRune" value="0">
             <button class="info-btn" onclick="showInfo('dmgIncreaseRune')">?</button>
 
-            <label for="atkBonus">Bonus/enhanced Attack Weapon + rune:</label>
+            <label for="atkBonus">Enhanced Damage:</label>
             <input type="number" id="atkBonus" value="0">
             <button class="info-btn" onclick="showInfo('atkBonus')">?</button>
+
+            <label for="atkIncrease">All attack increase:</label>
+            <input type="number" id="atkIncrease" value="0">
+            <button class="info-btn" onclick="showInfo('atkIncrease')">?</button>
 
             <label for="critProb">Critical Probability (weapons + fairy + ... + all):</label>
             <input type="number" id="critProb" value="0">
@@ -296,13 +300,21 @@
             <input type="number" id="resReduction" value="0">
             <button class="info-btn" onclick="showInfo('resReduction')">?</button>
 
-            <label for="mobDamage">Damage to mob type:</label>
+            <label for="mobDamage">Damage % to mob type:</label>
             <input type="number" id="mobDamage" value="0">
             <button class="info-btn" onclick="showInfo('mobDamage')">?</button>
 
-            <label for="dmgIncreaseEqProb">Damage % Increase (weapons + costume + ...):</label>
+            <label for="dmgIncreaseEqProb">% Increasing damage Eq:</label>
             <input type="number" id="dmgIncreaseEqProb" value="0">
             <button class="info-btn" onclick="showInfo('dmgIncreaseEqProb')">?</button>
+
+            <label for="dmgIncreaseSkin">% Increasing damage Skin weapon:</label>
+            <input type="number" id="dmgIncreaseSkin" value="0">
+            <button class="info-btn" onclick="showInfo('dmgIncreaseSkin')">?</button>
+
+            <label for="dmgIncreaseCostume">% Increasing damage costume:</label>
+            <input type="number" id="dmgIncreaseCostume" value="0">
+            <button class="info-btn" onclick="showInfo('dmgIncreaseCostume')">?</button>
 
         </div>
 
@@ -311,37 +323,37 @@
 
             <label for="atkSp">Attack SL:</label>
             <input type="number" id="atkSp" value="0">
-            <button class="info-btn" onclick="showInfo('atkSp')">?</button>
+            <button class="info-btn" onclick="showInfo('spSL')">?</button>
 
             <label for="defSp">Def SL:</label>
             <input type="number" id="defSp" value="0">
-            <button class="info-btn" onclick="showInfo('defSp')">?</button>
+            <button class="info-btn" onclick="showInfo('spSL')">?</button>
 
             <label for="eleSp">Prop SL:</label>
             <input type="number" id="eleSp" value="0">
-            <button class="info-btn" onclick="showInfo('eleSp')">?</button>
+            <button class="info-btn" onclick="showInfo('spSL')">?</button>
 
             <label for="eneSp">Energy SL:</label>
             <input type="number" id="eneSp" value="0">
-            <button class="info-btn" onclick="showInfo('eneSp')">?</button>
+            <button class="info-btn" onclick="showInfo('spSL')">?</button>
 
             <hr>
 
             <label for="atkPP">Attack Perfection Points:</label>
             <input type="number" id="atkPP" value="0">
-            <button class="info-btn" onclick="showInfo('atkPP')">?</button>
+            <button class="info-btn" onclick="showInfo('spPP')">?</button>
 
             <label for="defPP">Defense Perfection Points:</label>
             <input type="number" id="defPP" value="0">
-            <button class="info-btn" onclick="showInfo('defPP')">?</button>
+            <button class="info-btn" onclick="showInfo('spPP')">?</button>
 
             <label for="elePP">Element Perfection Points:</label>
             <input type="number" id="elePP" value="0">
-            <button class="info-btn" onclick="showInfo('elePP')">?</button>
+            <button class="info-btn" onclick="showInfo('spPP')">?</button>
 
             <label for="enePP">Energy Perfection Points:</label>
             <input type="number" id="enePP" value="0">
-            <button class="info-btn" onclick="showInfo('enePP')">?</button>
+            <button class="info-btn" onclick="showInfo('spPP')">?</button>
 
         </div>
         
@@ -452,7 +464,9 @@
             </code>
         </p>
     </div>
-
+    <code>
+        Thanks to DarkZohater family and nostar webpage, the formula is now more accurate! Send me your feedbacks to improve it!
+    </code>
     <script>
         function toggleContent() {
             var content = document.getElementById("content");
