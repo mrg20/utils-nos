@@ -2,6 +2,15 @@
 const equip_up_bonus = [0, 0.1, 0.15, 0.22, 0.32, 0.43, 0.54, 0.65, 0.9, 1.2, 2];
 const sp_up_bonus = [0, 5, 10, 15, 20, 28, 36, 46, 56, 68, 80, 95, 110, 128, 148, 173];
 
+const ele_sp_bonus = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100, 102, 104, 106, 108, 110, 112, 114, 116, 118, 120, 122, 124, 126, 128, 130, 132, 134, 138, 140, 142, 144, 146, 148, 150, 152, 154, 156, 160, 162, 164, 166, 168, 170, 172, 174, 176, 178, 182, 184, 186, 188, 190, 192, 194, 196, 198, 200, 204];
+const res_red_sp = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25];
+
+const atk_sp_bonus = [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 61, 67, 73, 79, 85, 91, 97, 103, 109, 115, 122, 129, 136, 143, 150, 157, 164, 171, 178, 190, 198, 206, 214, 222, 230, 238, 246, 254, 262, 270, 279, 288, 297, 306, 315, 324, 333, 342, 351, 360, 370, 380, 390, 400, 410, 420, 430, 440, 450, 460, 471, 482, 493, 504, 515, 526, 537, 548, 559, 575, 588, 601, 614, 627, 640, 653, 666, 679, 692, 705, 719, 733, 747, 761, 775, 789, 803, 817, 831, 845, 860, 875, 890, 905, 921, 938, 955, 975, 995, 1020, 1035, 1050, 1065, 1080, 1095, 1110, 1125, 1140, 1155, 1180, 1200, 1220, 1240, 1260, 1280, 1300, 1320, 1340, 1360, 1390];
+const crit_sp_bonus = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 10];
+const crit_dmg_sp = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 90];
+
+const en_sp_bonus = [0, 0, 0, 0, 5, 5, 5, 5, 5, 10, 10, 10, 10, 10, 15, 15, 15, 15, 15, 20, 20, 20, 20, 20, 25, 25, 25, 25, 25, 30, 30, 30, 30, 30, 35, 35, 35, 35, 35, 40, 40, 40, 40, 40, 50, 50, 50, 50, 50, 60, 60, 60, 60, 60, 70, 70, 70, 70, 70, 80, 80, 80, 80, 80, 90, 90, 90, 90, 90, 100, 100, 100, 100, 100, 115, 115, 115, 115, 115, 130, 130, 130, 130, 130, 145, 145, 145, 145, 145, 160, 160, 160, 160, 160, 180, 180, 180, 180, 180, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 230, 230, 230, 230, 230, 230, 230, 230, 230, 230, 230];
+
 const type_matchups = {
     "FIRE>WATER": 1,
     "WATER>FIRE": 1,
@@ -17,339 +26,279 @@ const type_matchups = {
     "SHADOW>NO_ELEMENT": 0.3
 };
 
-function elemental_bonus(matchup) {
-    return type_matchups[matchup] || 0;
-}
-
-const Element = {
-    NO_ELEMENT: 0,
-    LIGHT: 1,
-    SHADOW: 2,
-    WATER: 3,
-    FIRE: 4
-};
-
-const DamageType = {
-    ALL: 0,
-    NORMAL: 1,
-    SOFT: 2,
-    CRIT: 3,
-    SOFTCRIT: 4
-};
-
-
 
 class Calculator {
     constructor(attacker, defender, defendersList = []) {
         this.attacker = attacker;
         this.defender = defender;
-        this.defendersList = defendersList;
+        this.damage = {};
     }
 
-    _atk_tot(atk_eq, soft = false) {
-        const up = Math.min(Math.max(this.attacker.weapon_up - this.defender.armor_up, 0), 10);
+    calculate_damage(){
+        this.Cdmg();
+        this.Edmg();
+        this.Pdmg();
+        this.dmg();
+
+        return this.damage;
+    }
+
+    Cdmg() {
+        this.damage.normalCdmgMin = (this.spAttack() + this.attacker.atkBase + (this.attacker.atkEquipMin * this.levelBonus()) + this.attacker.atkSkill + this.attacker.atkIncrease + this.attacker.atkBonus + 15) *
+                                    (1 + this.attacker.dmgIncrease + this.attacker.mobDamage);
+        this.damage.normalCdmgMax = (this.spAttack() + this.attacker.atkBase + (this.attacker.atkEquipMax * this.levelBonus()) + this.attacker.atkSkill + this.attacker.atkIncrease + this.attacker.atkBonus + 15) *
+                                    (1 + this.attacker.dmgIncrease + this.attacker.mobDamage);
+
+        // all possible combinations
+        this.damage.softEqCdmgMin = this.damage.normalCdmgMin * (1 + this.attacker.dmgIncreaseEqProb);
+        this.damage.softEqCdmgMax = this.damage.normalCdmgMax * (1 + this.attacker.dmgIncreaseEqProb);
+        this.damage.softSkinCdmgMin = this.damage.normalCdmgMin * (1 + this.attacker.dmgIncreaseSkin);
+        this.damage.softSkinCdmgMax = this.damage.normalCdmgMax * (1 + this.attacker.dmgIncreaseSkin);
+        this.damage.softCostumeCdmgMin = this.damage.normalCdmgMin * (1 + this.attacker.dmgIncreaseCostume);
+        this.damage.softCostumeCdmgMax = this.damage.normalCdmgMax * (1 + this.attacker.dmgIncreaseCostume);
+        this.damage.softEqSkinCdmgMin = this.damage.normalCdmgMin * (1 + this.attacker.dmgIncreaseEqProb + this.attacker.dmgIncreaseSkin);
+        this.damage.softEqSkinCdmgMax = this.damage.normalCdmgMax * (1 + this.attacker.dmgIncreaseEqProb + this.attacker.dmgIncreaseSkin);
+        this.damage.softEqCostumeCdmgMin = this.damage.normalCdmgMin * (1 + this.attacker.dmgIncreaseEqProb + this.attacker.dmgIncreaseCostume);
+        this.damage.softEqCostumeCdmgMax = this.damage.normalCdmgMax * (1 + this.attacker.dmgIncreaseEqProb + this.attacker.dmgIncreaseCostume);
+        this.damage.softSkinCostumeCdmgMin = this.damage.normalCdmgMin * (1 + this.attacker.dmgIncreaseSkin + this.attacker.dmgIncreaseCostume);
+        this.damage.softSkinCostumeCdmgMax = this.damage.normalCdmgMax * (1 + this.attacker.dmgIncreaseSkin + this.attacker.dmgIncreaseCostume);
+        this.damage.softCdmgMin = this.damage.normalCdmgMin * (1 + this.attacker.dmgIncreaseEqProb + this.attacker.dmgIncreaseSkin + this.attacker.dmgIncreaseCostume);
+        this.damage.softCdmgMax = this.damage.normalCdmgMax * (1 + this.attacker.dmgIncreaseEqProb + this.attacker.dmgIncreaseSkin + this.attacker.dmgIncreaseCostume);
+    }
+
+    spAttack() {
+        return atk_sp_bonus[this.attacker.atkSp] + en_sp_bonus[this.attacker.eneSp] + this.attacker.atkPP*10;
+    }
+
+    levelBonus() {
+        if (this.attacker.atkWeaponUp < this.defender.armorUp) {
+            return 1;
+        }
+        let upDiff = this.attacker.atkWeaponUp - this.defender.armorUp;
+        return 1 + equip_up_bonus[upDiff];
+    }
+
+    Edmg() {
+        this.damage.normalEdmgMin = this._Edmg(this.damage.normalCdmgMin);
+        this.damage.normalEdmgMax = this._Edmg(this.damage.normalCdmgMax);
+
+        this.damage.softEqEdmgMin = this._Edmg(this.damage.softEqCdmgMin);
+        this.damage.softEqEdmgMax = this._Edmg(this.damage.softEqCdmgMax);
+        this.damage.softSkinEdmgMin = this._Edmg(this.damage.softSkinCdmgMin);
+        this.damage.softSkinEdmgMax = this._Edmg(this.damage.softSkinCdmgMax);
+        this.damage.softCostumeEdmgMin = this._Edmg(this.damage.softCostumeCdmgMin);
+        this.damage.softCostumeEdmgMax = this._Edmg(this.damage.softCostumeCdmgMax);
+        this.damage.softEqSkinEdmgMin = this._Edmg(this.damage.softEqSkinCdmgMin);
+        this.damage.softEqSkinEdmgMax = this._Edmg(this.damage.softEqSkinCdmgMax);
+        this.damage.softEqCostumeEdmgMin = this._Edmg(this.damage.softEqCostumeCdmgMin);
+        this.damage.softEqCostumeEdmgMax = this._Edmg(this.damage.softEqCostumeCdmgMax);
+        this.damage.softSkinCostumeEdmgMin = this._Edmg(this.damage.softSkinCostumeCdmgMin);
+        this.damage.softSkinCostumeEdmgMax = this._Edmg(this.damage.softSkinCostumeCdmgMax);
+        this.damage.softEdmgMin = this._Edmg(this.damage.softCdmgMin);
+        this.damage.softEdmgMax = this._Edmg(this.damage.softCdmgMax);
+    }
+    
+    _Edmg(Cdmg) {
+        return ((this.attacker.fairy + this.elementalBonus()) * (Cdmg + 100) + this.attacker.elePropIncrease + this.attacker.atkSkillElement) *
+               (1 + this.elementalCounter()) *
+               (100 - this.defender.res - this.attacker.resReduction);
+    }
+
+    elementalBonus() {
+        return ele_sp_bonus[this.attacker.eleSp] + this.attacker.elePP;
+    }
+
+    elementalCounter() {
+        if ((this.attacker.type + ">" + this.defender.defType) in type_matchups) {
+            return type_matchups[this.attacker.type + ">" + this.defender.defType];
+        }
+        return 0;
+    }
+
+    Pdmg() {
+        //without crit
+        this.damage.normalPdmgMin = this.damage.normalCdmgMin - this.defender.defEquip;
+        this.damage.normalPdmgMax = this.damage.normalCdmgMax - this.defender.defEquip;
+
+        this.damage.softEqPdmgMin = this.damage.softEqCdmgMin - this.defender.defEquip;
+        this.damage.softEqPdmgMax = this.damage.softEqCdmgMax - this.defender.defEquip;
+        this.damage.softSkinPdmgMin = this.damage.softSkinCdmgMin - this.defender.defEquip;
+        this.damage.softSkinPdmgMax = this.damage.softSkinCdmgMax - this.defender.defEquip;
+        this.damage.softCostumePdmgMin = this.damage.softCostumeCdmgMin - this.defender.defEquip;
+        this.damage.softCostumePdmgMax = this.damage.softCostumeCdmgMax - this.defender.defEquip;
+        this.damage.softEqSkinPdmgMin = this.damage.softEqSkinCdmgMin - this.defender.defEquip;
+        this.damage.softEqSkinPdmgMax = this.damage.softEqSkinCdmgMax - this.defender.defEquip;
+        this.damage.softEqCostumePdmgMin = this.damage.softEqCostumeCdmgMin - this.defender.defEquip;
+        this.damage.softEqCostumePdmgMax = this.damage.softEqCostumeCdmgMax - this.defender.defEquip;
+        this.damage.softSkinCostumePdmgMin = this.damage.softSkinCostumeCdmgMin - this.defender.defEquip;
+        this.damage.softSkinCostumePdmgMax = this.damage.softSkinCostumeCdmgMax - this.defender.defEquip;
+        this.damage.softPdmgMin = this.damage.softCdmgMin - this.defender.defEquip;
+        this.damage.softPdmgMax = this.damage.softCdmgMax - this.defender.defEquip;
+
+        //with crit
+        this.damage.normalPdmgMinCrit = this.damage.normalPdmgMin * (1 + this.attacker.critDmg + this.spCritDmg() - this.defender.critDmgReduction);
+        this.damage.normalPdmgMaxCrit = this.damage.normalPdmgMax * (1 + this.attacker.critDmg + this.spCritDmg() - this.defender.critDmgReduction);
+
+        this.damage.softEqPdmgMinCrit = this.damage.softEqPdmgMin * (1 + this.attacker.critDmg + this.spCritDmg() - this.defender.critDmgReduction);
+        this.damage.softEqPdmgMaxCrit = this.damage.softEqPdmgMax * (1 + this.attacker.critDmg + this.spCritDmg() - this.defender.critDmgReduction);
+        this.damage.softSkinPdmgMinCrit = this.damage.softSkinPdmgMin * (1 + this.attacker.critDmg + this.spCritDmg() - this.defender.critDmgReduction);
+        this.damage.softSkinPdmgMaxCrit = this.damage.softSkinPdmgMax * (1 + this.attacker.critDmg + this.spCritDmg() - this.defender.critDmgReduction);
+        this.damage.softCostumePdmgMinCrit = this.damage.softCostumePdmgMin * (1 + this.attacker.critDmg + this.spCritDmg() - this.defender.critDmgReduction);
+        this.damage.softCostumePdmgMaxCrit = this.damage.softCostumePdmgMax * (1 + this.attacker.critDmg + this.spCritDmg() - this.defender.critDmgReduction);
+        this.damage.softEqSkinPdmgMinCrit = this.damage.softEqSkinPdmgMin * (1 + this.attacker.critDmg + this.spCritDmg() - this.defender.critDmgReduction);
+        this.damage.softEqSkinPdmgMaxCrit = this.damage.softEqSkinPdmgMax * (1 + this.attacker.critDmg + this.spCritDmg() - this.defender.critDmgReduction);
+        this.damage.softEqCostumePdmgMinCrit = this.damage.softEqCostumePdmgMin * (1 + this.attacker.critDmg + this.spCritDmg() - this.defender.critDmgReduction);
+        this.damage.softEqCostumePdmgMaxCrit = this.damage.softEqCostumePdmgMax * (1 + this.attacker.critDmg + this.spCritDmg() - this.defender.critDmgReduction);
+        this.damage.softSkinCostumePdmgMinCrit = this.damage.softSkinCostumePdmgMin * (1 + this.attacker.critDmg + this.spCritDmg() - this.defender.critDmgReduction);
+        this.damage.softSkinCostumePdmgMaxCrit = this.damage.softSkinCostumePdmgMax * (1 + this.attacker.critDmg + this.spCritDmg() - this.defender.critDmgReduction);
+        this.damage.softPdmgMinCrit = this.damage.softPdmgMin * (1 + this.attacker.critDmg + this.spCritDmg() - this.defender.critDmgReduction);
+        this.damage.softPdmgMaxCrit = this.damage.softPdmgMax * (1 + this.attacker.critDmg + this.spCritDmg() - this.defender.critDmgReduction);
+    }
+
+    spCritDmg() {
+        return crit_dmg_sp[this.attacker.atkSp];
+    }
+
+    dmg(){
+        let Sdmg = (1 + this.attacker.atkHat + this.attacker.atkFairy + this.attacker.atkTitle + this.attacker.atkOil + this.attacker.atkPot 
+            + this.attacker.atkPet + this.attacker.dmgIncreaseTattoo + this.attacker.dmgIncreaseRune + this.attacker.atkCostume)
+
+        this.damage.normalDmgMinNormal = (this.damage.normalPdmgMin + this.damage.normalEdmgMin) * Sdmg;
+        this.damage.normalDmgMaxNormal = (this.damage.normalPdmgMax + this.damage.normalEdmgMax) * Sdmg;
+        this.damage.normalDmgMinNormalCrit = this.damage.normalDmgMinNormal * this.attacker.critDmgTattoo;
+        this.damage.normalDmgMaxNormalCrit = this.damage.normalDmgMaxNormal * this.attacker.critDmgTattoo;
+
+        //soft
+        this.damage.softEqDmgMinNormal = (this.damage.softEqPdmgMin + this.damage.softEqEdmgMin) * Sdmg;
+        this.damage.softEqDmgMaxNormal = (this.damage.softEqPdmgMax + this.damage.softEqEdmgMax) * Sdmg;
+        this.damage.softEqDmgMinNormalCrit = this.damage.softEqDmgMinNormal * this.attacker.critDmgTattoo;
+        this.damage.softEqDmgMaxNormalCrit = this.damage.softEqDmgMaxNormal * this.attacker.critDmgTattoo;
+
+        this.damage.softSkinDmgMinNormal = (this.damage.softSkinPdmgMin + this.damage.softSkinEdmgMin) * Sdmg;
+        this.damage.softSkinDmgMaxNormal = (this.damage.softSkinPdmgMax + this.damage.softSkinEdmgMax) * Sdmg;
+        this.damage.softSkinDmgMinNormalCrit = this.damage.softSkinDmgMinNormal * this.attacker.critDmgTattoo;
+        this.damage.softSkinDmgMaxNormalCrit = this.damage.softSkinDmgMaxNormal * this.attacker.critDmgTattoo;
         
-        const atk_char = (
-            (atk_eq * (1 + equip_up_bonus[up])
-            + this.attacker.atk_base
-            + this.attacker.atk_effects
-            + this._atk_sp()
-            + this.attacker.dmg_enhanced)
-        );
+        this.damage.softCostumeDmgMinNormal = (this.damage.softCostumePdmgMin + this.damage.softCostumeEdmgMin) * Sdmg;
+        this.damage.softCostumeDmgMaxNormal = (this.damage.softCostumePdmgMax + this.damage.softCostumeEdmgMax) * Sdmg;
+        this.damage.softCostumeDmgMinNormalCrit = this.damage.softCostumeDmgMinNormal * this.attacker.critDmgTattoo;
+        this.damage.softCostumeDmgMaxNormalCrit = this.damage.softCostumeDmgMaxNormal * this.attacker.critDmgTattoo;
 
-        let mob_type_dmg = this.attacker.mob_damage;
+        this.damage.softEqSkinDmgMinNormal = (this.damage.softEqSkinPdmgMin + this.damage.softEqSkinEdmgMin) * Sdmg;
+        this.damage.softEqSkinDmgMaxNormal = (this.damage.softEqSkinPdmgMax + this.damage.softEqSkinEdmgMax) * Sdmg;
+        this.damage.softEqSkinDmgMinNormalCrit = this.damage.softEqSkinDmgMinNormal * this.attacker.critDmgTattoo;
+        this.damage.softEqSkinDmgMaxNormalCrit = this.damage.softEqSkinDmgMaxNormal * this.attacker.critDmgTattoo;
 
-        return (
-            (atk_char + this.attacker.atk_skill + 15)
-            * (1 + (this.attacker.dmg_increase_s + mob_type_dmg) / 100)
-            * (1 + this.attacker.dmg_increase_eq / 100 * (soft ? 1 : 0))
-        );
+        this.damage.softEqCostumeDmgMinNormal = (this.damage.softEqCostumePdmgMin + this.damage.softEqCostumeEdmgMin) * Sdmg;
+        this.damage.softEqCostumeDmgMaxNormal = (this.damage.softEqCostumePdmgMax + this.damage.softEqCostumeEdmgMax) * Sdmg;
+        this.damage.softEqCostumeDmgMinNormalCrit = this.damage.softEqCostumeDmgMinNormal * this.attacker.critDmgTattoo;
+        this.damage.softEqCostumeDmgMaxNormalCrit = this.damage.softEqCostumeDmgMaxNormal * this.attacker.critDmgTattoo;
+
+        this.damage.softSkinCostumeDmgMinNormal = (this.damage.softSkinCostumePdmgMin + this.damage.softSkinCostumeEdmgMin) * Sdmg;
+        this.damage.softSkinCostumeDmgMaxNormal = (this.damage.softSkinCostumePdmgMax + this.damage.softSkinCostumeEdmgMax) * Sdmg;
+        this.damage.softSkinCostumeDmgMinNormalCrit = this.damage.softSkinCostumeDmgMinNormal * this.attacker.critDmgTattoo;
+        this.damage.softSkinCostumeDmgMaxNormalCrit = this.damage.softSkinCostumeDmgMaxNormal * this.attacker.critDmgTattoo;
+
+        this.damage.softDmgMinNormal = (this.damage.softPdmgMin + this.damage.softEdmgMin) * Sdmg;
+        this.damage.softDmgMaxNormal = (this.damage.softPdmgMax + this.damage.softEdmgMax) * Sdmg;
+        this.damage.softDmgMinNormalCrit = this.damage.softDmgMinNormal * this.attacker.critDmgTattoo;
+        this.damage.softDmgMaxNormalCrit = this.damage.softDmgMaxNormal * this.attacker.critDmgTattoo;
     }
 
-    _atk_sp(attack, ene_SL, atk_pp) {
-        if (attack === 0) {
-            return 0;
-        }
-        if (1 <= attack && attack <= 10) {
-            return 5 + this._atk_sp(attack - 1);
-        }
-        if (11 <= attack && attack <= 20) {
-            return 6 + this._atk_sp(attack - 1);
-        }
-        if (21 <= attack && attack <= 30) {
-            return 8 + this._atk_sp(attack - 1);
-        }
-        if (31 <= attack && attack <= 40) {
-            return 7 + this._atk_sp(attack - 1);
-        }
-        if (41 <= attack && attack <= 50) {
-            return 9 + this._atk_sp(attack - 1);
-        }
-        if (51 <= attack && attack <= 60) {
-            return 10 + this._atk_sp(attack - 1);
-        }
-        if (61 <= attack && attack <= 70) {
-            return 11 + this._atk_sp(attack - 1);
-        }
-        if (71 <= attack && attack <= 80) {
-            return 13 + this._atk_sp(attack - 1);
-        }
-        if (81 <= attack && attack <= 90) {
-            return 14 + this._atk_sp(attack - 1);
-        }
-        if (91 <= attack && attack <= 94) {
-            return 15 + this._atk_sp(attack - 1);
-        }
-        if (attack === 95) {
-            return 16 + this._atk_sp(attack - 1);
-        }
-        if (96 <= attack && attack <= 97) {
-            return 17 + this._atk_sp(attack - 1);
-        }
-        if (98 <= attack && attack <= 100) {
-            return 20 + this._atk_sp(attack - 1);
-        }
-        if (101 <= attack && attack <= 110) {
-            return 15 + this._atk_sp(attack - 1);
-        }
-        if (111 <= attack && attack <= 120) {
-            return 20 + this._atk_sp(attack - 1);
-        }
-    }
-
-    _def_tot() {
-        const up = Math.min(Math.max(this.defender.armor_up - this.attacker.weapon_up, 0), 10);
-
-        const def_char = (
-            (this.defender.def_equip * (1 + equip_up_bonus[up]))
-            + this.defender.def_enhanced
-        );
-        
-        return (
-            (def_char + this.defender.def_skill)
-        );
-    }
-
-    _atk_ele_tot(atk_eq, soft = false) {
-        const atk_ele = (
-            (this._atk_tot(atk_eq, soft) + 100)
-            * (this.attacker.fairy + this.attacker.ele_sp) / 100
-        );
-
-        return (
-            atk_ele
-            + this.attacker.ele_skill
-            + this.attacker.ele_effects
-            + this.attacker.ele_prop_increase
-        );
-    }
-
-    _physical_damage(atk_eq, crit = false, soft = false) {
-        let dmg = (
-            (this._atk_tot(atk_eq, soft) - this._def_tot())
-            * (1 + (this.attacker.atk_oil ? 0.05 : 0))
-        );
-        
-        if (crit) {
-            dmg *= (
-                1 + this.attacker.crit_dmg / 100
-                - this.defender.crit_dmg_reduction / 100
-            );
-        }
-
-        return dmg;
-    }
-
-    _elemental_damage(atk_eq, soft = false) {
-
-        const attacker_type = this.attacker.type; // Assuming type is a string, like "FIRE"
-        const defender_type = this.defender.type; // Assuming type is a string, like "WATER"
-        const matchup = `${Element[attacker_type]}>${Element[defender_type]}`;
-
-        const res = (
-            this.defender.res
-            - this.attacker.res_reduction
-        );
-
-        return (
-            this._atk_ele_tot(atk_eq, soft)
-            * (1 + elemental_bonus(matchup))
-            * (1 - res / 100)
-        );
-    }
-
-
-    _final_damage(atk_eq, crit = false, soft = false, no_ele = false, is_min = false, max_crit_dmg = 0) {
-
-        const elemental_damage = no_ele ? 0 : this._elemental_damage(atk_eq, soft);
-        let physical_damage = this._physical_damage(atk_eq, crit, soft);
-        
-        if (crit && is_min) {
-            physical_damage = (physical_damage + max_crit_dmg) / 2;
-        }
-
-        let dmg = (
-            physical_damage
-            + elemental_damage
-            + this.attacker.mob_damage
-        );
-
-        dmg *= (
-            (1 - this.defender.magic_dmg_reduction / 100)
-            * (1 + (this.attacker.atk_hat
-                + this.attacker.atk_pet
-                + (this.attacker.atk_pot ? 20 : 0)) / 100)
-        );
-
-        return dmg;
-    }
-
-    damage(crit = false, soft = false, no_ele = false, average = false) {
-        if (this.attacker.type === Element.NO_ELEMENT) {
-            no_ele = true;
-        }
-
-        let dmg_max = this._final_damage(
-            this.attacker.atk_equip_max,
-            crit,
-            soft,
-            no_ele
-        );
-        
-        let max_crit_dmg = 0;
-        if (crit) {
-            max_crit_dmg = this._physical_damage(
-                this.attacker.atk_equip_max,
-                crit,
-                soft
-            );
-        }
-
-        let dmg_min = this._final_damage(
-            this.attacker.atk_equip_min,
-            crit,
-            soft,
-            no_ele,
-            true,
-            max_crit_dmg
-        );
-        
-        dmg_min = Math.max(dmg_min, 1);
-        dmg_max = Math.max(dmg_max, 5);
-
-        if (average) {
-            return (dmg_min + dmg_max) / 2;
-        }
-        return [Math.floor(dmg_min), Math.floor(dmg_max)];
-    }
-
-
-    average_damage() {
-        const soft = this.attacker.dmg_increase_eq_prob / 100;
-        const crit = this.attacker.crit_prob() / 100;
-        const soft_crit = (soft * crit) / 100;
-        const normal = 1 - soft - crit - soft_crit;
-
-        return Math.floor(
-            this.damage(true) * normal +
-            this.damage(true, true) * soft +
-            this.damage(true, false, true) * crit +
-            this.damage(true, true, true) * soft_crit
-        );
-    }
-
-    swap_attacker_defender() {
-        const tmp = this.attacker;
-        this.attacker = this.defender;
-        this.defender = tmp;
-    }
-
-    damage_multiple_defenders(defendersList = null) {
-        if (defendersList) {
-            this.defendersList = defendersList;
-        }
-
-        if (this.defendersList.length === 0) {
-            this.defendersList.push(this.defender);
-        }
-
-        const tmp = this.defender;
-        const dmg = this.defendersList.map(defender => {
-            this.defender = defender;
-            return this.average_damage();
-        });
-
-        this.defender = tmp;
-        return dmg.reduce((a, b) => a + b, 0) / dmg.length;
-    }
 }
 
 
 
 
 function calculateDamage() {
-    const attacker = {
-        atk_base: parseFloat(document.getElementById('atkBase').value),
-        atk_effects: parseFloat(document.getElementById('atkEffects').value),
-        dmg_enhanced: parseFloat(document.getElementById('dmgEnhanced').value),
-        atk_skill: parseFloat(document.getElementById('atkSkill').value),
-        dmg_increase_s: parseFloat(document.getElementById('dmgIncreaseS').value),
-        fairy: parseFloat(document.getElementById('fairy').value),
-        ele_skill: parseFloat(document.getElementById('eleSkill').value),
+    const attacker = {};
+    const box1Elements = document.querySelector('.box1').querySelectorAll('input, select');
+    const box2Elements = document.querySelector('.box2').querySelectorAll('input, select');
+    const box3Elements = document.querySelector('.box3').querySelectorAll('input, select');
+
+    [box1Elements, box2Elements, box3Elements].forEach(boxElements => {
+        boxElements.forEach(element => {
+            const id = element.id;
+            let value;
+            
+            if (element.type === 'checkbox') {
+                value = element.checked;
+            } else if (element.type === 'number' || element.tagName === 'SELECT') {
+                value = parseFloat(element.value);
+                if (isNaN(value)) {
+                    value = element.value; // Keep as string if not a valid number
+                }
+            } else {
+                value = element.value;
+            }
+            
+            attacker[id] = value;
+        });
+    });
+
+
+    const defender = {};
+    const box4Elements = document.querySelector('.box4').querySelectorAll('input, select');
+    
+    box4Elements.forEach(element => {
+        const id = element.id;
+        let value;
         
-        atk_equip_min: parseFloat(document.getElementById('atkEquipMin').value),
-        atk_equip_max: parseFloat(document.getElementById('atkEquipMax').value),
-        weapon_up: parseInt(document.getElementById('atkWeaponUp').value),
-        crit_prob: document.getElementById('critProb').value,
-        crit_dmg: document.getElementById('critDmg').value,
-        ele_effects: parseFloat(document.getElementById('eleEffects').value),
-        ele_prop_increase: parseFloat(document.getElementById('elePropIncrease').value),
-        res_reduction: parseFloat(document.getElementById('resReduction').value),
-        mob_damage: document.getElementById('mobDamage').value,
-        atk_hat: parseFloat(document.getElementById('atkHat').value),
-        atk_pet: parseFloat(document.getElementById('atkPet').value),
-        atk_pot: document.getElementById('atkPot').checked,
-        atk_oil: document.getElementById('atkOil').checked,
-        type: document.getElementById('type').value,
-        dmg_increase_eq_prob: document.getElementById('dmgIncreaseEqProb').value,
+        if (element.type === 'checkbox') {
+            value = element.checked;
+        } else if (element.type === 'number' || element.tagName === 'SELECT') {
+            value = parseFloat(element.value);
+            if (isNaN(value)) {
+                value = element.value; // Keep as string if not a valid number
+            }
+        } else {
+            value = element.value;
+        }
         
-        atk_sp: parseFloat(document.getElementById('atkSp').value),
-        def_sp: parseFloat(document.getElementById('defSp').value),
-        ele_sp: parseFloat(document.getElementById('eleSp').value),
-        ene_sp: parseFloat(document.getElementById('eneSp').value),
-
-        atk_pp: parseFloat(document.getElementById('atkPP').value),
-        def_pp: parseFloat(document.getElementById('defPP').value),
-        ele_pp: parseFloat(document.getElementById('elePP').value),
-        ene_pp: parseFloat(document.getElementById('enePP').value),
-    };
-
-
-    const defender = {
-        armor_up: parseInt(document.getElementById('armorUp').value),
-        def_equip: parseFloat(document.getElementById('defEquip').value),
-        def_base: parseFloat(document.getElementById('defBase').value),
-        def_effects: parseFloat(document.getElementById('defEffects').value),
-        def_sp: parseFloat(document.getElementById('defSp').value),
-        def_enhanced: parseFloat(document.getElementById('defEnhanced').value),
-        def_increase_s: parseFloat(document.getElementById('defIncreaseS').value),
-        def_skill: parseFloat(document.getElementById('defSkill').value),
-        def_pot: document.getElementById('defPot').checked,
-        def_oil: document.getElementById('defOil').checked,
-        def_costume: parseFloat(document.getElementById('defCostume').value),
-        def_pet: parseFloat(document.getElementById('defPet').value),
-        res: parseFloat(document.getElementById('res').value),
-        crit_dmg_reduction: parseFloat(document.getElementById('critDmgReduction').value),
-        magic_dmg_reduction: parseFloat(document.getElementById('magicDmgReduction').value),
-        type: document.getElementById('defType').value
-    };
+        defender[id] = value;
+    });
 
     // Instantiate the Calculator
     const calc = new Calculator(attacker, defender);
 
     // Calculate damage using the class method
-    const [damage_min, damage_max] = calc.damage(crit = true, soft = true);
+    const damage = calc.calculate_damage();
     
     // Display the result
-    document.getElementById('result').innerHTML = `Damage Min: ${damage_min}, Damage Max: ${damage_max}`;
+    document.getElementById('result').innerHTML = `Damage Min without crits: ${damage.normalDmgMinNormal} <br>
+                                                   Damage Max without crits: ${damage.normalDmgMaxNormal} <br>
+                                                   Possible Max Soft Crit: ${damage.softDmgMaxNormalCrit} <br>
+                                                   <br>
+                                                   Other possible damage combinations: <br>
+                                                   Normal Crit Damage Min: ${damage.normalDmgMinNormalCrit} <br>
+                                                   Normal Crit Damage Max: ${damage.normalDmgMaxNormalCrit} <br>
+                                                   Soft EQ Damage Min: ${damage.softEqDmgMinNormal} <br>
+                                                   Soft EQ Damage Max: ${damage.softEqDmgMaxNormal} <br>
+                                                   Soft EQ Crit Damage Min: ${damage.softEqDmgMinNormalCrit} <br>
+                                                   Soft EQ Crit Damage Max: ${damage.softEqDmgMaxNormalCrit} <br>
+                                                   Soft Skin Damage Min: ${damage.softSkinDmgMinNormal} <br>
+                                                   Soft Skin Damage Max: ${damage.softSkinDmgMaxNormal} <br>
+                                                   Soft Skin Crit Damage Min: ${damage.softSkinDmgMinNormalCrit} <br>
+                                                   Soft Skin Crit Damage Max: ${damage.softSkinDmgMaxNormalCrit} <br>
+                                                   Soft Costume Damage Min: ${damage.softCostumeDmgMinNormal} <br>
+                                                   Soft Costume Damage Max: ${damage.softCostumeDmgMaxNormal} <br>
+                                                   Soft Costume Crit Damage Min: ${damage.softCostumeDmgMinNormalCrit} <br>
+                                                   Soft Costume Crit Damage Max: ${damage.softCostumeDmgMaxNormalCrit} <br>
+                                                   Soft EQ+Skin Damage Min: ${damage.softEqSkinDmgMinNormal} <br>
+                                                   Soft EQ+Skin Damage Max: ${damage.softEqSkinDmgMaxNormal} <br>
+                                                   Soft EQ+Skin Crit Damage Min: ${damage.softEqSkinDmgMinNormalCrit} <br>
+                                                   Soft EQ+Skin Crit Damage Max: ${damage.softEqSkinDmgMaxNormalCrit} <br>
+                                                   Soft EQ+Costume Damage Min: ${damage.softEqCostumeDmgMinNormal} <br>
+                                                   Soft EQ+Costume Damage Max: ${damage.softEqCostumeDmgMaxNormal} <br>
+                                                   Soft EQ+Costume Crit Damage Min: ${damage.softEqCostumeDmgMinNormalCrit} <br>
+                                                   Soft EQ+Costume Crit Damage Max: ${damage.softEqCostumeDmgMaxNormalCrit} <br>
+                                                   Soft Skin+Costume Damage Min: ${damage.softSkinCostumeDmgMinNormal} <br>
+                                                   Soft Skin+Costume Damage Max: ${damage.softSkinCostumeDmgMaxNormal} <br>
+                                                   Soft Skin+Costume Crit Damage Min: ${damage.softSkinCostumeDmgMinNormalCrit} <br>
+                                                   Soft Skin+Costume Crit Damage Max: ${damage.softSkinCostumeDmgMaxNormalCrit} <br>
+                                                   Soft All Damage Min: ${damage.softDmgMinNormal} <br>
+                                                   Soft All Damage Max: ${damage.softDmgMaxNormal} <br>
+                                                   Soft All Crit Damage Min: ${damage.softDmgMinNormalCrit} <br>
+                                                   Soft All Crit Damage Max: ${damage.softDmgMaxNormalCrit} <br>
+                                                   `;
 }
