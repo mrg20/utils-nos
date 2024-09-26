@@ -7,7 +7,7 @@ const res_red_sp = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 
 
 const atk_sp_bonus = [10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 61, 67, 73, 79, 85, 91, 97, 103, 109, 115, 122, 129, 136, 143, 150, 157, 164, 171, 178, 190, 198, 206, 214, 222, 230, 238, 246, 254, 262, 270, 279, 288, 297, 306, 315, 324, 333, 342, 351, 360, 370, 380, 390, 400, 410, 420, 430, 440, 450, 460, 471, 482, 493, 504, 515, 526, 537, 548, 559, 575, 588, 601, 614, 627, 640, 653, 666, 679, 692, 705, 719, 733, 747, 761, 775, 789, 803, 817, 831, 845, 860, 875, 890, 905, 921, 938, 955, 975, 995, 1020, 1035, 1050, 1065, 1080, 1095, 1110, 1125, 1140, 1155, 1180, 1200, 1220, 1240, 1260, 1280, 1300, 1320, 1340, 1360, 1390];
 const crit_sp_bonus = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 10];
-const crit_dmg_sp = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 90];
+const crit_dmg_sp = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 90];
 
 const en_sp_bonus = [0, 0, 0, 0, 5, 5, 5, 5, 5, 10, 10, 10, 10, 10, 15, 15, 15, 15, 15, 20, 20, 20, 20, 20, 25, 25, 25, 25, 25, 30, 30, 30, 30, 30, 35, 35, 35, 35, 35, 40, 40, 40, 40, 40, 50, 50, 50, 50, 50, 60, 60, 60, 60, 60, 70, 70, 70, 70, 70, 80, 80, 80, 80, 80, 90, 90, 90, 90, 90, 100, 100, 100, 100, 100, 115, 115, 115, 115, 115, 130, 130, 130, 130, 130, 145, 145, 145, 145, 145, 160, 160, 160, 160, 160, 180, 180, 180, 180, 180, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 230, 230, 230, 230, 230, 230, 230, 230, 230, 230, 230];
 
@@ -67,15 +67,26 @@ class Calculator {
     }
 
     spAttack() {
-        return atk_sp_bonus[this.attacker.atkSp] + en_sp_bonus[this.attacker.eneSp] + this.attacker.atkPP*10;
+        let atkSpBonus = 0;
+        let eneSpBonus = 0;
+
+        if (this.attacker.atkSp > 0) {
+            atkSpBonus = atk_sp_bonus[this.attacker.atkSp - 1];
+        }
+
+        if (this.attacker.eneSp > 0) {
+            eneSpBonus = en_sp_bonus[this.attacker.eneSp - 1];
+        }
+
+        return atkSpBonus + eneSpBonus + this.attacker.atkPP * 10;
     }
 
     levelBonus() {
-        if (this.attacker.atkWeaponUp < this.defender.armorUp) {
+        if (this.attacker.atkWeaponUp <= this.defender.armorUp) {
             return 1;
         }
         let upDiff = this.attacker.atkWeaponUp - this.defender.armorUp;
-        return 1 + equip_up_bonus[upDiff];
+        return 1 + equip_up_bonus[upDiff-1];
     }
 
     Edmg() {
@@ -99,13 +110,17 @@ class Calculator {
     }
     
     _Edmg(Cdmg) {
+        console.log(Cdmg);
         return ((this.attacker.fairy + this.elementalBonus()) * (Cdmg + 100) + this.attacker.elePropIncrease + this.attacker.atkSkillElement) *
                (1 + this.elementalCounter()) *
                (100 - this.defender.res - this.attacker.resReduction);
     }
 
     elementalBonus() {
-        return ele_sp_bonus[this.attacker.eleSp] + this.attacker.elePP;
+        if (this.attacker.eleSp == 0) {
+            return 0;
+        }
+        return ele_sp_bonus[this.attacker.eleSp - 1] + this.attacker.elePP;
     }
 
     elementalCounter() {
@@ -156,7 +171,7 @@ class Calculator {
     }
 
     spCritDmg() {
-        return crit_dmg_sp[this.attacker.atkSp];
+        return crit_dmg_sp[this.attacker.atkSp - 1];
     }
 
     dmg(){
@@ -257,13 +272,14 @@ function calculateDamage() {
         
         defender[id] = value;
     });
-
+    console.log(attacker);
+    console.log(defender);
     // Instantiate the Calculator
     const calc = new Calculator(attacker, defender);
 
     // Calculate damage using the class method
     const damage = calc.calculate_damage();
-    
+    console.log(damage);
     // Display the result
     document.getElementById('result').innerHTML = `Damage Min without crits: ${damage.normalDmgMinNormal} <br>
                                                    Damage Max without crits: ${damage.normalDmgMaxNormal} <br>
