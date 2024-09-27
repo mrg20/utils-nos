@@ -135,9 +135,6 @@ class Calculator {
         if(this.defender.res - this.attacker.resReduction >= 100){
             return 0;
         }
-        if(this.defender.res - this.attacker.resReduction < 0){
-            return 1;
-        }
         return (100 - (this.defender.res - this.attacker.resReduction)) / 100;
     }
 
