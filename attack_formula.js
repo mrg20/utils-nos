@@ -277,7 +277,12 @@ function calculateDamage() {
             
             if (element.type === 'checkbox') {
                 value = element.checked;
-            } else if (element.type === 'number' || element.tagName === 'SELECT') {
+            } else if (element.type === 'number') {
+                value = element.value === '' ? 0 : parseFloat(element.value);
+                if (isNaN(value)) {
+                    value = 0;
+                }
+            } else if (element.tagName === 'SELECT') {
                 value = parseFloat(element.value);
                 if (isNaN(value)) {
                     value = element.value; // Keep as string if not a valid number
@@ -300,7 +305,12 @@ function calculateDamage() {
         
         if (element.type === 'checkbox') {
             value = element.checked;
-        } else if (element.type === 'number' || element.tagName === 'SELECT') {
+        } else if (element.type === 'number') {
+            value = element.value === '' ? 0 : parseFloat(element.value);
+            if (isNaN(value)) {
+                value = 0;
+            }
+        } else if (element.tagName === 'SELECT') {
             value = parseFloat(element.value);
             if (isNaN(value)) {
                 value = element.value; // Keep as string if not a valid number
