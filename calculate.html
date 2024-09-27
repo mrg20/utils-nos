@@ -412,65 +412,6 @@
         </div>
     </div>
 
-    <button onclick="toggleContent()">Show/Hide DMG formula</button>
-
-    <div id="content">
-        <h2>Common DMG (Cdmg):</h2>
-        <p>
-            This dmg considers the basic attack values, and will be applied to both elemental and physical dmg afterwards.
-        </p>
-        <p>
-            <code>
-            Cdmg = (character base dmg ("P" without anything equipped) + skill atk + tarot + equipment dmg (base + %bonus) + SP attack + enhanced dmg + all atk increased + 15) * <br>
-            (1 + S% dmg weapon option + S% monster) * <br>
-            (1 + bonus atk weapon 1 + weapon 2)
-            </code>
-        </p>
-
-        <h2>Elemental DMG (Edmg):</h2>
-        <p>
-            Everything related to the element applies here. Most important stat being enemy resistance, followed by elemental counter (especially dark/light), the SP and fairy bonus, and the somewhat useful element.
-        </p>
-        <p>
-            <code>
-            Edmg = [Weapons element (both) + accessories elements (all) + skill element + buffs element + (Cdmg + 100) * (% fairy + SP element bonus)] * <br>
-            (1 + % Elemental counter) * <br>
-            (100% - % opponent final resistance)
-            </code>
-        </p>
-
-        <h2>Physical DMG (Pdmg):</h2>
-        <p>
-            <code>
-            Pdmg = (Cdmg - mob armor) * (1 + % crit dmg - % mob crit reduction)
-            </code>
-        </p>
-
-        <h2>Morale DMG (Mdmg):</h2>
-        <p>
-            Really useless nowadays.
-        </p>
-        <p>
-            <code>
-            Mdmg = Player level + Morale buff - Enemy level - Enemy buff
-            </code>
-        </p>
-
-        <h2>Bonus damage:</h2>
-        <p>
-            Adds the S% from tattoo, Title, costume, atk pot, oil... still testing -> (runes, fairy)
-        </p>
-
-        <h2>DMG:</h2>
-        <p>
-            Everything sums up or multiplies.
-        </p>
-        <p>
-            <code>
-            DMG = (Pdmg + Edmg + Mdmg) * (1 + % Bonus damage) * (1 + % final crit dmg)
-            </code>
-        </p>
-    </div>
     <code>
         Thanks to DarkZohater family and nostar webpage, the formula is now more accurate! Send me your feedbacks to improve it! @Dell
     </code>
