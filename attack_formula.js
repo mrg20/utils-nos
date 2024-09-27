@@ -384,13 +384,17 @@ function calculateDamage() {
         }
     };
 
-    // Create a plot showing the difference between softDmgMaxNormal and softDmgMaxNormalCrit
+    // Create a plot showing the differences between various damage types
     const diffPlotData = {
-        labels: ['Soft Dmg Max Normal', 'Soft Dmg Max Normal Crit'],
+        labels: ['Soft damage increase', 'Crit damage increase', 'Soft Crit damage increase'],
         datasets: [{
-            label: 'Damage Values',
-            data: [damage.softDmgMaxNormal, damage.softDmgMaxNormalCrit],
-            backgroundColor: ['rgba(255, 159, 64, 0.8)', 'rgba(153, 102, 255, 0.8)']
+            label: 'Damage Differences',
+            data: [
+                damage.softDmgMaxNormal - damage.normalDmgMaxNormal,
+                damage.normalDmgMaxNormalCrit - damage.normalDmgMaxNormal,
+                damage.softDmgMaxNormalCrit - damage.normalDmgMaxNormal
+            ],
+            backgroundColor: ['rgba(255, 159, 64, 0.8)', 'rgba(153, 102, 255, 0.8)', 'rgba(75, 192, 192, 0.8)']
         }]
     };
 
@@ -402,7 +406,23 @@ function calculateDamage() {
             plugins: {
                 title: {
                     display: true,
-                    text: 'Comparison of Soft Dmg Max Normal vs Crit'
+                    text: 'Damage increases boosting the normal damage'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `Difference: ${context.parsed.y.toFixed(2)}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Damage Difference'
+                    }
                 }
             }
         }
