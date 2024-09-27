@@ -345,23 +345,59 @@ function calculateDamage() {
         const prefix = type.replace('+', '').replace(' ', '').replace('All', '');
         resultTable += `
         <tr>
-            <td>${type}</td>
-            <td>${damage[prefix + 'DmgMinNormal']}</td>
-            <td>${damage[prefix + 'DmgMaxNormal']}</td>
-            <td>${damage[prefix + 'DmgMinNormalCrit']}</td>
-            <td>${damage[prefix + 'DmgMaxNormalCrit']}</td>
+            <td class="damage-type">${type}</td>
+            <td class="damage-value">${Math.floor(damage[prefix + 'DmgMinNormal']).toLocaleString()}</td>
+            <td class="damage-value">${Math.floor(damage[prefix + 'DmgMaxNormal']).toLocaleString()}</td>
+            <td class="damage-value crit">${Math.floor(damage[prefix + 'DmgMinNormalCrit']).toLocaleString()}</td>
+            <td class="damage-value crit">${Math.floor(damage[prefix + 'DmgMaxNormalCrit']).toLocaleString()}</td>
         </tr>`;
     });
+
+    // Add CSS styles for the table
+    const tableStyles = `
+    <style>
+        #result table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+        }
+        #result th, #result td {
+            padding: 12px;
+            text-align: right;
+            border: 1px solid #ddd;
+        }
+        #result th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            text-align: center;
+        }
+        #result .damage-type {
+            text-align: left;
+            font-weight: bold;
+        }
+        #result .damage-value {
+            font-family: 'Courier New', monospace;
+        }
+        #result tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        #result tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>`;
+
+    resultTable = tableStyles + resultTable;
 
     resultTable += '</table>';
 
     // Add summary information
     const summaryInfo = `
     <h3>Summary</h3>
-    <p>Damage Min without crits: ${damage.normalDmgMinNormal}</p>
-    <p>Damage Max without crits: ${damage.normalDmgMaxNormal}</p>
-    <p>Possible Max Soft damage: ${damage.softDmgMaxNormal}</p>
-    <p>Possible Max Soft Crit: ${damage.softDmgMaxNormalCrit}</p>
+    <p>Damage Min without crits: ${Math.floor(damage.normalDmgMinNormal)}</p>
+    <p>Damage Max without crits: ${Math.floor(damage.normalDmgMaxNormal)}</p>
+    <p>Possible Max Soft damage: ${Math.floor(damage.softDmgMaxNormal)}</p>
+    <p>Possible Max Soft Crit: ${Math.floor(damage.softDmgMaxNormalCrit)}</p>
     `;
 
     // Display the result
@@ -372,7 +408,12 @@ function calculateDamage() {
         labels: ['Soft Cdmg Max', 'Soft Pdmg Max Crit', 'Soft Edmg Max', 'Soft Dmg Max Normal Crit'],
         datasets: [{
             label: 'Damage Values',
-            data: [damage.softCdmgMax, damage.softPdmgMaxCrit, damage.softEdmgMax, damage.softDmgMaxNormalCrit],
+            data: [
+                Math.floor(damage.softCdmgMax),
+                Math.floor(damage.softPdmgMaxCrit),
+                Math.floor(damage.softEdmgMax),
+                Math.floor(damage.softDmgMaxNormalCrit)
+            ],
             backgroundColor: ['rgba(255, 99, 132, 0.8)', 'rgba(54, 162, 235, 0.8)', 'rgba(255, 206, 86, 0.8)', 'rgba(75, 192, 192, 0.8)']
         }]
     };
@@ -386,6 +427,22 @@ function calculateDamage() {
                 title: {
                     display: true,
                     text: 'Comparison of Different Damage Types'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.dataset.label}: ${Math.floor(context.parsed.y).toLocaleString()}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    ticks: {
+                        callback: function(value) {
+                            return Math.floor(value).toLocaleString();
+                        }
+                    }
                 }
             }
         }
@@ -397,9 +454,9 @@ function calculateDamage() {
         datasets: [{
             label: 'Damage Differences',
             data: [
-                damage.softDmgMaxNormal - damage.normalDmgMaxNormal,
-                damage.normalDmgMaxNormalCrit - damage.normalDmgMaxNormal,
-                damage.softDmgMaxNormalCrit - damage.normalDmgMaxNormal
+                Math.floor(damage.softDmgMaxNormal - damage.normalDmgMaxNormal),
+                Math.floor(damage.normalDmgMaxNormalCrit - damage.normalDmgMaxNormal),
+                Math.floor(damage.softDmgMaxNormalCrit - damage.normalDmgMaxNormal)
             ],
             backgroundColor: ['rgba(255, 159, 64, 0.8)', 'rgba(153, 102, 255, 0.8)', 'rgba(75, 192, 192, 0.8)']
         }]
@@ -418,7 +475,7 @@ function calculateDamage() {
                 tooltip: {
                     callbacks: {
                         label: function(context) {
-                            return `Difference: ${context.parsed.y.toFixed(2)}`;
+                            return `Difference: ${Math.floor(context.parsed.y).toLocaleString()}`;
                         }
                     }
                 }
@@ -429,6 +486,11 @@ function calculateDamage() {
                     title: {
                         display: true,
                         text: 'Damage Difference'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return Math.floor(value).toLocaleString();
+                        }
                     }
                 }
             }
