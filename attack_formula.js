@@ -359,4 +359,66 @@ function calculateDamage() {
 
     // Display the result
     document.getElementById('result').innerHTML = summaryInfo + resultTable;
+
+    // Create a bar plot
+    const barplotData = {
+        labels: ['Soft Cdmg Max', 'Soft Pdmg Max Crit', 'Soft Edmg Max', 'Soft Dmg Max Normal Crit'],
+        datasets: [{
+            label: 'Damage Values',
+            data: [damage.softCdmgMax, damage.softPdmgMaxCrit, damage.softEdmgMax, damage.softDmgMaxNormalCrit],
+            backgroundColor: ['rgba(255, 99, 132, 0.8)', 'rgba(54, 162, 235, 0.8)', 'rgba(255, 206, 86, 0.8)', 'rgba(75, 192, 192, 0.8)']
+        }]
+    };
+
+    const barplotConfig = {
+        type: 'bar',
+        data: barplotData,
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Comparison of Different Damage Types'
+                }
+            }
+        }
+    };
+
+    // Create a plot showing the difference between softDmgMaxNormal and softDmgMaxNormalCrit
+    const diffPlotData = {
+        labels: ['Soft Dmg Max Normal', 'Soft Dmg Max Normal Crit'],
+        datasets: [{
+            label: 'Damage Values',
+            data: [damage.softDmgMaxNormal, damage.softDmgMaxNormalCrit],
+            backgroundColor: ['rgba(255, 159, 64, 0.8)', 'rgba(153, 102, 255, 0.8)']
+        }]
+    };
+
+    const diffPlotConfig = {
+        type: 'bar',
+        data: diffPlotData,
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Comparison of Soft Dmg Max Normal vs Crit'
+                }
+            }
+        }
+    };
+
+    // Create canvas elements for the charts
+    const barplotCanvas = '<canvas id="barplotChart"></canvas>';
+    const diffPlotCanvas = '<canvas id="diffPlotChart"></canvas>';
+
+    // Combine all elements
+    const chartElements = barplotCanvas + diffPlotCanvas;
+
+    // Append the chart elements to the result
+    document.getElementById('result').innerHTML += chartElements;
+
+    // Create and render the charts
+    new Chart(document.getElementById('barplotChart'), barplotConfig);
+    new Chart(document.getElementById('diffPlotChart'), diffPlotConfig);
 }
