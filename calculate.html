@@ -188,9 +188,104 @@
                 margin-top: 5px;
             }
         }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+        }
+
+        .dark-mode .container {
+            background: #2c2c2c;
+            box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+        }
+
+        .dark-mode h1, .dark-mode h2 {
+            color: #f0f0f0;
+        }
+
+        .dark-mode input[type="number"], .dark-mode input[type="text"], .dark-mode select {
+            background-color: #3a3a3a;
+            color: #f0f0f0;
+            border-color: #555;
+        }
+
+        .dark-mode button {
+            background-color: #4a4a4a;
+        }
+
+        .dark-mode button:hover {
+            background-color: #5a5a5a;
+        }
+
+        .dark-mode .result {
+            background-color: #3a3a3a;
+        }
+
+        .dark-mode #content {
+            background-color: #2c2c2c;
+        }
+
+        .dark-mode code {
+            background-color: #3a3a3a;
+        }
+
+        /* Dark mode switch styles */
+        .switch {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
     </style>
 </head>
 <body>
+    <!-- Add this right after the opening body tag -->
+    <label class="switch">
+        <input type="checkbox" id="darkModeToggle">
+        <span class="slider"></span>
+    </label>
+
     <div class="container">
         <h1>Attacker vs Defender Calculator</h1>
         <p>The ? button provides examples where we can see what the form is asking, but please, other items might also have that bonus, so be careful and always try to put all the bonuses that appear everywhere.</p>
@@ -545,6 +640,26 @@
             inputs.forEach(function(input) {
                 input.addEventListener('input', saveInputToLocalStorage);
             });
+        });
+
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        // Check for saved dark mode preference
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            body.classList.add('dark-mode');
+            darkModeToggle.checked = true;
+        }
+
+        darkModeToggle.addEventListener('change', () => {
+            if (darkModeToggle.checked) {
+                body.classList.add('dark-mode');
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                body.classList.remove('dark-mode');
+                localStorage.setItem('darkMode', null);
+            }
         });
     </script>
 
