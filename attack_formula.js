@@ -88,7 +88,7 @@ class Calculator {
             return 1;
         }
         let upDiff = this.attacker.atkWeaponUp - this.defender.armorUp;
-        return 1 + equip_up_bonus[upDiff-1];
+        return 1 + equip_up_bonus[upDiff];
     }
 
     Edmg() {
