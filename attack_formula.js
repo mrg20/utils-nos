@@ -365,12 +365,13 @@ function calculateDamage() {
         #result th, #result td {
             padding: 12px;
             text-align: right;
-            border: 1px solid #ddd;
+            border: 1px solid var(--border-color);
         }
         #result th {
-            background-color: #f2f2f2;
+            background-color: var(--header-bg-color);
             font-weight: bold;
             text-align: center;
+            color: var(--text-color);
         }
         #result .damage-type {
             text-align: left;
@@ -380,10 +381,28 @@ function calculateDamage() {
             font-family: 'Courier New', monospace;
         }
         #result tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: var(--even-row-bg-color);
+        }
+        #result tr:nth-child(odd) {
+            background-color: var(--odd-row-bg-color);
         }
         #result tr:hover {
-            background-color: #f5f5f5;
+            background-color: var(--hover-bg-color);
+        }
+        .dark-mode #result table {
+            color: var(--dark-text-color);
+        }
+        .dark-mode #result th {
+            background-color: var(--dark-header-bg-color);
+        }
+        .dark-mode #result tr:nth-child(even) {
+            background-color: var(--dark-even-row-bg-color);
+        }
+        .dark-mode #result tr:nth-child(odd) {
+            background-color: var(--dark-odd-row-bg-color);
+        }
+        .dark-mode #result tr:hover {
+            background-color: var(--dark-hover-bg-color);
         }
     </style>`;
 
