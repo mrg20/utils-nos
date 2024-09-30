@@ -195,7 +195,7 @@ class Calculator {
 
     dmg(){
         let Sdmg = 1 + ((this.attacker.atkHat + this.attacker.atkFairy + this.attacker.atkTitle + this.attacker.atkOil + this.attacker.atkPot 
-            + this.attacker.atkPet + this.attacker.dmgIncreaseTattoo + this.attacker.dmgIncreaseRune + this.attacker.atkCostume) / 100);
+            + this.attacker.atkPet + this.attacker.dmgIncreaseTattoo + this.attacker.dmgIncreaseRune + this.attacker.atkCostume + this.attacker.atkFamily) / 100);
         this.attacker.critDmgTattoo = 1 + (this.attacker.critDmgTattoo / 100);
 
         this.damage.normalDmgMinNormal = (this.damage.normalPdmgMin + this.damage.normalEdmgMin) * Sdmg;
