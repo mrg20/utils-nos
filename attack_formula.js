@@ -194,7 +194,7 @@ class Calculator {
     }
 
     dmg(){
-        let Sdmg = 1 + ((this.attacker.atkHat + this.attacker.atkFairy + this.attacker.atkTitle + this.attacker.atkOil + this.attacker.atkPot 
+        let Sdmg = 1 + ((this.attacker.atkHat + this.attacker.atkFairy + this.attacker.atkTitle + this.attacker.atkOil + this.attacker.atkPot + this.attacker.atkSkin 
             + this.attacker.atkPet + this.attacker.dmgIncreaseTattoo + this.attacker.dmgIncreaseRune + this.attacker.atkCostume + this.attacker.atkFamily) / 100);
         this.attacker.critDmgTattoo = 1 + (this.attacker.critDmgTattoo / 100);
 
