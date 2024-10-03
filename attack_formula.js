@@ -482,7 +482,7 @@ function calculateDamage() {
     // Add summary information
     const summaryInfo = `
     <h3>Summary</h3>
-    <p>Average Damage: ${Math.floor(damage.averageDmg).toLocaleString()}</p>
+    <p>Average Damage: ${Math.floor(damage.averageDmg)}</p>
     <p>Damage Min without crits: ${Math.floor(damage.normalDmgMinNormal)}</p>
     <p>Damage Max without crits: ${Math.floor(damage.normalDmgMaxNormal)}</p>
     <p>Possible Max Soft damage: ${Math.floor(damage.softDmgMaxNormal)}</p>
