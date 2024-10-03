@@ -39,6 +39,8 @@ class Calculator {
         this.Edmg();
         this.Pdmg();
         this.dmg();
+        this.combineProbabilities();
+        this.calculateWeightedAverage();
 
         return this.damage;
     }
@@ -256,6 +258,73 @@ class Calculator {
         this.damage.softDmgMaxNormalCrit = this.damage.softDmgMaxCrit * this.attacker.critDmgTattoo;
     }
 
+    combineProbabilities() {
+        // Combine probabilities for equipment, skin, and costume
+        const pEq = this.attacker.probAugmentEq / 100;
+        const pSkin = this.attacker.probAugmentSkin / 100;
+        const pCostume = this.attacker.probAugmentCostume / 100;
+        const pCrit = this.attacker.critProb / 100;
+        
+        // Calculate combined probabilities
+        // Crits
+        this.damage.probNoneCrit = (1 - pEq) * (1 - pSkin) * (1 - pCostume) * pCrit;
+        // probs
+        this.damage.probNone = (1 - pEq) * (1 - pSkin) * (1 - pCostume) * (1 - pCrit);
+        this.damage.probEq = pEq;
+        this.damage.probSkin = pSkin;
+        this.damage.probCostume = pCostume;
+        this.damage.probEqSkin = pEq * pSkin;
+        this.damage.probEqCostume = pEq * pCostume;
+        this.damage.probSkinCostume = pSkin * pCostume;
+        this.damage.probAll = pEq * pSkin * pCostume;
+        // probs and crits
+        this.damage.probEqCrit = pEq * pCrit;
+        this.damage.probSkinCrit = pSkin * pCrit;
+        this.damage.probCostumeCrit = pCostume * pCrit;
+        this.damage.probEqSkinCrit = pEq * pSkin * pCrit;
+        this.damage.probEqCostumeCrit = pEq * pCostume * pCrit;
+        this.damage.probSkinCostumeCrit = pSkin * pCostume * pCrit;
+        this.damage.probAllCrit = pEq * pSkin * pCostume * pCrit;
+    }
+
+    calculateWeightedAverage() {
+        let weightDmg = ((this.damage.normalDmgMinNormal + this.damage.normalDmgMaxNormal)/2 * this.damage.probNone) +
+            ((this.damage.normalDmgMinNormalCrit + this.damage.normalDmgMaxNormalCrit)/2 * this.damage.probNoneCrit) +
+            ((this.damage.softEqDmgMinNormal + this.damage.softEqDmgMaxNormal)/2 * this.damage.probEq) +
+            ((this.damage.softEqDmgMinNormalCrit + this.damage.softEqDmgMaxNormalCrit)/2 * this.damage.probEqCrit) +
+            ((this.damage.softSkinDmgMinNormal + this.damage.softSkinDmgMaxNormal)/2 * this.damage.probSkin) +
+            ((this.damage.softSkinDmgMinNormalCrit + this.damage.softSkinDmgMaxNormalCrit)/2 * this.damage.probSkinCrit) +
+            ((this.damage.softCostumeDmgMinNormal + this.damage.softCostumeDmgMaxNormal)/2 * this.damage.probCostume) +
+            ((this.damage.softCostumeDmgMinNormalCrit + this.damage.softCostumeDmgMaxNormalCrit)/2 * this.damage.probCostumeCrit) +
+            ((this.damage.softEqSkinDmgMinNormal + this.damage.softEqSkinDmgMaxNormal)/2 * this.damage.probEqSkin) +
+            ((this.damage.softEqSkinDmgMinNormalCrit + this.damage.softEqSkinDmgMaxNormalCrit)/2 * this.damage.probEqSkinCrit) +
+            ((this.damage.softEqCostumeDmgMinNormal + this.damage.softEqCostumeDmgMaxNormal)/2 * this.damage.probEqCostume) +
+            ((this.damage.softEqCostumeDmgMinNormalCrit + this.damage.softEqCostumeDmgMaxNormalCrit)/2 * this.damage.probEqCostumeCrit) +
+            ((this.damage.softSkinCostumeDmgMinNormal + this.damage.softSkinCostumeDmgMaxNormal)/2 * this.damage.probSkinCostume) +
+            ((this.damage.softSkinCostumeDmgMinNormalCrit + this.damage.softSkinCostumeDmgMaxNormalCrit)/2 * this.damage.probSkinCostumeCrit) +
+            ((this.damage.softDmgMinNormal + this.damage.softDmgMaxNormal)/2 * this.damage.probAll) +
+            ((this.damage.softDmgMinNormalCrit + this.damage.softDmgMaxNormalCrit)/2 * this.damage.probAllCrit);
+
+        let weightSum = this.damage.probNone + 
+        this.damage.probNoneCrit + 
+        this.damage.probEq + 
+        this.damage.probEqCrit + 
+        this.damage.probSkin + 
+        this.damage.probSkinCrit + 
+        this.damage.probCostume + 
+        this.damage.probCostumeCrit + 
+        this.damage.probEqSkin + 
+        this.damage.probEqSkinCrit + 
+        this.damage.probEqCostume + 
+        this.damage.probEqCostumeCrit + 
+        this.damage.probSkinCostume + 
+        this.damage.probSkinCostumeCrit + 
+        this.damage.probAll + 
+        this.damage.probAllCrit;
+        
+        this.damage.averageDmg = weightDmg / weightSum;
+    }
+
 }
 
 
@@ -413,6 +482,7 @@ function calculateDamage() {
     // Add summary information
     const summaryInfo = `
     <h3>Summary</h3>
+    <p>Average Damage: ${Math.floor(damage.averageDmg).toLocaleString()}</p>
     <p>Damage Min without crits: ${Math.floor(damage.normalDmgMinNormal)}</p>
     <p>Damage Max without crits: ${Math.floor(damage.normalDmgMaxNormal)}</p>
     <p>Possible Max Soft damage: ${Math.floor(damage.softDmgMaxNormal)}</p>
@@ -516,12 +586,58 @@ function calculateDamage() {
         }
     };
 
+    // Create a plot showing all probabilities
+    const probPlotData = {
+        labels: Object.keys(damage).filter(key => key.startsWith('prob')),
+        datasets: [{
+            label: 'Probabilities',
+            data: Object.keys(damage).filter(key => key.startsWith('prob')).map(key => damage[key]),
+            backgroundColor: 'rgba(75, 192, 192, 0.8)'
+        }]
+    };
+
+    const probPlotConfig = {
+        type: 'bar',
+        data: probPlotData,
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Probabilities of Different Damage Scenarios'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `Probability: ${(context.parsed.y * 100).toFixed(2)}%`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Probability'
+                    },
+                    ticks: {
+                        callback: function(value) {
+                            return (value * 100).toFixed(2) + '%';
+                        }
+                    }
+                }
+            }
+        }
+    };
+
     // Create canvas elements for the charts
     const barplotCanvas = '<canvas id="barplotChart"></canvas>';
     const diffPlotCanvas = '<canvas id="diffPlotChart"></canvas>';
+    const probPlotCanvas = '<canvas id="probPlotChart"></canvas>';
 
     // Combine all elements
-    const chartElements = barplotCanvas + diffPlotCanvas;
+    const chartElements = barplotCanvas + diffPlotCanvas + probPlotCanvas;
 
     // Append the chart elements to the result
     document.getElementById('result').innerHTML += chartElements;
@@ -529,4 +645,5 @@ function calculateDamage() {
     // Create and render the charts
     new Chart(document.getElementById('barplotChart'), barplotConfig);
     new Chart(document.getElementById('diffPlotChart'), diffPlotConfig);
+    new Chart(document.getElementById('probPlotChart'), probPlotConfig);
 }
