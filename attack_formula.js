@@ -263,7 +263,7 @@ class Calculator {
         const pEq = this.attacker.probAugmentEq / 100;
         const pSkin = this.attacker.probAugmentSkin / 100;
         const pCostume = this.attacker.probAugmentCostume / 100;
-        const pCrit = this.attacker.critProb / 100;
+        const pCrit = (this.attacker.critProb + this.spCritProb()) / 100;
         
         // Calculate combined probabilities
         // Crits
@@ -285,6 +285,13 @@ class Calculator {
         this.damage.probEqCostumeCrit = pEq * pCostume * pCrit;
         this.damage.probSkinCostumeCrit = pSkin * pCostume * pCrit;
         this.damage.probAllCrit = pEq * pSkin * pCostume * pCrit;
+    }
+
+    spCritProb() {
+        if (this.attacker.atkSp < 20) {
+            return 0;
+        }
+        return crit_prob_sp[this.attacker.atkSp - 1];
     }
 
     calculateWeightedAverage() {
