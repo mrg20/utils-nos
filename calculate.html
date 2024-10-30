@@ -277,6 +277,26 @@
         input:checked + .slider:before {
             transform: translateX(26px);
         }
+
+        .profile-selector {
+            margin-bottom: 20px;
+        }
+        
+        .profile-selector select {
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background-color: var(--input-bg-color);
+            color: var(--text-color);
+            width: 200px;
+        }
+
+        .profile-selector label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -290,6 +310,17 @@
         <h1>Attacker vs Defender Calculator</h1>
         <p>The ? button provides examples where we can see what the form is asking, but please, other items might also have that bonus, so be careful and always try to put all the bonuses that appear everywhere.</p>
 
+        <label for="profileSelect">Unsure on how to use it? Select an example profile: </label>
+        <select id="profileSelect" onchange="loadProfile(this.value)">
+            <option value="dagger_profile" selected>Select a profile...</option>
+            <!-- <option value="wand_profile">Mage Profile</option>
+            <option value="sword_profile">Sword Profile</option>
+            <option value="bow_profile">Archer Profile</option>
+            <option value="pistol_profile">Pistol Profile</option>
+            <option value="crossbow_profile">Crossbow Profile</option> -->
+            <option value="dagger_profile">Dagger Profile</option>
+        </select>
+       
         <div class="section box1">
             <h2>Attacker Stats</h2>
 
@@ -530,6 +561,8 @@
     <code>
         Thanks to DarkZohater family and nostar webpage, the formula is now more accurate! Send me your feedbacks to improve it! @Dell
     </code>
+
+    <script src="attack_formula.js"></script>
     <script>
         function toggleContent() {
             var content = document.getElementById("content");
@@ -622,8 +655,335 @@
                 localStorage.setItem('darkMode', null);
             }
         });
+
+        function loadProfile(profile) {
+            profile = window[profile];
+            
+            Object.keys(profile).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    if (element.tagName === 'SELECT') {
+                        element.value = profile[key];
+                    } else {
+                        element.value = profile[key];
+                    }
+                }
+            });
+        }
+
+        wand_profile = {
+            "atkBase": 1500,
+            "atkSkill": 200,
+            "atkSkillElement": 150,
+            "dmgIncreaseTattoo": 10,
+            "critDmgTattoo": 15,
+            "atkHat": 5,
+            "atkPet": 8,
+            "atkPot": 100,
+            "atkOil": 50,
+            "atkTitle": 12,
+            "atkFamily": 7,
+            "atkCostume": 6,
+            "atkSkin": 4,
+            "fairy": 10,
+            "atkFairy": 9,
+            "type": "FIRE",
+            "atkEquipMin": 800,
+            "atkEquipMax": 1200,
+            "atkWeaponUp": 15,
+            "dmgIncrease": 25,
+            "dmgIncreaseRune": 15,
+            "atkBonus": 300,
+            "atkIncrease": 20,
+            "critProb": 45,
+            "critDmg": 180,
+            "elePropIncrease": 30,
+            "resReduction": 10,
+            "mobDamage": 15,
+            "dmgIncreaseEqProb": 12,
+            "probAugmentEq": 8,
+            "dmgIncreaseSkin": 6,
+            "probAugmentSkin": 5,
+            "dmgIncreaseCostume": 7,
+            "probAugmentCostume": 4,
+            "atkSp": 10,
+            "defSp": 8,
+            "eleSp": 9,
+            "eneSp": 7,
+            "atkPP": 100,
+            "defPP": 80,
+            "elePP": 90,
+            "enePP": 70,
+            "mobLevel": 80,
+            "armorUp": 15,
+            "defEquip": 1000,
+            "dmgReduction": 20,
+            "critDmgReduction": 15,
+            "res": 25,
+            "defType": "WATER"
+        }
+
+        sword_profile = {
+            "atkBase": 1500,
+            "atkSkill": 200,
+            "atkSkillElement": 150,
+            "dmgIncreaseTattoo": 10,
+            "critDmgTattoo": 15,
+            "atkHat": 5,
+            "atkPet": 8,
+            "atkPot": 100,
+            "atkOil": 50,
+            "atkTitle": 12,
+            "atkFamily": 7,
+            "atkCostume": 6,
+            "atkSkin": 4,
+            "fairy": 10,
+            "atkFairy": 9,
+            "type": "FIRE",
+            "atkEquipMin": 800,
+            "atkEquipMax": 1200,
+            "atkWeaponUp": 15,
+            "dmgIncrease": 25,
+            "dmgIncreaseRune": 15,
+            "atkBonus": 300,
+            "atkIncrease": 20,
+            "critProb": 45,
+            "critDmg": 180,
+            "elePropIncrease": 30,
+            "resReduction": 10,
+            "mobDamage": 15,
+            "dmgIncreaseEqProb": 12,
+            "probAugmentEq": 8,
+            "dmgIncreaseSkin": 6,
+            "probAugmentSkin": 5,
+            "dmgIncreaseCostume": 7,
+            "probAugmentCostume": 4,
+            "atkSp": 10,
+            "defSp": 8,
+            "eleSp": 9,
+            "eneSp": 7,
+            "atkPP": 100,
+            "defPP": 80,
+            "elePP": 90,
+            "enePP": 70,
+            "mobLevel": 80,
+            "armorUp": 15,
+            "defEquip": 1000,
+            "dmgReduction": 20,
+            "critDmgReduction": 15,
+            "res": 25,
+            "defType": "WATER"
+        }
+
+        bow_profile = {
+            "atkBase": 1500,
+            "atkSkill": 200,
+            "atkSkillElement": 150,
+            "dmgIncreaseTattoo": 10,
+            "critDmgTattoo": 15,
+            "atkHat": 5,
+            "atkPet": 8,
+            "atkPot": 100,
+            "atkOil": 50,
+            "atkTitle": 12,
+            "atkFamily": 7,
+            "atkCostume": 6,
+            "atkSkin": 4,
+            "fairy": 10,
+            "atkFairy": 9,
+            "type": "FIRE",
+            "atkEquipMin": 800,
+            "atkEquipMax": 1200,
+            "atkWeaponUp": 15,
+            "dmgIncrease": 25,
+            "dmgIncreaseRune": 15,
+            "atkBonus": 300,
+            "atkIncrease": 20,
+            "critProb": 45,
+            "critDmg": 180,
+            "elePropIncrease": 30,
+            "resReduction": 10,
+            "mobDamage": 15,
+            "dmgIncreaseEqProb": 12,
+            "probAugmentEq": 8,
+            "dmgIncreaseSkin": 6,
+            "probAugmentSkin": 5,
+            "dmgIncreaseCostume": 7,
+            "probAugmentCostume": 4,
+            "atkSp": 10,
+            "defSp": 8,
+            "eleSp": 9,
+            "eneSp": 7,
+            "atkPP": 100,
+            "defPP": 80,
+            "elePP": 90,
+            "enePP": 70,
+            "mobLevel": 80,
+            "armorUp": 15,
+            "defEquip": 1000,
+            "dmgReduction": 20,
+            "critDmgReduction": 15,
+            "res": 25,
+            "defType": "WATER"
+        }
+
+        pistol_profile = {
+            "atkBase": 1500,
+            "atkSkill": 200,
+            "atkSkillElement": 150,
+            "dmgIncreaseTattoo": 10,
+            "critDmgTattoo": 15,
+            "atkHat": 5,
+            "atkPet": 8,
+            "atkPot": 100,
+            "atkOil": 50,
+            "atkTitle": 12,
+            "atkFamily": 7,
+            "atkCostume": 6,
+            "atkSkin": 4,
+            "fairy": 10,
+            "atkFairy": 9,
+            "type": "FIRE",
+            "atkEquipMin": 800,
+            "atkEquipMax": 1200,
+            "atkWeaponUp": 15,
+            "dmgIncrease": 25,
+            "dmgIncreaseRune": 15,
+            "atkBonus": 300,
+            "atkIncrease": 20,
+            "critProb": 45,
+            "critDmg": 180,
+            "elePropIncrease": 30,
+            "resReduction": 10,
+            "mobDamage": 15,
+            "dmgIncreaseEqProb": 12,
+            "probAugmentEq": 8,
+            "dmgIncreaseSkin": 6,
+            "probAugmentSkin": 5,
+            "dmgIncreaseCostume": 7,
+            "probAugmentCostume": 4,
+            "atkSp": 10,
+            "defSp": 8,
+            "eleSp": 9,
+            "eneSp": 7,
+            "atkPP": 100,
+            "defPP": 80,
+            "elePP": 90,
+            "enePP": 70,
+            "mobLevel": 80,
+            "armorUp": 15,
+            "defEquip": 1000,
+            "dmgReduction": 20,
+            "critDmgReduction": 15,
+            "res": 25,
+            "defType": "WATER"
+        }
+
+        crossbow_profile = {
+            "atkBase": 1500,
+            "atkSkill": 200,
+            "atkSkillElement": 150,
+            "dmgIncreaseTattoo": 10,
+            "critDmgTattoo": 15,
+            "atkHat": 5,
+            "atkPet": 8,
+            "atkPot": 100,
+            "atkOil": 50,
+            "atkTitle": 12,
+            "atkFamily": 7,
+            "atkCostume": 6,
+            "atkSkin": 4,
+            "fairy": 10,
+            "atkFairy": 9,
+            "type": "FIRE",
+            "atkEquipMin": 800,
+            "atkEquipMax": 1200,
+            "atkWeaponUp": 15,
+            "dmgIncrease": 25,
+            "dmgIncreaseRune": 15,
+            "atkBonus": 300,
+            "atkIncrease": 20,
+            "critProb": 45,
+            "critDmg": 180,
+            "elePropIncrease": 30,
+            "resReduction": 10,
+            "mobDamage": 15,
+            "dmgIncreaseEqProb": 12,
+            "probAugmentEq": 8,
+            "dmgIncreaseSkin": 6,
+            "probAugmentSkin": 5,
+            "dmgIncreaseCostume": 7,
+            "probAugmentCostume": 4,
+            "atkSp": 10,
+            "defSp": 8,
+            "eleSp": 9,
+            "eneSp": 7,
+            "atkPP": 100,
+            "defPP": 80,
+            "elePP": 90,
+            "enePP": 70,
+            "mobLevel": 80,
+            "armorUp": 15,
+            "defEquip": 1000,
+            "dmgReduction": 20,
+            "critDmgReduction": 15,
+            "res": 25,
+            "defType": "WATER"
+        }
+
+        dagger_profile = {
+            "atkBase": 537,
+            "atkSkill": 105,
+            "atkSkillElement": 110,
+            "dmgIncreaseTattoo": 0,
+            "critDmgTattoo": 0,
+            "atkHat": 10,
+            "atkPet": 0,
+            "atkPot": 0,
+            "atkOil": 0,
+            "atkTitle": 18,
+            "atkFamily": 8,
+            "atkCostume": 12,
+            "atkSkin": 0,
+            "fairy": 164,
+            "atkFairy": 0,
+            "type": "LIGHT",
+            "atkEquipMin": 1068,
+            "atkEquipMax": 1228,
+            "atkWeaponUp": 9,
+            "dmgIncrease": 18,
+            "dmgIncreaseRune": 13,
+            "atkBonus": 91,
+            "atkIncrease": 540,
+            "critProb": 39,
+            "critDmg": 506,
+            "elePropIncrease": 343,
+            "resReduction": 73,
+            "mobDamage": 0,
+            "dmgIncreaseEqProb": 145,
+            "probAugmentEq": 45,
+            "dmgIncreaseSkin": 10,
+            "probAugmentSkin": 30,
+            "dmgIncreaseCostume": 30,
+            "probAugmentCostume": 10,
+            "atkSp": 110,
+            "defSp": 0,
+            "eleSp": 90,
+            "eneSp": 0,
+            "atkPP": 43,
+            "defPP": 40,
+            "elePP": 29,
+            "enePP": 18,
+            "mobLevel": 100,
+            "armorUp": 10,
+            "defEquip": 1810,
+            "dmgReduction": 78,
+            "critDmgReduction": 115,
+            "res": 150,
+            "defType": "NO_ELEMENT"
+        }
     </script>
 
-    <script src="attack_formula.js"></script>
+
 </body>
 </html>
