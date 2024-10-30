@@ -291,7 +291,7 @@ class Calculator {
         if (this.attacker.atkSp < 20) {
             return 0;
         }
-        return crit_prob_sp[this.attacker.atkSp - 1];
+        return crit_sp_bonus[this.attacker.atkSp - 1];
     }
 
     calculateWeightedAverage() {
