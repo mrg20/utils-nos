@@ -66,8 +66,8 @@ class Calculator {
         this.damage.softEqCostumeCdmgMax = this.damage.normalCdmgMax * (1 + this.attacker.dmgIncreaseEqProb / 100 + this.attacker.dmgIncreaseCostume / 100);
         this.damage.softSkinCostumeCdmgMin = this.damage.normalCdmgMin * (1 + this.attacker.dmgIncreaseSkin / 100 + this.attacker.dmgIncreaseCostume / 100);
         this.damage.softSkinCostumeCdmgMax = this.damage.normalCdmgMax * (1 + this.attacker.dmgIncreaseSkin / 100 + this.attacker.dmgIncreaseCostume / 100);
-        this.damage.softCdmgMin = this.damage.normalCdmgMin * (1 + this.attacker.dmgIncreaseEqProb / 100 + this.attacker.dmgIncreaseSkin / 100 + this.attacker.dmgIncreaseCostume / 100);
-        this.damage.softCdmgMax = this.damage.normalCdmgMax * (1 + this.attacker.dmgIncreaseEqProb / 100 + this.attacker.dmgIncreaseSkin / 100 + this.attacker.dmgIncreaseCostume / 100);
+        this.damage.softCdmgMin = this.damage.normalCdmgMin * (1 + this.attacker.dmgIncreaseEqProb / 100) * (1 + this.attacker.dmgIncreaseSkin / 100 + this.attacker.dmgIncreaseCostume / 100);
+        this.damage.softCdmgMax = this.damage.normalCdmgMax * (1 + this.attacker.dmgIncreaseEqProb / 100) * (1 + this.attacker.dmgIncreaseSkin / 100 + this.attacker.dmgIncreaseCostume / 100);
     }
 
     spAttack() {
