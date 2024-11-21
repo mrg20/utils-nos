@@ -201,10 +201,10 @@ class Calculator {
     }
 
     dmg(){
-        let Sdmg = (1 + this.attacker.atkHat/100) * (1 + this.attacker.atkFairy/100) * (1 + this.attacker.atkTitle/100) 
-            * (1 + this.attacker.atkOil/100) * (1 + this.attacker.atkPot/100) * (1 + this.attacker.atkSkin/100) 
-            * (1 + this.attacker.atkPet/100) * (1 + this.attacker.dmgIncreaseTattoo/100) * (1 + this.attacker.dmgIncreaseRune/100)
-            * (1 + this.attacker.atkCostume/100) * (1 + this.attacker.atkFamily/100);
+        let Sdmg = (1 + this.attacker.atkHat/100 + this.attacker.atkFairy/100 + this.attacker.atkTitle/100 + this.attacker.atkPot/100 
+            + this.attacker.atkSkin/100 + this.attacker.atkPet/100 + this.attacker.dmgIncreaseTattoo/100 + this.attacker.dmgIncreaseRune/100 + this.attacker.atkCostume/100)
+            * (1 + this.attacker.atkOil/100)
+            * (1 + this.attacker.atkFamily/100);
         this.attacker.critDmgTattoo = 1 + (this.attacker.critDmgTattoo / 100);
 
         this.damage.normalDmgMinNormal = (this.damage.normalPdmgMin + this.damage.normalEdmgMin) * Sdmg;
