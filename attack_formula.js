@@ -23,7 +23,12 @@ const type_matchups = {
     "FIRE>NO_ELEMENT": 0.3,
     "WATER>NO_ELEMENT": 0.3,
     "LIGHT>NO_ELEMENT": 0.3,
-    "SHADOW>NO_ELEMENT": 0.3
+    "SHADOW>NO_ELEMENT": 0.3,
+    "NO_ELEMENT>FIRE": 0.3,
+    "NO_ELEMENT>WATER": 0.3,
+    "NO_ELEMENT>LIGHT": 0.3,
+    "NO_ELEMENT>SHADOW": 0.3,
+    "NO_ELEMENT>NO_ELEMENT": 0.3
 };
 
 
