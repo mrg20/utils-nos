@@ -92,7 +92,7 @@ class Calculator {
 
     levelBonus() {
         if (this.attacker.atkWeaponUp <= this.defender.armorUp) {
-            return 1 - equip_up_bonus[upDiff];
+            return 1 - equip_up_bonus[this.defender.armorUp-this.attacker.atkWeaponUp];
         }
         let upDiff = this.attacker.atkWeaponUp - this.defender.armorUp;
         return 1 + equip_up_bonus[upDiff];
