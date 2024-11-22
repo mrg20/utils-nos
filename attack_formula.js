@@ -201,70 +201,72 @@ class Calculator {
     }
 
     dmg(){
+        let morale = this.attacker.playerLevel / this.defender.mobLevel;
         let Sdmg = ((1 + (this.attacker.atkHat/100)) + (this.attacker.atkTitle/100)
-        + (this.attacker.atkPot/100) + (this.attacker.atkSkin/100)
+        + (this.attacker.atkPot/100)
         + (this.attacker.atkPet/100) + (this.attacker.dmgIncreaseTattoo/100)
-        + (this.attacker.atkCostume/100)) 
-        * (1 + (this.attacker.atkFairy/100)) * (1 + (this.attacker.dmgIncreaseRune/100))
-        * (1 + (this.attacker.atkFamily/100)) * (1 + (this.attacker.atkOil/100));
+        + (this.attacker.atkCostume/100) + (this.attacker.dmgIncreaseRune/100))
+        * (1 + (this.attacker.atkFairy/100))
+        * (1 + ((this.attacker.atkFamily/100) + (this.attacker.atkSkin/100)))
+        * (1 + (this.attacker.atkOil/100));
 
         this.attacker.critDmgTattoo = 1 + (this.attacker.critDmgTattoo / 100);
 // rocky 126-129. Kyl 151-156
 
-        this.damage.normalDmgMinNormal = (this.damage.normalPdmgMin + this.damage.normalEdmgMin) * Sdmg;
-        this.damage.normalDmgMaxNormal = (this.damage.normalPdmgMax + this.damage.normalEdmgMax) * Sdmg;
-        this.damage.normalDmgMinCrit = (this.damage.normalPdmgMinCrit + this.damage.normalEdmgMin)* Sdmg;
-        this.damage.normalDmgMaxCrit = (this.damage.normalPdmgMaxCrit + this.damage.normalEdmgMax)* Sdmg;
+        this.damage.normalDmgMinNormal = (this.damage.normalPdmgMin + this.damage.normalEdmgMin + morale) * Sdmg;
+        this.damage.normalDmgMaxNormal = (this.damage.normalPdmgMax + this.damage.normalEdmgMax + morale) * Sdmg;
+        this.damage.normalDmgMinCrit = (this.damage.normalPdmgMinCrit + this.damage.normalEdmgMin + morale) * Sdmg;
+        this.damage.normalDmgMaxCrit = (this.damage.normalPdmgMaxCrit + this.damage.normalEdmgMax + morale) * Sdmg;
         this.damage.normalDmgMinNormalCrit = this.damage.normalDmgMinCrit * this.attacker.critDmgTattoo;
         this.damage.normalDmgMaxNormalCrit = this.damage.normalDmgMaxCrit * this.attacker.critDmgTattoo;
 
         //soft
-        this.damage.softEqDmgMinNormal = (this.damage.softEqPdmgMin + this.damage.softEqEdmgMin) * Sdmg;
-        this.damage.softEqDmgMaxNormal = (this.damage.softEqPdmgMax + this.damage.softEqEdmgMax) * Sdmg;
-        this.damage.softEqDmgMinCrit = (this.damage.softEqPdmgMinCrit + this.damage.softEqEdmgMin)* Sdmg;
-        this.damage.softEqDmgMaxCrit = (this.damage.softEqPdmgMaxCrit + this.damage.softEqEdmgMax)* Sdmg;
+        this.damage.softEqDmgMinNormal = (this.damage.softEqPdmgMin + this.damage.softEqEdmgMin + morale) * Sdmg;
+        this.damage.softEqDmgMaxNormal = (this.damage.softEqPdmgMax + this.damage.softEqEdmgMax + morale) * Sdmg;
+        this.damage.softEqDmgMinCrit = (this.damage.softEqPdmgMinCrit + this.damage.softEqEdmgMin + morale) * Sdmg;
+        this.damage.softEqDmgMaxCrit = (this.damage.softEqPdmgMaxCrit + this.damage.softEqEdmgMax + morale) * Sdmg;
         this.damage.softEqDmgMinNormalCrit = this.damage.softEqDmgMinCrit * this.attacker.critDmgTattoo;
         this.damage.softEqDmgMaxNormalCrit = this.damage.softEqDmgMaxCrit * this.attacker.critDmgTattoo;
 
-        this.damage.softSkinDmgMinNormal = (this.damage.softSkinPdmgMin + this.damage.softSkinEdmgMin) * Sdmg;
-        this.damage.softSkinDmgMaxNormal = (this.damage.softSkinPdmgMax + this.damage.softSkinEdmgMax) * Sdmg;
-        this.damage.softSkinDmgMinCrit = (this.damage.softSkinPdmgMinCrit + this.damage.softSkinEdmgMin)* Sdmg;
-        this.damage.softSkinDmgMaxCrit = (this.damage.softSkinPdmgMaxCrit + this.damage.softSkinEdmgMax)* Sdmg;
+        this.damage.softSkinDmgMinNormal = (this.damage.softSkinPdmgMin + this.damage.softSkinEdmgMin + morale) * Sdmg;
+        this.damage.softSkinDmgMaxNormal = (this.damage.softSkinPdmgMax + this.damage.softSkinEdmgMax + morale) * Sdmg;
+        this.damage.softSkinDmgMinCrit = (this.damage.softSkinPdmgMinCrit + this.damage.softSkinEdmgMin + morale) * Sdmg;
+        this.damage.softSkinDmgMaxCrit = (this.damage.softSkinPdmgMaxCrit + this.damage.softSkinEdmgMax + morale) * Sdmg;
         this.damage.softSkinDmgMinNormalCrit = this.damage.softSkinDmgMinCrit * this.attacker.critDmgTattoo;
         this.damage.softSkinDmgMaxNormalCrit = this.damage.softSkinDmgMaxCrit * this.attacker.critDmgTattoo;
         
-        this.damage.softCostumeDmgMinNormal = (this.damage.softCostumePdmgMin + this.damage.softCostumeEdmgMin) * Sdmg;
-        this.damage.softCostumeDmgMaxNormal = (this.damage.softCostumePdmgMax + this.damage.softCostumeEdmgMax) * Sdmg;
-        this.damage.softCostumeDmgMinCrit = (this.damage.softCostumePdmgMinCrit + this.damage.softCostumeEdmgMin)* Sdmg;
-        this.damage.softCostumeDmgMaxCrit = (this.damage.softCostumePdmgMaxCrit + this.damage.softCostumeEdmgMax)* Sdmg;
+        this.damage.softCostumeDmgMinNormal = (this.damage.softCostumePdmgMin + this.damage.softCostumeEdmgMin + morale) * Sdmg;
+        this.damage.softCostumeDmgMaxNormal = (this.damage.softCostumePdmgMax + this.damage.softCostumeEdmgMax + morale) * Sdmg;
+        this.damage.softCostumeDmgMinCrit = (this.damage.softCostumePdmgMinCrit + this.damage.softCostumeEdmgMin + morale) * Sdmg;
+        this.damage.softCostumeDmgMaxCrit = (this.damage.softCostumePdmgMaxCrit + this.damage.softCostumeEdmgMax + morale) * Sdmg;
         this.damage.softCostumeDmgMinNormalCrit = this.damage.softCostumeDmgMinCrit * this.attacker.critDmgTattoo;
         this.damage.softCostumeDmgMaxNormalCrit = this.damage.softCostumeDmgMaxCrit * this.attacker.critDmgTattoo;
 
-        this.damage.softEqSkinDmgMinNormal = (this.damage.softEqSkinPdmgMin + this.damage.softEqSkinEdmgMin) * Sdmg;
-        this.damage.softEqSkinDmgMaxNormal = (this.damage.softEqSkinPdmgMax + this.damage.softEqSkinEdmgMax) * Sdmg;
-        this.damage.softEqSkinDmgMinCrit = (this.damage.softEqSkinPdmgMinCrit + this.damage.softEqSkinEdmgMin) * Sdmg;
-        this.damage.softEqSkinDmgMaxCrit = (this.damage.softEqSkinPdmgMaxCrit + this.damage.softEqSkinEdmgMax) * Sdmg;
+        this.damage.softEqSkinDmgMinNormal = (this.damage.softEqSkinPdmgMin + this.damage.softEqSkinEdmgMin + morale) * Sdmg;
+        this.damage.softEqSkinDmgMaxNormal = (this.damage.softEqSkinPdmgMax + this.damage.softEqSkinEdmgMax + morale) * Sdmg;
+        this.damage.softEqSkinDmgMinCrit = (this.damage.softEqSkinPdmgMinCrit + this.damage.softEqSkinEdmgMin + morale) * Sdmg;
+        this.damage.softEqSkinDmgMaxCrit = (this.damage.softEqSkinPdmgMaxCrit + this.damage.softEqSkinEdmgMax + morale) * Sdmg;
         this.damage.softEqSkinDmgMinNormalCrit = this.damage.softEqSkinDmgMinCrit * this.attacker.critDmgTattoo;
         this.damage.softEqSkinDmgMaxNormalCrit = this.damage.softEqSkinDmgMaxCrit * this.attacker.critDmgTattoo;
 
-        this.damage.softEqCostumeDmgMinNormal = (this.damage.softEqCostumePdmgMin + this.damage.softEqCostumeEdmgMin) * Sdmg;
-        this.damage.softEqCostumeDmgMaxNormal = (this.damage.softEqCostumePdmgMax + this.damage.softEqCostumeEdmgMax) * Sdmg;
-        this.damage.softEqCostumeDmgMinCrit = (this.damage.softEqCostumePdmgMinCrit + this.damage.softEqCostumeEdmgMin) * Sdmg;
-        this.damage.softEqCostumeDmgMaxCrit = (this.damage.softEqCostumePdmgMaxCrit + this.damage.softEqCostumeEdmgMax) * Sdmg;
+        this.damage.softEqCostumeDmgMinNormal = (this.damage.softEqCostumePdmgMin + this.damage.softEqCostumeEdmgMin + morale) * Sdmg;
+        this.damage.softEqCostumeDmgMaxNormal = (this.damage.softEqCostumePdmgMax + this.damage.softEqCostumeEdmgMax + morale) * Sdmg;
+        this.damage.softEqCostumeDmgMinCrit = (this.damage.softEqCostumePdmgMinCrit + this.damage.softEqCostumeEdmgMin + morale) * Sdmg;
+        this.damage.softEqCostumeDmgMaxCrit = (this.damage.softEqCostumePdmgMaxCrit + this.damage.softEqCostumeEdmgMax + morale) * Sdmg;
         this.damage.softEqCostumeDmgMinNormalCrit = this.damage.softEqCostumeDmgMinCrit * this.attacker.critDmgTattoo;
         this.damage.softEqCostumeDmgMaxNormalCrit = this.damage.softEqCostumeDmgMaxCrit * this.attacker.critDmgTattoo;
 
-        this.damage.softSkinCostumeDmgMinNormal = (this.damage.softSkinCostumePdmgMin + this.damage.softSkinCostumeEdmgMin) * Sdmg;
-        this.damage.softSkinCostumeDmgMaxNormal = (this.damage.softSkinCostumePdmgMax + this.damage.softSkinCostumeEdmgMax) * Sdmg;
-        this.damage.softSkinCostumeDmgMinCrit = (this.damage.softSkinCostumePdmgMinCrit + this.damage.softSkinCostumeEdmgMin) * Sdmg;
-        this.damage.softSkinCostumeDmgMaxCrit = (this.damage.softSkinCostumePdmgMaxCrit + this.damage.softSkinCostumeEdmgMax) * Sdmg;
+        this.damage.softSkinCostumeDmgMinNormal = (this.damage.softSkinCostumePdmgMin + this.damage.softSkinCostumeEdmgMin + morale) * Sdmg;
+        this.damage.softSkinCostumeDmgMaxNormal = (this.damage.softSkinCostumePdmgMax + this.damage.softSkinCostumeEdmgMax + morale) * Sdmg;
+        this.damage.softSkinCostumeDmgMinCrit = (this.damage.softSkinCostumePdmgMinCrit + this.damage.softSkinCostumeEdmgMin + morale) * Sdmg;
+        this.damage.softSkinCostumeDmgMaxCrit = (this.damage.softSkinCostumePdmgMaxCrit + this.damage.softSkinCostumeEdmgMax + morale) * Sdmg;
         this.damage.softSkinCostumeDmgMinNormalCrit = this.damage.softSkinCostumeDmgMinCrit * this.attacker.critDmgTattoo;
         this.damage.softSkinCostumeDmgMaxNormalCrit = this.damage.softSkinCostumeDmgMaxCrit * this.attacker.critDmgTattoo;
 
-        this.damage.softDmgMinNormal = (this.damage.softPdmgMin + this.damage.softEdmgMin) * Sdmg;
-        this.damage.softDmgMaxNormal = (this.damage.softPdmgMax + this.damage.softEdmgMax) * Sdmg;
-        this.damage.softDmgMinCrit = (this.damage.softPdmgMinCrit + this.damage.softEdmgMin) * Sdmg;
-        this.damage.softDmgMaxCrit = (this.damage.softPdmgMaxCrit + this.damage.softEdmgMax) * Sdmg;
+        this.damage.softDmgMinNormal = (this.damage.softPdmgMin + this.damage.softEdmgMin + morale) * Sdmg;
+        this.damage.softDmgMaxNormal = (this.damage.softPdmgMax + this.damage.softEdmgMax + morale) * Sdmg;
+        this.damage.softDmgMinCrit = (this.damage.softPdmgMinCrit + this.damage.softEdmgMin + morale) * Sdmg;
+        this.damage.softDmgMaxCrit = (this.damage.softPdmgMaxCrit + this.damage.softEdmgMax + morale) * Sdmg;
         this.damage.softDmgMinNormalCrit = this.damage.softDmgMinCrit * this.attacker.critDmgTattoo;
         this.damage.softDmgMaxNormalCrit = this.damage.softDmgMaxCrit * this.attacker.critDmgTattoo;
     }
