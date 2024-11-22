@@ -147,23 +147,23 @@ class Calculator {
 
     Pdmg() {
         //without crit
-        this.damage.normalPdmgMin = this.damage.normalCdmgMin - this.defender.defEquip;
-        this.damage.normalPdmgMax = this.damage.normalCdmgMax - this.defender.defEquip;
+        this.damage.normalPdmgMin = (this.damage.normalCdmgMin - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
+        this.damage.normalPdmgMax = (this.damage.normalCdmgMax - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
 
-        this.damage.softEqPdmgMin = this.damage.softEqCdmgMin - this.defender.defEquip;
-        this.damage.softEqPdmgMax = this.damage.softEqCdmgMax - this.defender.defEquip;
-        this.damage.softSkinPdmgMin = this.damage.softSkinCdmgMin - this.defender.defEquip;
-        this.damage.softSkinPdmgMax = this.damage.softSkinCdmgMax - this.defender.defEquip;
-        this.damage.softCostumePdmgMin = this.damage.softCostumeCdmgMin - this.defender.defEquip;
-        this.damage.softCostumePdmgMax = this.damage.softCostumeCdmgMax - this.defender.defEquip;
-        this.damage.softEqSkinPdmgMin = this.damage.softEqSkinCdmgMin - this.defender.defEquip;
-        this.damage.softEqSkinPdmgMax = this.damage.softEqSkinCdmgMax - this.defender.defEquip;
-        this.damage.softEqCostumePdmgMin = this.damage.softEqCostumeCdmgMin - this.defender.defEquip;
-        this.damage.softEqCostumePdmgMax = this.damage.softEqCostumeCdmgMax - this.defender.defEquip;
-        this.damage.softSkinCostumePdmgMin = this.damage.softSkinCostumeCdmgMin - this.defender.defEquip;
-        this.damage.softSkinCostumePdmgMax = this.damage.softSkinCostumeCdmgMax - this.defender.defEquip;
-        this.damage.softPdmgMin = this.damage.softCdmgMin - this.defender.defEquip;
-        this.damage.softPdmgMax = this.damage.softCdmgMax - this.defender.defEquip;
+        this.damage.softEqPdmgMin = (this.damage.softEqCdmgMin - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
+        this.damage.softEqPdmgMax = (this.damage.softEqCdmgMax - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
+        this.damage.softSkinPdmgMin = (this.damage.softSkinCdmgMin - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
+        this.damage.softSkinPdmgMax = (this.damage.softSkinCdmgMax - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
+        this.damage.softCostumePdmgMin = (this.damage.softCostumeCdmgMin - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
+        this.damage.softCostumePdmgMax = (this.damage.softCostumeCdmgMax - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
+        this.damage.softEqSkinPdmgMin = (this.damage.softEqSkinCdmgMin - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
+        this.damage.softEqSkinPdmgMax = (this.damage.softEqSkinCdmgMax - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
+        this.damage.softEqCostumePdmgMin = (this.damage.softEqCostumeCdmgMin - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
+        this.damage.softEqCostumePdmgMax = (this.damage.softEqCostumeCdmgMax - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
+        this.damage.softSkinCostumePdmgMin = (this.damage.softSkinCostumeCdmgMin - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
+        this.damage.softSkinCostumePdmgMax = (this.damage.softSkinCostumeCdmgMax - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
+        this.damage.softPdmgMin = (this.damage.softCdmgMin - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
+        this.damage.softPdmgMax = (this.damage.softCdmgMax - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
 
         //with crit
         this.attacker.critDmg = this.attacker.critDmg / 100;
@@ -207,8 +207,7 @@ class Calculator {
         + (this.attacker.atkPet/100) + (this.attacker.dmgIncreaseTattoo/100)
         + (this.attacker.atkCostume/100) + (this.attacker.dmgIncreaseRune/100))
         * (1 + (this.attacker.atkFairy/100))
-        * (1 + ((this.attacker.atkFamily/100) + (this.attacker.atkSkin/100)))
-        * (1 + (this.attacker.atkOil/100));
+        * (1 + ((this.attacker.atkFamily/100) + (this.attacker.atkSkin/100)));
 
         this.attacker.critDmgTattoo = 1 + (this.attacker.critDmgTattoo / 100);
 // rocky 126-129. Kyl 151-156
