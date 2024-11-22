@@ -165,7 +165,7 @@ class Calculator {
         this.damage.softPdmgMin = (this.damage.softCdmgMin - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
         this.damage.softPdmgMax = (this.damage.softCdmgMax - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
 
-        //with crit
+        //with crit. min dmg should be min dmg + (max dmg - min dmg)/2
         this.attacker.critDmg = this.attacker.critDmg / 100;
         this.defender.critDmgReduction = this.defender.critDmgReduction / 100;
         let critDmg = (1 + this.appliedCritDmg());
