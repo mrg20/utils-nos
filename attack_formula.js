@@ -130,30 +130,52 @@ class Calculator {
     }
 
     Pdmg() {
-        //without crit
-        this.damage.normalPdmgMin = (this.damage.normalCdmgMin - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
-        this.damage.normalPdmgMax = (this.damage.normalCdmgMax - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
+        // Calculate base damage values without crit
+        const calculateBaseDamage = (cdmg) => {
+            return (cdmg - this.defender.defEquip) * (1 + (this.attacker.atkOil/100)) * (1 - this.defender.dmgReduction);
+        };
 
-        this.damage.softEqPdmgMin = (this.damage.softEqCdmgMin - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
-        this.damage.softEqPdmgMax = (this.damage.softEqCdmgMax - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
-        this.damage.softSkinCostumePdmgMin = (this.damage.softSkinCostumeCdmgMin - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
-        this.damage.softSkinCostumePdmgMax = (this.damage.softSkinCostumeCdmgMax - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
-        this.damage.softPdmgMin = (this.damage.softCdmgMin - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
-        this.damage.softPdmgMax = (this.damage.softCdmgMax - this.defender.defEquip) * (1 + (this.attacker.atkOil/100));
+        // Calculate crit damage values
+        const calculateCritDamage = (minDmg, maxDmg, critMultiplier) => {
+            const avgBonus = (maxDmg - minDmg) / 2;
+            return {
+                min: (minDmg + avgBonus) * critMultiplier * (1 - this.defender.dmgReduction),
+                max: maxDmg * critMultiplier * (1 - this.defender.dmgReduction)
+            };
+        };
 
-        //with crit. min dmg should be min dmg + (max dmg - min dmg)/2
+        // Calculate normal damage
+        this.damage.normalPdmgMin = calculateBaseDamage(this.damage.normalCdmgMin);
+        this.damage.normalPdmgMax = calculateBaseDamage(this.damage.normalCdmgMax);
+
+        // Calculate soft cap variations
+        this.damage.softEqPdmgMin = calculateBaseDamage(this.damage.softEqCdmgMin);
+        this.damage.softEqPdmgMax = calculateBaseDamage(this.damage.softEqCdmgMax);
+        this.damage.softSkinCostumePdmgMin = calculateBaseDamage(this.damage.softSkinCostumeCdmgMin);
+        this.damage.softSkinCostumePdmgMax = calculateBaseDamage(this.damage.softSkinCostumeCdmgMax);
+        this.damage.softPdmgMin = calculateBaseDamage(this.damage.softCdmgMin);
+        this.damage.softPdmgMax = calculateBaseDamage(this.damage.softCdmgMax);
+
+        // Prepare crit multipliers
         this.attacker.critDmg = this.attacker.critDmg / 100;
         this.defender.critDmgReduction = this.defender.critDmgReduction / 100;
-        let critDmg = (1 + this.appliedCritDmg());
+        const critMultiplier = 1 + this.appliedCritDmg();
 
-        this.damage.normalPdmgMinCrit = (this.damage.normalPdmgMin + ((this.damage.normalPdmgMax - this.damage.normalPdmgMin)/2)) * critDmg;
-        this.damage.normalPdmgMaxCrit = this.damage.normalPdmgMax * critDmg;
-        this.damage.softEqPdmgMinCrit = (this.damage.softEqPdmgMin + ((this.damage.softEqPdmgMax - this.damage.softEqPdmgMin)/2)) * critDmg;
-        this.damage.softEqPdmgMaxCrit = this.damage.softEqPdmgMax * critDmg;
-        this.damage.softSkinCostumePdmgMinCrit = (this.damage.softSkinCostumePdmgMin + ((this.damage.softSkinCostumePdmgMax - this.damage.softSkinCostumePdmgMin)/2)) * critDmg;
-        this.damage.softSkinCostumePdmgMaxCrit = this.damage.softSkinCostumePdmgMax * critDmg;
-        this.damage.softPdmgMinCrit = (this.damage.softPdmgMin + ((this.damage.softPdmgMax - this.damage.softPdmgMin)/2)) * critDmg;
-        this.damage.softPdmgMaxCrit = this.damage.softPdmgMax * critDmg;
+        // Calculate crit damages
+        const normalCrit = calculateCritDamage(this.damage.normalPdmgMin, this.damage.normalPdmgMax, critMultiplier);
+        const softEqCrit = calculateCritDamage(this.damage.softEqPdmgMin, this.damage.softEqPdmgMax, critMultiplier);
+        const softSkinCostumeCrit = calculateCritDamage(this.damage.softSkinCostumePdmgMin, this.damage.softSkinCostumePdmgMax, critMultiplier);
+        const softCrit = calculateCritDamage(this.damage.softPdmgMin, this.damage.softPdmgMax, critMultiplier);
+
+        // Assign crit values
+        this.damage.normalPdmgMinCrit = normalCrit.min;
+        this.damage.normalPdmgMaxCrit = normalCrit.max;
+        this.damage.softEqPdmgMinCrit = softEqCrit.min;
+        this.damage.softEqPdmgMaxCrit = softEqCrit.max;
+        this.damage.softSkinCostumePdmgMinCrit = softSkinCostumeCrit.min;
+        this.damage.softSkinCostumePdmgMaxCrit = softSkinCostumeCrit.max;
+        this.damage.softPdmgMinCrit = softCrit.min;
+        this.damage.softPdmgMaxCrit = softCrit.max;
     }
 
     appliedCritDmg() {
@@ -178,7 +200,6 @@ class Calculator {
         * (1 + ((this.attacker.atkFamily/100) + (this.attacker.atkSkin/100)));
 
         this.attacker.critDmgTattoo = 1 + (this.attacker.critDmgTattoo / 100);
-// rocky 126-129. Kyl 151-156
 
         this.damage.normalDmgMinNormal = (this.damage.normalPdmgMin + this.damage.normalEdmgMin + morale) * Sdmg;
         this.damage.normalDmgMaxNormal = (this.damage.normalPdmgMax + this.damage.normalEdmgMax + morale) * Sdmg;
