@@ -1,4 +1,16 @@
-
+function toggleBossSettings() {
+    const mobType = document.getElementById('mobType').value;
+    const bossSettings = document.getElementById('bossSettings');
+    const mobSettings = document.getElementById('mobSettings');
+    
+    if (mobType === 'boss') {
+        bossSettings.style.display = 'block';
+        mobSettings.style.display = 'none';
+    } else {
+        bossSettings.style.display = 'none'; 
+        mobSettings.style.display = 'block';
+    }
+}
 
 function toggleContent() {
     var content = document.getElementById("content");
