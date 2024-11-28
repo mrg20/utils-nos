@@ -132,15 +132,15 @@ class Calculator {
     Pdmg() {
         // Calculate base damage values without crit
         const calculateBaseDamage = (cdmg) => {
-            return (cdmg - this.defender.defEquip) * (1 + (this.attacker.atkOil/100)) * (1 - this.defender.dmgReduction);
+            return (cdmg - this.defender.defEquip) * (1 + (this.attacker.atkOil/100)) * (1 - (this.defender.dmgReduction/100));
         };
 
         // Calculate crit damage values
         const calculateCritDamage = (minDmg, maxDmg, critMultiplier) => {
             const avgBonus = (maxDmg - minDmg) / 2;
             return {
-                min: (minDmg + avgBonus) * critMultiplier * (1 - this.defender.dmgReduction),
-                max: maxDmg * critMultiplier * (1 - this.defender.dmgReduction)
+                min: (minDmg + avgBonus) * critMultiplier * (1 - (this.defender.dmgReduction/100)),
+                max: maxDmg * critMultiplier * (1 - (this.defender.dmgReduction/100))
             };
         };
 
