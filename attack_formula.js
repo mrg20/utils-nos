@@ -618,11 +618,12 @@ function calculateDamage() {
 
     // Create a bar plot
     const barplotData = {
-        labels: ['Soft Cdmg Max', 'Soft Pdmg Max Crit', 'Soft Edmg Max', 'Soft Dmg Max Normal Crit'],
+        labels: ['Soft Cdmg Max', 'Soft Pdmg Max', 'Soft Pdmg Max Crit', 'Soft Edmg Max', 'Soft Dmg Max Normal Crit'],
         datasets: [{
             label: 'Damage Values',
             data: [
                 Math.floor(damage.softCdmgMax),
+                Math.floor(damage.softPdmgMax),
                 Math.floor(damage.softPdmgMaxCrit),
                 Math.floor(damage.softEdmgMax),
                 Math.floor(damage.softDmgMaxNormalCrit)
