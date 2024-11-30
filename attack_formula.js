@@ -282,8 +282,8 @@ class Calculator {
         const calculateCritDamage = (minDmg, maxDmg, critMultiplier) => {
             const avgBonus = (maxDmg - minDmg) / 2;
             return {
-                min: (minDmg + avgBonus) * critMultiplier * (1 - (this.defender.dmgReduction/100)),
-                max: maxDmg * critMultiplier * (1 - (this.defender.dmgReduction/100))
+                min: this.attacker.attackType === "Magic" ? 0 : (minDmg + avgBonus) * critMultiplier * (1 - (this.defender.dmgReduction/100)),
+                max: this.attacker.attackType === "Magic" ? 0 : maxDmg * critMultiplier * (1 - (this.defender.dmgReduction/100))
             };
         };
 
@@ -379,7 +379,7 @@ class Calculator {
         const pEq = this.attacker.probAugmentEq / 100;
         const pSkin = this.attacker.probAugmentSkin / 100;
         const pCostume = this.attacker.probAugmentCostume / 100;
-        const pCrit = (this.attacker.critProb + this.spCritProb()) / 100;
+        const pCrit = this.attacker.attackType === "Magic" ? 0 : (this.attacker.critProb + this.spCritProb()) / 100;
         
         // Calculate combined probabilities
         // Crits
