@@ -136,7 +136,8 @@ class Calculator {
                 this.attacker.weaponUp += 1;
                 this.attacker.playerLevel += 5;
             },
-            'sol': () => this.attacker.atkIncrease += 250
+            'sol': () => this.attacker.atkIncrease += 250,
+            'forta': () => this.attacker.fairy += 30
         };
 
         this.attacker.buffs.forEach(buff => {
@@ -274,7 +275,7 @@ class Calculator {
     Pdmg() {
         // Calculate base damage values without crit
         const calculateBaseDamage = (cdmg) => {
-            return (cdmg - this.defender.defEquip) * (1 + (this.attacker.atkOil/100)) * (1 - (this.defender.dmgReduction/100));
+            return (cdmg - this.defender.defEquip) * (1 + (this.attacker.atkOil/100)) * (1 + (this.increaseAtkBuff/100)) * (1 - (this.defender.dmgReduction/100));
         };
 
         // Calculate crit damage values

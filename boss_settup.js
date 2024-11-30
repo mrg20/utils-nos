@@ -67,6 +67,9 @@ function loadRaidSetup() {
             <div class="image-option" onclick="toggleSelection(this)">
                 <img src="buff_img/sol.png" alt="sol">
             </div>
+            <div class="image-option" onclick="toggleSelection(this)">
+                <img src="buff_img/forta.png" alt="forta">
+            </div>
         </div>
     </div>
 
