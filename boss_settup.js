@@ -1,8 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
+function loadRaidSetup() {
+    const html = `
     <style>
         .section {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 20px;
         }
         .image-grid {
@@ -17,8 +17,8 @@
             padding: 5px;
         }
         .image-option img {
-            width: 100px;
-            height: 100px;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
         }
         .image-option.selected {
@@ -28,8 +28,6 @@
             margin-bottom: 10px;
         }
     </style>
-</head>
-<body>
     <div class="section">
         <h3>Boss</h3>
         <div class="image-grid" id="boss-grid">
@@ -101,21 +99,22 @@
             </div>
         </div>
     </div>
+    `;
+    document.getElementById('bossSettings').innerHTML = html;
+}
 
-    <script>
-        function selectBoss(element) {
-            // Remove selection from other boss images
-            document.querySelectorAll('#boss-grid .image-option').forEach(el => {
-                el.classList.remove('selected');
-            });
-            // Select clicked boss
-            element.classList.add('selected');
-        }
+function selectBoss(element) {
+    // Remove selection from other boss images
+    document.querySelectorAll('#boss-grid .image-option').forEach(el => {
+        el.classList.remove('selected');
+    });
+    // Select clicked boss
+    element.classList.add('selected');
+}
 
-        function toggleSelection(element) {
-            // Toggle selection for buffs and debuffs
-            element.classList.toggle('selected');
-        }
-    </script>
-</body>
-</html>
+function toggleSelection(element) {
+    // Toggle selection for buffs and debuffs
+    element.classList.toggle('selected');
+}
+
+loadRaidSetup();

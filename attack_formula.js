@@ -1,4 +1,3 @@
-
 const equip_up_bonus = [0, 0.1, 0.15, 0.22, 0.32, 0.43, 0.54, 0.65, 0.9, 1.2, 2];
 const sp_up_bonus = [0, 5, 10, 15, 20, 28, 36, 46, 56, 68, 80, 95, 110, 128, 148, 173];
 
@@ -31,12 +30,155 @@ const type_matchups = {
     "NO_ELEMENT>NO_ELEMENT": 0.3
 };
 
+const poluto_profile = {
+    'mobLevel': 100,
+    'armorUp': 10,
+    'defEquipMelee': 1810,
+    'defEquipDistance': 1233,
+    'defEquipMagic': 1802,
+    'dmgReductionMelee': 58,
+    'dmgReductionDistance': 58,
+    'dmgReductionMagic': 58,
+    'critDmgReduction': 115,
+    'resFire': 140,
+    'resWater': 140,
+    'resLight': 140,
+    'resShadow': 140,
+    'defType': 'NO_ELEMENT'
+}
+
+const meca_profile = {
+    'mobLevel': 100,
+    'armorUp': 10,
+    'defEquipMelee': 1958,
+    'defEquipDistance': 2129,
+    'defEquipMagic': 1378,
+    'dmgReductionMelee': 70,
+    'dmgReductionDistance': 75,
+    'dmgReductionMagic': 80,
+    'critDmgReduction': 115,
+    'resFire': 160,
+    'resWater': 150,
+    'resLight': 165,
+    'resShadow': 155,
+    'defType': 'LIGHT'
+}
+
+const completo_profile = {
+    'mobLevel': 100,
+    'armorUp': 10,
+    'defEquipMelee': 2349,
+    'defEquipDistance': 2554,
+    'defEquipMagic': 2253,
+    'dmgReductionMelee': 70,
+    'dmgReductionDistance': 75,
+    'dmgReductionMagic': 80,
+    'critDmgReduction': 115,
+    'resFire': 155,
+    'resWater': 170,
+    'resLight': 165,
+    'resShadow': 160,
+    'defType': 'WATER'
+}
+
+const valehir_profile = {
+    'mobLevel': 100,
+    'armorUp': 9,
+    'defEquipMelee': 1207,
+    'defEquipDistance': 1233,
+    'defEquipMagic': 1202,
+    'dmgReductionMelee': 75,
+    'dmgReductionDistance': 80,
+    'dmgReductionMagic': 70,
+    'critDmgReduction': 85,
+    'resFire': 140,
+    'resWater': 150,
+    'resLight': 140,
+    'resShadow': 200,
+    'defType': 'SHADOW'
+}
+
+const alzanor_profile = {
+    'mobLevel': 100,
+    'armorUp': 9,
+    'defEquipMelee': 1177,
+    'defEquipDistance': 1233,
+    'defEquipMagic': 1202,
+    'dmgReductionMelee': 75,
+    'dmgReductionDistance': 80,
+    'dmgReductionMagic': 70,
+    'critDmgReduction': 70,
+    'resFire': 140,
+    'resWater': 200,
+    'resLight': 160,
+    'resShadow': 150,
+    'defType': 'WATER'
+}
 
 class Calculator {
-    constructor(attacker, defender, defendersList = []) {
+    constructor(attacker, defender) {
         this.attacker = attacker;
         this.defender = defender;
         this.damage = {};
+        this.increaseAtkBuff = 0;
+        this.apply_buff();
+        this.apply_debuff();
+    }
+
+    apply_buff(){
+        if (!this.attacker.buffs)
+            return
+        const buffEffects = {
+            'brillo': () => this.attacker.fairy += 5,
+            'holly': () => this.attacker.weaponUp += 1,
+            'lobo': () => this.attacker.atkIncrease += 396,
+            'sader': () => {
+                this.attacker.weaponUp += 1;
+                this.attacker.playerLevel += 5;
+            },
+            'sol': () => this.attacker.atkIncrease += 250
+        };
+
+        this.attacker.buffs.forEach(buff => {
+            if (buffEffects[buff]) {
+                buffEffects[buff]();
+            }
+        });
+    }
+    
+    apply_debuff(){
+        if (!this.defender.debuffs)
+            return
+        const debuffEffects = {
+            'aliento': () => {
+                this.attacker.critProb += 10;
+                this.defender.res -= 10;
+
+            },
+            'canto': () => this.defender.armorUp -= 2,
+            'ele_down_4': () => {
+                this.attacker.critProb += 30;
+                this.defender.res -= 25;
+            },
+            'ele_down_5': () => {
+                this.defender.res -= 5,
+                this.defender.armorUp -= 1,
+                this.attacker.critProb += 15
+            },
+            'gas_ulti': () => this.increaseAtkBuff += 15,
+            'gas': () => {
+                this.defender.armorUp -= 1;
+                this.increaseAtkBuff += 15;
+            },
+            'last holy': () => this.defender.res -= 5,
+            'ruptura': () => this.defender.armorUp -= 5
+        };
+
+        this.defender.debuffs.forEach(debuff => {
+            if (debuffEffects[debuff]) {
+                debuffEffects[debuff]();
+            }
+        });
     }
 
     calculate_damage(){
@@ -287,7 +429,7 @@ class Calculator {
 
 
 function calculateDamage() {
-    const attacker = {};
+    let attacker = {};
     const box1Elements = document.querySelector('.box1').querySelectorAll('input, select');
     const box2Elements = document.querySelector('.box2').querySelectorAll('input, select');
     const box3Elements = document.querySelector('.box3').querySelectorAll('input, select');
@@ -318,11 +460,36 @@ function calculateDamage() {
     });
 
 
-    const defender = {};
+    let defender = {};
     const box4Elements = document.querySelector('.box4').querySelectorAll('input, select');
+    // Check if mob or boss is selected
+    let mobType = document.getElementById('mobType').value;
     
-    box4Elements.forEach(element => {
-        const id = element.id;
+    if (mobType === 'boss') {
+        // Get the selected boss and buffs/debuffs from the boss settings div
+        const bossSettings = document.getElementById('bossSettings');
+        
+        // Get selected boss
+        const selectedBoss = bossSettings.querySelector('#boss-grid .selected img');
+        defender = JSON.parse(JSON.stringify(eval(selectedBoss.alt + '_profile')));
+        defender.res = 0;
+        if (attacker.type != 'NO_ELEMENT'){
+            defender.res = defender['res' + attacker.type.charAt(0) + attacker.type.slice(1).toLowerCase()]
+        }
+
+        defender.defEquip = defender['defEquip' + attacker.attackType];
+        defender.dmgReduction = defender['dmgReduction' + attacker.attackType];
+
+        // Get selected buffs
+        const selectedBuffs = bossSettings.querySelectorAll('#buffs-grid .selected img');
+        attacker.buffs = Array.from(selectedBuffs).map(img => img.alt);
+
+        // Get selected debuffs
+        const selectedDebuffs = bossSettings.querySelectorAll('#debuffs-grid .selected img');
+        defender.debuffs = Array.from(selectedDebuffs).map(img => img.alt);
+    }else{
+        box4Elements.forEach(element => {
+            const id = element.id;
         let value;
         
         if (element.type === 'checkbox') {
@@ -341,13 +508,14 @@ function calculateDamage() {
             value = element.value;
         }
         
-        defender[id] = value;
-    });
+            defender[id] = value;
+        });
+    }
     // Instantiate the Calculator
-    const calc = new Calculator(attacker, defender);
+    let calc = new Calculator(attacker, defender);
 
     // Calculate damage using the class method
-    const damage = calc.calculate_damage();
+    let damage = calc.calculate_damage();
     // Display the result
     // Create a table to display the damage results
     let resultTable = `<table border="1">

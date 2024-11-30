@@ -297,6 +297,21 @@
             margin-bottom: 5px;
             font-weight: bold;
         }
+
+        .enemy-type-selector {
+            display: flex;
+            gap: 10px;
+        }
+        .enemy-type-img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            padding: 2px;
+        }
+        .enemy-type-img.selected {
+            border-color: #2196F3;
+        }
     </style>
 </head>
 <body>
@@ -331,6 +346,13 @@
             <label for="atkBase">Base Attack:</label>
             <input type="number" id="atkBase" value="0">
             <button class="info-btn" onclick="showInfo('atkBase')">?</button>
+
+            <label for="attackType">Attack type:</label>
+            <select id="attackType">
+                <option value="Melee">Melee</option>
+                <option value="Distance">Distance</option>
+                <option value="Magic">Magic</option>
+            </select> 
 
             <label for="atkSkill">Skill damage:</label>
             <input type="number" id="atkSkill" value="0">
@@ -513,20 +535,20 @@
             <button class="info-btn" onclick="showInfo('spPP')">?</button>
 
         </div>
-        
 
         <div class="section box4">
             <h2>Defender Mob</h2>
             <div class="section">
-                <label for="mobType">Enemy Type:</label>
-                <select id="mobType" onchange="toggleBossSettings()">
-                    <option value="mob" selected>Mob</option>
-                    <option value="boss">Boss</option>
-                </select>
+                <div class="enemy-type-selector">
+                    <h3>Select Enemy Type: </h3>
+                    <img src="img/rat.png" alt="Mob" onclick="selectEnemyType('mob'); document.getElementById('mobType').value='mob'" id="mob-img" class="enemy-type-img selected">
+                    <img src="img/fernon.png" alt="Boss" onclick="selectEnemyType('boss'); document.getElementById('mobType').value='boss'" id="boss-img" class="enemy-type-img">
+                    <input type="hidden" id="mobType" value="mob">
+                </div>
             </div>
 
             <div id="bossSettings" class="section" style="display: none;">
-                <iframe src="raid_settup.html" style="width: 100%; height: 500px; border: none;"></iframe>
+                <script src="boss_settup.js"></script>
             </div>
 
             <div id="mobSettings" class="section">

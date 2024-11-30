@@ -173,9 +173,19 @@ function sumInfo(id) {
     return total;
 }
 
+function selectEnemyType(type) {
+    document.getElementById('mobType').value = type;
+    document.querySelectorAll('.enemy-type-img').forEach(img => {
+        img.classList.remove('selected');
+    });
+    document.getElementById(type + '-img').classList.add('selected');
+    toggleBossSettings();
+}
+
 wand_profile = {
     "playerLevel": 99,
     "atkBase": 761,
+    "attackType": "Magic",
     "atkSkill": 80,
     "atkSkillElement": 100,
     "dmgIncreaseTattoo": 0,
@@ -229,6 +239,7 @@ wand_profile = {
 sword_profile = {
     "playerLevel": 99,
     "atkBase": 1500,
+    "attackType": "Melee",
     "atkSkill": 200,
     "atkSkillElement": 150,
     "dmgIncreaseTattoo": 10,
@@ -282,6 +293,7 @@ sword_profile = {
 bow_profile = {
     "playerLevel": 99,
     "atkBase": 741,
+    "attackType": "Distance",
     "atkSkill": 200,
     "atkSkillElement": 180,
     "dmgIncreaseTattoo": 0,
@@ -335,6 +347,7 @@ bow_profile = {
 pistol_profile = {
     "playerLevel": 99,
     "atkBase": 1500,
+    "attackType": "Distance",
     "atkSkill": 200,
     "atkSkillElement": 150,
     "dmgIncreaseTattoo": 10,
@@ -388,6 +401,7 @@ pistol_profile = {
 crossbow_profile = {
     "playerLevel": 99,
     "atkBase": 1500,
+    "attackType": "Distance",
     "atkSkill": 200,
     "atkSkillElement": 150,
     "dmgIncreaseTattoo": 10,
@@ -441,6 +455,7 @@ crossbow_profile = {
 dagger_profile = {
     "playerLevel": 99,
     "atkBase": 537,
+    "attackType": "Melee",
     "atkSkill": 105,
     "atkSkillElement": 110,
     "dmgIncreaseTattoo": 0,
@@ -494,6 +509,7 @@ dagger_profile = {
 gauntlet_profile = {
     "playerLevel": 99,
     "atkBase": 507,
+    "attackType": "Melee",
     "atkSkill": 150,
     "atkSkillElement": 100,
     "dmgIncreaseTattoo": 0,
