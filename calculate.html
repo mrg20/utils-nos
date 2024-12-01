@@ -312,6 +312,24 @@
         .enemy-type-img.selected {
             border-color: #2196F3;
         }
+
+        .profile-upload-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+            width: auto;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        .profile-upload-btn:hover {
+            background-color: #2e6d31;
+        }
     </style>
 </head>
 <body>
@@ -324,18 +342,19 @@
     <div class="container">
         <h1>Attacker vs Defender Calculator</h1>
         <p>The ? button provides examples where we can see what the form is asking, but please, other items might also have that bonus, so be careful and always try to put all the bonuses that appear everywhere.</p>
-
-        <label for="profileSelect">Unsure on how to use it? Select an example profile: </label>
-        <select id="profileSelect" onchange="loadProfile(this.value)">
-            <option value="dagger_profile" selected>Select a profile...</option>
-            <option value="wand_profile">Mage Profile</option>
-            <option value="bow_profile">Archer Profile</option>
-            <!-- <option value="sword_profile">Sword Profile</option>
-            <option value="pistol_profile">Pistol Profile</option>
-            <option value="crossbow_profile">Crossbow Profile</option> -->
-            <option value="dagger_profile">Dagger Profile</option>
-            <option value="gauntlet_profile">Gauntlet Profile</option>
-        </select>
+            <label for="profileSelect">Unsure on how to use it? Select an example profile: </label>
+           <select id="profileSelect" style="margin-bottom: 10px;" onchange="loadProfile(this.value)">
+                <option value="dagger_profile" selected>Select a profile...</option>
+                <option value="wand_profile">Mage Profile</option>
+                <option value="bow_profile">Archer Profile</option>
+                <!-- <option value="sword_profile">Sword Profile</option>
+                <option value="pistol_profile">Pistol Profile</option>
+                <option value="crossbow_profile">Crossbow Profile</option> -->
+                <option value="dagger_profile">Dagger Profile</option>
+                <option value="gauntlet_profile">Gauntlet Profile</option>
+            </select>
+            <button onclick="document.getElementById('profileUpload').click()" class="profile-upload-btn">Load profile from file</button>
+            <input type="file" id="profileUpload" accept=".json" onchange="handleFileUpload(event)" style="display: none;">
        
         <div class="section box1">
             <h2>Attacker Stats</h2>
@@ -588,6 +607,8 @@
                 <button class="info-btn" onclick="showInfo('defType')">?</button>
             </div>
         </div>
+
+        <button onclick="downloadProfile()">Download Profile</button>
 
         <button onclick="calculateDamage()">Calculate</button>
 

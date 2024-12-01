@@ -104,6 +104,25 @@ darkModeToggle.addEventListener('change', () => {
     }
 });
 
+function handleFileUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const profile = JSON.parse(e.target.result);
+            // Add profile to window object so loadProfile can access it
+            window.uploadedProfile = profile;
+            loadProfile('uploadedProfile');
+        } catch (error) {
+            console.error('Error parsing JSON file:', error);
+            alert('Error loading file. Please ensure it is a valid JSON file.');
+        }
+    };
+    reader.readAsText(file);
+}
+
 function loadProfile(profile) {
     profile = window[profile];
     
@@ -118,6 +137,62 @@ function loadProfile(profile) {
         }
     });
 }
+
+function downloadProfile() {
+    // Get all input and select elements from the attacker sections (box1, box2, box3)
+    const box1Elements = document.querySelector('.box1').querySelectorAll('input, select');
+    const box2Elements = document.querySelector('.box2').querySelectorAll('input, select');
+    const box3Elements = document.querySelector('.box3').querySelectorAll('input, select');
+    
+    // Create object to store profile data
+    let profile = {};
+    
+    // Extract values from each box
+    [box1Elements, box2Elements, box3Elements].forEach(boxElements => {
+        boxElements.forEach(element => {
+            const id = element.id;
+            let value;
+            
+            if (element.type === 'checkbox') {
+                value = element.checked;
+            } else if (element.type === 'number') {
+                value = element.value === '' ? 0 : parseFloat(element.value);
+                if (isNaN(value)) {
+                    value = 0;
+                }
+            } else if (element.tagName === 'SELECT') {
+                value = element.value;
+            } else {
+                value = element.value;
+            }
+            
+            // Only add to profile if element has an id
+            if (id) {
+                profile[id] = value;
+            }
+        });
+    });
+
+    // Convert to JSON string with pretty formatting
+    const jsonStr = JSON.stringify(profile, null, 2);
+    
+    // Create blob and download link
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'attacker_profile.json';
+    
+    // Trigger download
+    document.body.appendChild(a);
+    a.click();
+    
+    // Cleanup
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+
 
 function sumInfo(id) {
     // Create popup container
