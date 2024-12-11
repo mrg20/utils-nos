@@ -35,7 +35,7 @@ function loadRaidSetup() {
                 <img src="boss_img/poluto.png" alt="poluto">
             </div>
             <div class="image-option" onclick="selectBoss(this)">
-                <img src="boss_img/meca.png" alt="mecanico">
+                <img src="boss_img/meca.png" alt="meca">
             </div>
             <div class="image-option" onclick="selectBoss(this)">
                 <img src="boss_img/completo.png" alt="completo">
