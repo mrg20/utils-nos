@@ -118,6 +118,7 @@ const alzanor_profile = {
 class Calculator {
     constructor(attacker, defender) {
         this.attacker = attacker;
+        this.attacker.critProbDebuff = [];
         this.defender = defender;
         this.damage = {};
         this.increaseAtkBuff = 0;
@@ -152,24 +153,27 @@ class Calculator {
             return
         const debuffEffects = {
             'aliento': () => {
-                this.attacker.critProb += 10;
+                this.attacker.critProbDebuff.push(10);
                 this.defender.res -= 10;
 
             },
             'canto': () => this.defender.armorUp -= 2,
             'ele_down_4': () => {
-                this.attacker.critProb += 30;
+                this.attacker.critProbDebuff.push(30);
                 this.defender.res -= 25;
             },
             'ele_down_5': () => {
                 this.defender.res -= 5,
                 this.defender.armorUp -= 1,
-                this.attacker.critProb += 15
+                this.attacker.critProbDebuff.push(15)
             },
             'gas_ulti': () => this.increaseAtkBuff += 15,
             'gas': () => {
                 this.defender.armorUp -= 1;
                 this.increaseAtkBuff += 15;
+            },
+            'toxicosis_mejorada': () => {
+                this.attacker.critProbDebuff.push(20);
             },
             'last holy': () => this.defender.res -= 5,
             'ruptura': () => this.defender.armorUp -= 5
@@ -379,8 +383,13 @@ class Calculator {
         const pEq = this.attacker.probAugmentEq / 100;
         const pSkin = this.attacker.probAugmentSkin / 100;
         const pCostume = this.attacker.probAugmentCostume / 100;
-        const pCrit = this.attacker.attackType === "Magic" ? 0 : (this.attacker.critProb + this.spCritProb()) / 100;
-        
+        let pCrit = this.attacker.attackType === "Magic" ? 0 : (this.attacker.critProb + this.spCritProb()) / 100;
+        if (this.attacker.critProbDebuff.length > 0){
+            this.attacker.critProbDebuff.forEach(debuff => {
+                pCrit *= (1 + (debuff / 100));
+            });
+        }
+
         // Calculate combined probabilities
         // Crits
         this.damage.probNoneCrit = (1 - pEq) * (1 - pSkin) * (1 - pCostume) * pCrit;

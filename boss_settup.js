@@ -100,6 +100,9 @@ function loadRaidSetup() {
             <div class="image-option" onclick="toggleSelection(this)">
                 <img src="debuff_img/ruptura.png" alt="ruptura">
             </div>
+            <div class="image-option" onclick="toggleSelection(this)">
+                <img src="debuff_img/toxicosis_mejorada.png" alt="toxicosis_mejorada">
+            </div>
         </div>
     </div>
     `;
