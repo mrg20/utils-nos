@@ -208,6 +208,11 @@
                 <div class="grid-item" id="icon-6-1" data-type="skin" style="background-image: url('image/pj_icons/skin.png'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
                 <div class="grid-item" id="icon-6-2" data-type="gorro_disfraz" style="background-image: url('image/pj_icons/gorro_disfraz.png'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
                 <div class="grid-item" id="icon-6-3" data-type="disfraz" style="background-image: url('image/pj_icons/disfraz.png'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
+            
+                <!-- Row 7 -->
+                <div class="grid-item" id="icon-7-1" data-type="mascota" style="background-image: url('image/pj_icons/mascota.png'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
+                <div class="grid-item" id="icon-7-2" data-type="compa" style="background-image: url('image/pj_icons/compa.png'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
+                <div class="grid-item" id="icon-7-3" data-type="compa_sp" style="background-image: url('image/pj_icons/compa_sp.png'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
             </div>
         </div>
         
@@ -220,106 +225,6 @@
         </div>
     </div>
 
-    <script>
-        // Sample options data - in a real application, this would come from a database or API
-        const optionsData = {
-            mascara: [
-                { id: 'mascara1', image: 'image/options/mascara1.png' },
-                { id: 'mascara2', image: 'image/options/mascara2.png' },
-                { id: 'mascara3', image: 'image/options/mascara3.png' }
-            ],
-            gorro: [
-                { id: 'gorro1', image: 'image/options/gorro1.png' },
-                { id: 'gorro2', image: 'image/options/gorro2.png' },
-                { id: 'gorro3', image: 'image/options/gorro3.png' },
-                { id: 'gorro4', image: 'image/options/gorro4.png' }
-            ],
-            armor: [
-                { id: 'armor1', image: 'image/options/armor1.png' },
-                { id: 'armor2', image: 'image/options/armor2.png' },
-                { id: 'armor3', image: 'image/options/armor3.png' },
-                { id: 'armor4', image: 'image/options/armor4.png' },
-                { id: 'armor5', image: 'image/options/armor5.png' }
-            ],
-            // Add more options for other types as needed
-        };
-        
-        // Fallback options for types that don't have specific options defined
-        const defaultOptions = [
-            { id: 'default1', image: 'image/options/default1.png' },
-            { id: 'default2', image: 'image/options/default2.png' }
-        ];
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            const gridItems = document.querySelectorAll('.grid-item');
-            const optionsPanel = document.getElementById('options-panel');
-            const optionsGrid = document.getElementById('options-grid');
-            let currentSelectedItem = null;
-            
-            gridItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    // Remove selected class from all items
-                    gridItems.forEach(i => i.classList.remove('selected'));
-                    
-                    // Add selected class to clicked item
-                    this.classList.add('selected');
-                    currentSelectedItem = this;
-                    
-                    // Show options panel
-                    optionsPanel.style.display = 'block';
-                    
-                    // Get the type of the selected item
-                    const itemType = this.getAttribute('data-type');
-                    
-                    // Display options for the selected type
-                    displayOptions(itemType);
-                });
-            });
-            
-            function displayOptions(itemType) {
-                // Clear previous options
-                optionsGrid.innerHTML = '';
-                
-                // Get options for the selected type, or use default if none exist
-                const options = optionsData[itemType] || defaultOptions;
-                
-                if (options.length === 0) {
-                    optionsGrid.innerHTML = '<div class="no-options">No options available for this item</div>';
-                    return;
-                }
-                
-                // Create option elements
-                options.forEach(option => {
-                    const optionElement = document.createElement('div');
-                    optionElement.className = 'option-item';
-                    optionElement.setAttribute('data-option-id', option.id);
-                    
-                    // Set background image if available
-                    if (option.image) {
-                        optionElement.style.backgroundImage = `url('${option.image}')`;
-                    } else {
-                        // Fallback display if no image
-                        optionElement.textContent = option.id;
-                    }
-                    
-                    // Add click event to select this option
-                    optionElement.addEventListener('click', function() {
-                        // Remove selected class from all options
-                        document.querySelectorAll('.option-item').forEach(o => o.classList.remove('selected'));
-                        
-                        // Add selected class to clicked option
-                        this.classList.add('selected');
-                        
-                        // Update the selected grid item's background image
-                        if (currentSelectedItem && option.image) {
-                            currentSelectedItem.style.backgroundImage = `url('${option.image}')`;
-                        }
-                    });
-                    
-                    optionsGrid.appendChild(optionElement);
-                });
-            }
-        });
-    </script>
+    <script src="stats_gathering.js"></script>
 </body>
 </html>
