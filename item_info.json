@@ -1,35 +1,70 @@
 {
     "4148": {
         "path": "image/items/alas/4148.png",
-        "type": "alas"
+        "type": "alas",
+        "props": {
+            "hada": 40
+        }
     },
     "4880": {
         "path": "image/items/alas/4880.png",
-        "type": "alas"
+        "type": "alas",
+        "props": {
+            "hada": 5
+        }
     },
     "588": {
         "path": "image/items/amuleto/588.png",
-        "type": "amuleto"
+        "type": "amuleto",
+        "props": {
+            "aumentos": 250
+        }
     },
     "660": {
         "path": "image/items/amuleto/660.png",
-        "type": "amuleto"
+        "type": "amuleto",
+        "props": {
+            "aumentos": 150
+        }
     },
     "661": {
         "path": "image/items/amuleto/661.png",
-        "type": "amuleto"
+        "type": "amuleto",
+        "props": {
+            "aumentos": 250
+        }
     },
     "4649": {
         "path": "image/items/anillo/4649.png",
-        "type": "anillo"
+        "type": "anillo",
+        "props": {
+            "aumentos": 30,
+            "hada": 3
+        }
     },
     "4974": {
         "path": "image/items/anillo/4974.png",
-        "type": "anillo"
+        "type": "anillo",
+        "props": {
+            "aumentos": 15,
+            "hada": 2
+        }
     },
     "4975": {
         "path": "image/items/anillo/4975.png",
-        "type": "anillo"
+        "type": "anillo",
+        "props": {
+            "aumentos": 50,
+            "hada": 5,
+            "elementos": 30
+        }
+    },
+    "296": {
+        "path": "image/items/armor/296.png",
+        "type": "armor",
+        "props": {
+            "res": 3
+        }
     },
     "4655": {
         "path": "image/items/armor/4655.png",
@@ -81,47 +116,92 @@
     },
     "4664": {
         "path": "image/items/bota/4664.png",
-        "type": "bota"
+        "type": "bota",
+        "props": {
+            "hada": 5
+        }
     },
     "4964": {
         "path": "image/items/bota/4964.png",
-        "type": "bota"
+        "type": "bota",
+        "props": {
+            "hada": 10
+        }
     },
     "4650": {
         "path": "image/items/brazalete/4650.png",
-        "type": "brazalete"
+        "type": "brazalete",
+        "props": {
+            "hada": 3,
+            "aumentos": 30
+        }
     },
     "4970": {
         "path": "image/items/brazalete/4970.png",
-        "type": "brazalete"
+        "type": "brazalete",
+        "props": {
+            "hada": 5,
+            "aumentos": 50,
+            "elementos": 30
+        }
     },
     "7101": {
         "path": "image/items/brazalete/7101.png",
-        "type": "brazalete"
+        "type": "brazalete",
+        "props": {
+            "hada": 2,
+            "aumentos": 15
+        }
     },
     "4644": {
         "path": "image/items/collar/4644.png",
-        "type": "collar"
+        "type": "collar",
+        "props": {
+            "hada": 4,
+            "aumentos": 40
+        }
     },
     "4978": {
         "path": "image/items/collar/4978.png",
-        "type": "collar"
+        "type": "collar",
+        "props": {
+            "hada": 3,
+            "aumentos": 20
     },
     "4979": {
         "path": "image/items/collar/4979.png",
-        "type": "collar"
+        "type": "collar",
+        "props": {
+            "hada": 7,
+            "aumentos": 60,
+            "elementos": 40
+        }
     },
     "4869": {
         "path": "image/items/compa/4869.png",
-        "type": "compa"
+        "type": "compa",
+        "props": {
+            "hada": 5,
+            "s%": 5,
+            "classe": "espada"
+        }
     },
     "4870": {
         "path": "image/items/compa/4870.png",
-        "type": "compa"
+        "type": "compa",
+        "props": {
+            "hada": 5,
+            "crit_dmg": 20,
+            "classe": "arquero"
+        }
     },
     "4871": {
         "path": "image/items/compa/4871.png",
-        "type": "compa"
+        "type": "compa",
+        "props": {
+            "hada": 5,
+            "classe": "mago"
+        }
     },
     "4856": {
         "path": "image/items/compa_sp/4856.png",

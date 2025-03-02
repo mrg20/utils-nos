@@ -297,6 +297,10 @@ item_info = {
         "path": "image/items/mascota/4145.png",
         "type": "mascota"
     },
+    "4872": {
+        "path": "image/items/mascota/4872.png",
+        "type": "mascota"
+    },
     "4854": {
         "path": "image/items/mascota/4854.png",
         "type": "mascota"
