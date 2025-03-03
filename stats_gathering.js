@@ -180,8 +180,35 @@ document.addEventListener('DOMContentLoaded', function() {
             relativePanel.appendChild(propContainer);
         });
         
-        // Add the panel after the options grid
-        optionsGrid.parentNode.insertBefore(relativePanel, optionsGrid.nextSibling);
+        // Check if we're using the left-side-container layout
+        const leftSideContainer = document.getElementById('left-side-container');
+        
+        if (leftSideContainer) {
+            // If we have the side-by-side layout, append to the left side container
+            const gridContainer = leftSideContainer.querySelector('.grid-container');
+            if (gridContainer) {
+                // Insert after the grid container
+                leftSideContainer.insertBefore(relativePanel, gridContainer.nextSibling);
+            } else {
+                // Fallback - just append to the container
+                leftSideContainer.appendChild(relativePanel);
+            }
+        } else {
+            // Original layout - insert after the grid container in the left container
+            const leftContainer = document.querySelector('.left-container');
+            const gridContainer = leftContainer.querySelector('.grid-container');
+            
+            if (gridContainer) {
+                leftContainer.insertBefore(relativePanel, gridContainer.nextSibling);
+            } else {
+                // Fallback - just append to the left container
+                leftContainer.appendChild(relativePanel);
+            }
+        }
+        
+        // Adjust styling to position it properly
+        relativePanel.style.marginTop = '20px';
+        relativePanel.style.width = '220px';
     }
     
     function addItemStats(item) {
@@ -191,13 +218,17 @@ document.addEventListener('DOMContentLoaded', function() {
             // Skip relative properties as they're handled separately
             if (key.startsWith('relative_')) return;
             
-            // Initialize if not exists
-            if (!accumulatedStats[key]) {
-                accumulatedStats[key] = 0;
+            // Handle different types of values
+            if (typeof value === 'string') {
+                // For string values, replace instead of add
+                accumulatedStats[key] = value;
+            } else {
+                // For numeric values, add
+                if (!accumulatedStats[key]) {
+                    accumulatedStats[key] = 0;
+                }
+                accumulatedStats[key] += value;
             }
-            
-            // Add the value
-            accumulatedStats[key] += value;
         });
     }
     
@@ -208,13 +239,19 @@ document.addEventListener('DOMContentLoaded', function() {
             // Skip relative properties
             if (key.startsWith('relative_')) return;
             
-            // Subtract the value if it exists
-            if (accumulatedStats[key]) {
-                accumulatedStats[key] -= value;
-                
-                // Remove property if zero
-                if (accumulatedStats[key] === 0) {
-                    delete accumulatedStats[key];
+            // Handle different types of values
+            if (typeof value === 'string') {
+                // For string values, remove the property
+                delete accumulatedStats[key];
+            } else {
+                // For numeric values, subtract
+                if (accumulatedStats[key]) {
+                    accumulatedStats[key] -= value;
+                    
+                    // Remove property if zero
+                    if (accumulatedStats[key] === 0) {
+                        delete accumulatedStats[key];
+                    }
                 }
             }
         });
@@ -286,60 +323,60 @@ item_info = {
         "path": "image/items/alas/4148.png",
         "type": "alas",
         "props": {
-            "hada": 40
+            "fairy": 40
         }
     },
     "4880": {
         "path": "image/items/alas/4880.png",
         "type": "alas",
         "props": {
-            "hada": 5
+            "fairy": 5
         }
     },
     "588": {
         "path": "image/items/amuleto/588.png",
         "type": "amuleto",
         "props": {
-            "aumentado": 250
+            "increased": 250
         }
     },
     "660": {
         "path": "image/items/amuleto/660.png",
         "type": "amuleto",
         "props": {
-            "aumentado": 150
+            "increased": 150
         }
     },
     "661": {
         "path": "image/items/amuleto/661.png",
         "type": "amuleto",
         "props": {
-            "aumentado": 250
+            "increased": 250
         }
     },
     "4649": {
         "path": "image/items/anillo/4649.png",
         "type": "anillo",
         "props": {
-            "aumentado": 30,
-            "hada": 3
+            "increased": 30,
+            "fairy": 3
         }
     },
     "4974": {
         "path": "image/items/anillo/4974.png",
         "type": "anillo",
         "props": {
-            "aumentado": 15,
-            "hada": 2
+            "increased": 15,
+            "fairy": 2
         }
     },
     "4975": {
         "path": "image/items/anillo/4975.png",
         "type": "anillo",
         "props": {
-            "aumentado": 50,
-            "hada": 5,
-            "elementos": 30
+            "increased": 50,
+            "fairy": 5,
+            "elements": 30
         }
     },
     "296": {
@@ -401,99 +438,99 @@ item_info = {
         "path": "image/items/bota/4664.png",
         "type": "bota",
         "props": {
-            "hada": 5
+            "fairy": 5
         }
     },
     "4964": {
         "path": "image/items/bota/4964.png",
         "type": "bota",
         "props": {
-            "hada": 10
+            "fairy": 10
         }
     },
     "4650": {
         "path": "image/items/brazalete/4650.png",
         "type": "brazalete",
         "props": {
-            "hada": 3,
-            "aumentado": 30
+            "fairy": 3,
+            "increased": 30
         }
     },
     "4970": {
         "path": "image/items/brazalete/4970.png",
         "type": "brazalete",
         "props": {
-            "hada": 5,
-            "aumentado": 50,
-            "elementos": 30
+            "fairy": 5,
+            "increased": 50,
+            "elements": 30
         }
     },
     "7101": {
         "path": "image/items/brazalete/7101.png",
         "type": "brazalete",
         "props": {
-            "hada": 2,
-            "aumentado": 15
+            "fairy": 2,
+            "increased": 15
         }
     },
     "4644": {
         "path": "image/items/collar/4644.png",
         "type": "collar",
         "props": {
-            "hada": 4,
-            "aumentado": 40
+            "fairy": 4,
+            "increased": 40
         }
     },
     "4978": {
         "path": "image/items/collar/4978.png",
         "type": "collar",
         "props": {
-            "hada": 3,
-            "aumentado": 20
+            "fairy": 3,
+            "increased": 20
         }
     },
     "4979": {
         "path": "image/items/collar/4979.png",
         "type": "collar",
         "props": {
-            "hada": 7,
-            "aumentado": 60,
-            "elementos": 40
+            "fairy": 7,
+            "increased": 60,
+            "elements": 40
         }
     },
     "4869": {
         "path": "image/items/compa/4869.png",
         "type": "compa",
         "props": {
-            "hada": 5,
+            "fairy": 5,
             "s%": 5,
-            "clase": "espada"
+            "companion_class": "sword"
         }
     },
     "4870": {
         "path": "image/items/compa/4870.png",
         "type": "compa",
         "props": {
-            "hada": 5,
+            "fairy": 5,
             "crit_dmg": 20,
-            "clase": "arquero"
+            "companion_class": "archer"
         }
     },
     "4871": {
         "path": "image/items/compa/4871.png",
         "type": "compa",
         "props": {
-            "hada": 5,
-            "clase": "mago"
+            "fairy": 5,
+            "companion_class": "mage"
         }
     },
     "4856": {
         "path": "image/items/compa_sp/4856.png",
         "type": "compa_sp",
         "props": {
-            "relative_hada": 10,
+            "relative_fairy": 10,
             "relative_s%": 20,
-            "clase": "espada"
+            "companion_class": "sword"
         }
     },
     "4912": {
@@ -501,7 +538,7 @@ item_info = {
         "type": "compa_sp",
         "props": {
             "relative_s%": 7,
-            "clase": "arquero"
+            "companion_class": "archer"
         }
     },
     "7155": {
@@ -509,7 +546,7 @@ item_info = {
         "type": "compa_sp",
         "props": {
             "relative_s%": 10,
-            "clase": "mago"
+            "companion_class": "mage"
         }
     },
     "4883": {
@@ -528,8 +565,8 @@ item_info = {
         "type": "disfraz",
         "props": {
             "s%": 5,
-            "prob_aumento_high": 10,
-            "aumento_high": 30
+            "high_increase_prob": 10,
+            "high_increase": 30
         }
     },
     "4625": {
@@ -543,7 +580,7 @@ item_info = {
         "path": "image/items/gorro/4960.png",
         "type": "gorro",
         "props": {
-            "SL_poder": 2,
+            "SL_power": 2,
             "s%": 7
         }
     },
@@ -575,21 +612,21 @@ item_info = {
         "path": "image/items/guante/4665.png",
         "type": "guante",
         "props": {
-            "hada": 5
+            "fairy": 5
         }
     },
     "4962": {
         "path": "image/items/guante/4962.png",
         "type": "guante",
         "props": {
-            "hada": 10
+            "fairy": 10
         }
     },
     "4980": {
         "path": "image/items/hadas/4980.png",
         "type": "hadas",
         "props": {
-            "relative_hada": 80,
+            "relative_fairy": 80,
             "res": 3
         }
     },
@@ -597,7 +634,7 @@ item_info = {
         "path": "image/items/hadas/4981.png",
         "type": "hadas",
         "props": {
-            "relative_hada": 80,
+            "relative_fairy": 80,
             "res": 3
         }
     },
@@ -605,7 +642,7 @@ item_info = {
         "path": "image/items/hadas/4983.png",
         "type": "hadas",
         "props": {
-            "relative_hada": 80,
+            "relative_fairy": 80,
             "res": 3
         }
     },
@@ -613,7 +650,7 @@ item_info = {
         "path": "image/items/hadas/4984.png",
         "type": "hadas",
         "props": {
-            "relative_hada": 80,
+            "relative_fairy": 80,
             "res": 3
         }
     },
@@ -621,43 +658,43 @@ item_info = {
         "path": "image/items/hadas/987.png",
         "type": "hadas",
         "props": {
-            "relative_hada": 80
+            "relative_fairy": 80
         }
     },
     "988": {
         "path": "image/items/hadas/988.png",
         "type": "hadas",
         "props": {
-            "relative_hada": 80
+            "relative_fairy": 80
         }
     },
     "989": {
         "path": "image/items/hadas/989.png",
         "type": "hadas",
         "props": {
-            "relative_hada": 80
+            "relative_fairy": 80
         }
     },
     "993": {
         "path": "image/items/hadas/993.png",
         "type": "hadas",
         "props": {
-            "relative_hada": 80
+            "relative_fairy": 80
         }
     },
     "227": {
         "path": "image/items/mascara/227.png",
         "type": "mascara",
         "props": {
-            "elementos": 10,
-            "aumentado": 13
+            "elements": 10,
+            "increased": 13
         }
     },
     "4966": {
         "path": "image/items/mascara/4966.png",
         "type": "mascara",
         "props": {
-            "SL_poder": 2,
+            "SL_power": 2,
             "s%": 3
         }
     },
@@ -722,14 +759,14 @@ item_info = {
         "type": "primaria",
         "props": {
             "res": 35,
-            "elementos": 205,
-            "prob_aumento": 40,
-            "aumento": 45,
+            "elements": 205,
+            "increase_prob": 40,
+            "increase": 45,
             "relative_min_dmg": 916,
             "relative_max_dmg": 1015,
-            "prob_crit": 27,
+            "crit_prob": 27,
             "crit_dmg": 270,
-            "clase": "artista"
+            "class": "artist"
         }
     },
     "4629": {
@@ -737,14 +774,14 @@ item_info = {
         "type": "primaria",
         "props": {
             "res": 33,
-            "elementos": 210,
-            "prob_aumento": 40,
-            "aumento": 45,
+            "elements": 210,
+            "increase_prob": 40,
+            "increase": 45,
             "relative_min_dmg": 952,
             "relative_max_dmg": 1060,
-            "prob_crit": 17,
+            "crit_prob": 17,
             "crit_dmg": 280,
-            "clase": "espada"
+            "class": "sword"
         }
     },
     "4631": {
@@ -752,14 +789,14 @@ item_info = {
         "type": "primaria",
         "props": {
             "res": 40,
-            "elementos": 300,
-            "prob_aumento": 25,
-            "aumento": 65,
+            "elements": 300,
+            "increase_prob": 25,
+            "increase": 65,
             "relative_min_dmg": 939,
             "relative_max_dmg": 1074,
-            "prob_crit": 0,
+            "crit_prob": 0,
             "crit_dmg": 0,
-            "clase": "mago"
+            "class": "mage"
         }
     },
     "4633": {
@@ -767,14 +804,14 @@ item_info = {
         "type": "primaria",
         "props": {
             "res": 35,
-            "elementos": 190,
-            "prob_aumento": 30,
-            "aumento": 60,
+            "elements": 190,
+            "increase_prob": 30,
+            "increase": 60,
             "relative_min_dmg": 834,
             "relative_max_dmg": 1040,
-            "prob_crit": 21,
+            "crit_prob": 21,
             "crit_dmg": 290,
-            "clase": "arquero"
+            "class": "archer"
         }
     },
     "4944": {
@@ -782,14 +819,14 @@ item_info = {
         "type": "primaria",
         "props": {
             "res": 31,
-            "elementos": 230,
-            "prob_aumento": 40,
-            "aumento": 40,
+            "elements": 230,
+            "increase_prob": 40,
+            "increase": 40,
             "relative_min_dmg": 1043,
             "relative_max_dmg": 1162,
-            "prob_crit": 17,
+            "crit_prob": 17,
             "crit_dmg": 260,
-            "clase": "espada"
+            "class": "sword"
         }
     },
     "4945": {
@@ -797,14 +834,14 @@ item_info = {
         "type": "primaria",
         "props": {
             "res": 38,
-            "elementos": 276,
-            "prob_aumento": 40,
-            "aumento": 50,
+            "elements": 276,
+            "increase_prob": 40,
+            "increase": 50,
             "relative_min_dmg": 1252,
             "relative_max_dmg": 1394,
-            "prob_crit": 20,
+            "crit_prob": 20,
             "crit_dmg": 325,
-            "clase": "espada"
+            "class": "sword"
         }
     },
     "4946": {
@@ -812,14 +849,14 @@ item_info = {
         "type": "primaria",
         "props": {
             "res": 40,
-            "elementos": 259,
-            "prob_aumento": 35,
-            "aumento": 60,
+            "elements": 259,
+            "increase_prob": 35,
+            "increase": 60,
             "relative_min_dmg": 1096,
             "relative_max_dmg": 1368,
-            "prob_crit": 26,
+            "crit_prob": 26,
             "crit_dmg": 335,
-            "clase": "arquero"
+            "class": "archer"
         }
     },
     "4947": {
@@ -827,14 +864,14 @@ item_info = {
         "type": "primaria",
         "props": {
             "res": 33,
-            "elementos": 216,
-            "prob_aumento": 35,
-            "aumento": 55,
+            "elements": 216,
+            "increase_prob": 35,
+            "increase": 55,
             "relative_min_dmg": 913,
             "relative_max_dmg": 1140,
-            "prob_crit": 21,
+            "crit_prob": 21,
             "crit_dmg": 270,
-            "clase": "arquero"
+            "class": "archer"
         }
     },
     "4948": {
@@ -842,12 +879,12 @@ item_info = {
         "type": "primaria",
         "props": {
             "res": 38,
-            "elementos": 300,
-            "prob_aumento": 25,
-            "aumento": 60,
+            "elements": 300,
+            "increase_prob": 25,
+            "increase": 60,
             "relative_min_dmg": 1028,
             "relative_max_dmg": 1176,
-            "clase": "mago"
+            "class": "mage"
         }
     },
     "4949": {
@@ -855,12 +892,12 @@ item_info = {
         "type": "primaria",
         "props": {
             "res": 45,
-            "elementos": 324,
-            "prob_aumento": 30,
-            "aumento": 65,
+            "elements": 324,
+            "increase_prob": 30,
+            "increase": 65,
             "relative_min_dmg": 1234,
             "relative_max_dmg": 1411,
-            "clase": "mago"
+            "class": "mage"
         }
     },
     "4950": {
@@ -868,14 +905,14 @@ item_info = {
         "type": "primaria",
         "props": {
             "res": 33,
-            "elementos": 240,
-            "prob_aumento": 40,
-            "aumento": 40,
+            "elements": 240,
+            "increase_prob": 40,
+            "increase": 40,
             "relative_min_dmg": 1053,
             "relative_max_dmg": 1167,
-            "prob_crit": 27,
+            "crit_prob": 27,
             "crit_dmg": 250,
-            "clase": "artista"
+            "class": "artist"
         }
     },
     "4951": {
@@ -883,14 +920,14 @@ item_info = {
         "type": "primaria",
         "props": {
             "res": 40,
-            "elementos": 246,
-            "prob_aumento": 40,
-            "aumento": 50,
+            "elements": 246,
+            "increase_prob": 40,
+            "increase": 50,
             "relative_min_dmg": 1264,
             "relative_max_dmg": 1400,
-            "prob_crit": 31,
+            "crit_prob": 31,
             "crit_dmg": 310,
-            "clase": "artista"
+            "class": "artist"
         }
     },
     "4635": {
@@ -898,14 +935,15 @@ item_info = {
         "type": "secundaria",
         "props": {
             "res": 27,
-            "elementos": 30,
-            "aumentado": 280,            "prob_aumento": 15,
-            "aumento": 50,
+            "elements": 30,
+            "increased": 280,
+            "increase_prob": 15,
+            "increase": 50,
             "relative_min_dmg": 843,
             "relative_max_dmg": 988,
-            "prob_crit": 23,
+            "crit_prob": 23,
             "crit_dmg": 265,
-            "clase": "espada"
+            "class": "sword"
         }
     },
     "4637": {
@@ -913,14 +951,14 @@ item_info = {
         "type": "secundaria",
         "props": {
             "res": 25,
-            "elementos": 20,
-            "prob_aumento": 6,
-            "aumento": 80,
+            "elements": 20,
+            "increase_prob": 6,
+            "increase": 80,
             "relative_min_dmg": 679,
             "relative_max_dmg": 757,
-            "prob_crit": 25,
+            "crit_prob": 25,
             "crit_dmg": 437,
-            "clase": "arquero"
+            "class": "archer"
         }
     },
     "4639": {
@@ -928,14 +966,14 @@ item_info = {
         "type": "secundaria",
         "props": {
             "res": 25,
-            "elementos": 21,
-            "prob_aumento": 30,
-            "aumento": 45,
+            "elements": 21,
+            "increase_prob": 30,
+            "increase": 45,
             "relative_min_dmg": 894,
             "relative_max_dmg": 1004,
-            "prob_crit": 22,
+            "crit_prob": 22,
             "crit_dmg": 292,
-            "clase": "mago"
+            "class": "mage"
         }
     },
     "4641": {
@@ -943,14 +981,14 @@ item_info = {
         "type": "secundaria",
         "props": {
             "res": 25,
-            "aumtado": 260,
-            "prob_aumento": 10,
-            "aumento": 70,
+            "increased": 260,
+            "increase_prob": 10,
+            "increase": 70,
             "relative_min_dmg": 614,
             "relative_max_dmg": 796,
-            "prob_crit": 20,
+            "crit_prob": 20,
             "crit_dmg": 282,
-            "clase": "artista"
+            "class": "artist"
         }
     },
     "4936": {
@@ -958,15 +996,15 @@ item_info = {
         "type": "secundaria",
         "props": {
             "res": 25,
-            "aumentado": 290,
-            "elementos": 30,
-            "prob_aumento": 15,
-            "aumento": 45,
+            "increased": 290,
+            "elements": 30,
+            "increase_prob": 15,
+            "increase": 45,
             "relative_min_dmg": 969,
             "relative_max_dmg": 1136,
-            "prob_crit": 23,
+            "crit_prob": 23,
             "crit_dmg": 245,
-            "clase": "espada"
+            "class": "sword"
         }
     },
     "4937": {
@@ -974,15 +1012,15 @@ item_info = {
         "type": "secundaria",
         "props": {
             "res": 32,
-            "aumentado": 320,
-            "elementos": 36,
-            "prob_aumento": 15,
-            "aumento": 55,
+            "increased": 320,
+            "elements": 36,
+            "increase_prob": 15,
+            "increase": 55,
             "relative_min_dmg": 1163,
             "relative_max_dmg": 1363,
-            "prob_crit": 26,
+            "crit_prob": 26,
             "crit_dmg": 315,
-            "clase": "espada"
+            "class": "sword"
         }
     },
     "4938": {
@@ -990,14 +1028,14 @@ item_info = {
         "type": "secundaria",
         "props": {
             "res": 23,
-            "elementos": 20,
-            "prob_aumento": 6,
-            "aumento": 75,
+            "elements": 20,
+            "increase_prob": 6,
+            "increase": 75,
             "relative_min_dmg": 830,
             "relative_max_dmg": 925,
-            "prob_crit": 25,
+            "crit_prob": 25,
             "crit_dmg": 417,
-            "clase": "arquero"
+            "class": "archer"
         }
     },
     "4939": {
@@ -1005,14 +1043,14 @@ item_info = {
         "type": "secundaria",
         "props": {
             "res": 30,
-            "elementos": 24,
-            "prob_aumento": 10,
-            "aumento": 85,
+            "elements": 24,
+            "increase_prob": 10,
+            "increase": 85,
             "relative_min_dmg": 950,
             "relative_max_dmg": 1110,
-            "prob_crit": 30,
+            "crit_prob": 30,
             "crit_dmg": 497,
-            "clase": "arquero"
+            "class": "archer"
         }
     },
     "4940": {
@@ -1020,14 +1058,14 @@ item_info = {
         "type": "secundaria",
         "props": {
             "res": 23,
-            "elementos": 23,
-            "prob_aumento": 30,
-            "aumento": 40,
+            "elements": 23,
+            "increase_prob": 30,
+            "increase": 40,
             "relative_min_dmg": 1028,
             "relative_max_dmg": 1155,
-            "prob_crit": 22,
+            "crit_prob": 22,
             "crit_dmg": 272,
-            "clase": "mago"
+            "class": "mage"
         }
     },
     "4941": {
@@ -1035,14 +1073,14 @@ item_info = {
         "type": "secundaria",
         "props": {
             "res": 30,
-            "elementos": 25,
-            "prob_aumento": 30,
-            "aumento": 55,
+            "elements": 25,
+            "increase_prob": 30,
+            "increase": 55,
             "relative_min_dmg": 1234,
             "relative_max_dmg": 1386,
-            "prob_crit": 26,
+            "crit_prob": 26,
             "crit_dmg": 322,
-            "clase": "mago"
+            "class": "mage"
         }
     },
     "4942": {
@@ -1050,14 +1088,14 @@ item_info = {
         "type": "secundaria",
         "props": {
             "res": 23,
-            "aumentado": 270,
-            "prob_aumento": 10,
-            "aumento": 65,
+            "increased": 270,
+            "increase_prob": 10,
+            "increase": 65,
             "relative_min_dmg": 706,
             "relative_max_dmg": 915,
-            "prob_crit": 20,
+            "crit_prob": 20,
             "crit_dmg": 262,
-            "clase": "artista"
+            "class": "artist"
         }
     },
     "4943": {
@@ -1065,22 +1103,22 @@ item_info = {
         "type": "secundaria",
         "props": {
             "res": 30,
-            "aumentado": 300,
-            "prob_aumento": 10,
-            "aumento": 65,
+            "increased": 300,
+            "increase_prob": 10,
+            "increase": 65,
             "relative_min_dmg": 847,
             "relative_max_dmg": 1098,
-            "prob_crit": 24,
+            "crit_prob": 24,
             "crit_dmg": 318,
-            "clase": "artista"
+            "class": "artist"
         }
     },
     "2918": {
         "path": "image/items/skin/2918.png",
         "type": "skin",
         "props": {
-            "prob_aumento_high": 30,
-            "aumento_high": 10
+            "high_increase_prob": 30,
+            "high_increase": 10
         }
     },
     "4874": {
@@ -1115,680 +1153,680 @@ item_info = {
         "path": "image/items/SP/2544.png",
         "type": "SP",
         "props": {
-            "clase": "espada",
-            "arma": "primaria",
+            "class": "sword",
+            "weapon": "primary",
             "element": "FIRE",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "2545": {
         "path": "image/items/SP/2545.png",
         "type": "SP",
         "props": {
-            "clase": "arquero",
-            "arma": "primaria",
+            "class": "archer",
+            "weapon": "primary",
             "element": "FIRE",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "2546": {
         "path": "image/items/SP/2546.png",
         "type": "SP",
         "props": {
-            "clase": "mago",
-            "arma": "primaria",
+            "class": "mage",
+            "weapon": "primary",
             "element": "FIRE",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "2588": {
         "path": "image/items/SP/2588.png",
         "type": "SP",
         "props": {
-            "clase": "espada",
-            "arma": "primaria",
+            "class": "sword",
+            "weapon": "primary",
             "element": "WATER",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "2589": {
         "path": "image/items/SP/2589.png",
         "type": "SP",
         "props": {
-            "clase": "arquero",
-            "arma": "primaria",
+            "class": "archer",
+            "weapon": "primary",
             "element": "WATER",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "2590": {
         "path": "image/items/SP/2590.png",
         "type": "SP",
         "props": {
-            "clase": "mago",
-            "arma": "primaria",
+            "class": "mage",
+            "weapon": "primary",
             "element": "WATER",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "2654": {
         "path": "image/items/SP/2654.png",
         "type": "SP",
         "props": {
-            "clase": "espada",
-            "arma": "primaria",
+            "class": "sword",
+            "weapon": "primary",
             "element": "SHADOW",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "2655": {
         "path": "image/items/SP/2655.png",
         "type": "SP",
         "props": {
-            "clase": "arquero",
-            "arma": "secundaria",
+            "class": "archer",
+            "weapon": "secondary",
             "element": "SHADOW",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "2656": {
         "path": "image/items/SP/2656.png",
         "type": "SP",
         "props": {
-            "clase": "mago",
-            "arma": "primaria",
+            "class": "mage",
+            "weapon": "primary",
             "element": "SHADOW",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "2706": {
         "path": "image/items/SP/2706.png",
         "type": "SP",
         "props": {
-            "clase": "espada",
-            "arma": "primaria",
+            "class": "sword",
+            "weapon": "primary",
             "element": "LIGHT",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "2707": {
         "path": "image/items/SP/2707.png",
         "type": "SP",
         "props": {
-            "clase": "arquero",
-            "arma": "secundaria",
+            "class": "archer",
+            "weapon": "secondary",
             "element": "LIGHT",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "2708": {
         "path": "image/items/SP/2708.png",
         "type": "SP",
         "props": {
-            "clase": "mago",
-            "arma": "primaria",
+            "class": "mage",
+            "weapon": "primary",
             "element": "LIGHT",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "4048": {
         "path": "image/items/SP/4048.png",
         "type": "SP",
         "props": {
-            "clase": "artista",
-            "arma": "primaria",
+            "class": "artist",
+            "weapon": "primary",
             "element": "FIRE",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "4093": {
         "path": "image/items/SP/4093.png",
         "type": "SP",
         "props": {
-            "clase": "artista",
-            "arma": "primaria",
+            "class": "artist",
+            "weapon": "primary",
             "element": "WATER",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "4126": {
         "path": "image/items/SP/4126.png",
         "type": "SP",
         "props": {
-            "clase": "artista",
-            "arma": "primaria",
+            "class": "artist",
+            "weapon": "primary",
             "element": "LIGHT",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "4151": {
         "path": "image/items/SP/4151.png",
         "type": "SP",
         "props": {
-            "clase": "artista",
-            "arma": "primaria",
+            "class": "artist",
+            "weapon": "primary",
             "element": "SHADOW",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "4494": {
         "path": "image/items/SP/4494.png",
         "type": "SP",
         "props": {
-            "clase": "arquero",
-            "arma": "primaria",
+            "class": "archer",
+            "weapon": "primary",
             "element": "LIGHT",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "4495": {
         "path": "image/items/SP/4495.png",
         "type": "SP",
         "props": {
-            "clase": "artista",
-            "arma": "primaria",
+            "class": "artist",
+            "weapon": "primary",
             "element": "FIRE",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "4496": {
         "path": "image/items/SP/4496.png",
         "type": "SP",
         "props": {
-            "clase": "espada",
-            "arma": "primaria",
+            "class": "sword",
+            "weapon": "primary",
             "element": "WATER",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "4497": {
         "path": "image/items/SP/4497.png",
         "type": "SP",
         "props": {
-            "clase": "mago",
-            "arma": "primaria",
+            "class": "mage",
+            "weapon": "primary",
             "element": "SHADOW",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "4860": {
         "path": "image/items/SP/4860.png",
         "type": "SP",
         "props": {
-            "clase": "arquero",
-            "arma": "primaria",
+            "class": "archer",
+            "weapon": "primary",
             "element": "FIRE",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "4861": {
         "path": "image/items/SP/4861.png",
         "type": "SP",
         "props": {
-            "clase": "artista",
-            "arma": "primaria",
+            "class": "artist",
+            "weapon": "primary",
             "element": "SHADOW",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "4862": {
         "path": "image/items/SP/4862.png",
         "type": "SP",
         "props": {
-            "clase": "espada",
-            "arma": "primaria",
+            "class": "sword",
+            "weapon": "primary",
             "element": "LIGHT",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "4863": {
         "path": "image/items/SP/4863.png",
         "type": "SP",
         "props": {
-            "clase": "mago",
-            "arma": "primaria",
+            "class": "mage",
+            "weapon": "primary",
             "element": "WATER",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "7138": {
         "path": "image/items/SP/7138.png",
         "type": "SP",
         "props": {
-            "clase": "espada",
-            "arma": "primaria",
+            "class": "sword",
+            "weapon": "primary",
             "element": "FIRE",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "7139": {
         "path": "image/items/SP/7139.png",
         "type": "SP",
         "props": {
-            "clase": "arquero",
-            "arma": "primaria",
+            "class": "archer",
+            "weapon": "primary",
             "element": "SHADOW",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "7140": {
         "path": "image/items/SP/7140.png",
         "type": "SP",
         "props": {
-            "clase": "mago",
-            "arma": "secundaria",
+            "class": "mage",
+            "weapon": "secondary",
             "element": "FIRE",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "7141": {
         "path": "image/items/SP/7141.png",
         "type": "SP",
         "props": {
-            "clase": "artista",
-            "arma": "secundaria",
+            "class": "artist",
+            "weapon": "secondary",
             "element": "LIGHT",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "901": {
         "path": "image/items/SP/901.png",
         "type": "SP",
         "props": {
-            "clase": "espada",
-            "arma": "primaria",
+            "class": "sword",
+            "weapon": "primary",
             "element": "FIRE",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "902": {
         "path": "image/items/SP/902.png",
         "type": "SP",
         "props": {
-            "clase": "espada",
-            "arma": "primaria",
+            "class": "sword",
+            "weapon": "primary",
             "element": "WATER",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "903": {
         "path": "image/items/SP/903.png",
         "type": "SP",
         "props": {
-            "clase": "arquero",
-            "arma": "primaria",
+            "class": "archer",
+            "weapon": "primary",
             "element": "WATER",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "904": {
         "path": "image/items/SP/904.png",
         "type": "SP",
         "props": {
-            "clase": "arquero",
-            "arma": "secundaria",
+            "class": "archer",
+            "weapon": "secondary",
             "element": "SHADOW",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "905": {
         "path": "image/items/SP/905.png",
         "type": "SP",
         "props": {
-            "clase": "mago",
-            "arma": "primaria",
+            "class": "mage",
+            "weapon": "primary",
             "element": "FIRE",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "906": {
         "path": "image/items/SP/906.png",
         "type": "SP",
         "props": {
-            "clase": "mago",
-            "arma": "primaria",
+            "class": "mage",
+            "weapon": "primary",
             "element": "LIGHT",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "909": {
         "path": "image/items/SP/909.png",
         "type": "SP",
         "props": {
-            "clase": "espada",
-            "arma": "secundaria",
+            "class": "sword",
+            "weapon": "secondary",
             "element": "LIGHT",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "910": {
         "path": "image/items/SP/910.png",
         "type": "SP",
         "props": {
-            "clase": "espada",
-            "arma": "primaria",
+            "class": "sword",
+            "weapon": "primary",
             "element": "SHADOW",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "911": {
         "path": "image/items/SP/911.png",
         "type": "SP",
         "props": {
-            "clase": "arquero",
-            "arma": "primaria",
+            "class": "archer",
+            "weapon": "primary",
             "element": "FIRE",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "912": {
         "path": "image/items/SP/912.png",
         "type": "SP",
         "props": {
-            "clase": "arquero",
-            "arma": "primaria",
+            "class": "archer",
+            "weapon": "primary",
             "element": "LIGHT",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "913": {
         "path": "image/items/SP/913.png",
         "type": "SP",
         "props": {
-            "clase": "mago",
-            "arma": "primaria",
+            "class": "mage",
+            "weapon": "primary",
             "element": "WATER",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     },
     "914": {
         "path": "image/items/SP/914.png",
         "type": "SP",
         "props": {
-            "clase": "mago",
-            "arma": "secundaria",
+            "class": "mage",
+            "weapon": "secondary",
             "element": "SHADOW",
-            "relative_SL_daño": 0,
-            "relative_SL_defensa": 0,
-            "relative_SL_poder": 0,
-            "relative_SL_energia": 0,
-            "relative_pp_daño": 0,
-            "relative_pp_defensa": 0,
-            "relative_pp_poder": 0,
-            "relative_pp_energia": 0
+            "relative_SL_damage": 0,
+            "relative_SL_defense": 0,
+            "relative_SL_power": 0,
+            "relative_SL_energy": 0,
+            "relative_pp_damage": 0,
+            "relative_pp_defense": 0,
+            "relative_pp_power": 0,
+            "relative_pp_energy": 0
         }
     }
 }
