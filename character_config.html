@@ -15,19 +15,25 @@
         
         .main-container {
             display: flex;
-            max-width: 900px;
-            margin: 0 auto;
+            flex-direction: row;
+            gap: 20px;
+            justify-content: center;
+            align-items: flex-start;
             padding: 0 20px;
         }
         
         .left-container {
-            flex: 0 0 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            min-width: 300px;
         }
         
         .right-container {
-            flex: 1;
-            margin-left: 30px;
-            display: none;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            min-width: 300px;
         }
         
         .options-title {
@@ -59,6 +65,10 @@
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
+            width: 70px !important;
+            height: 70px !important;
+            min-width: 70px;
+            min-height: 70px;
         }
         
         .option-item:hover {
@@ -78,14 +88,11 @@
         
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(6, 1fr);
-            gap: 5px;
-            background-color: #111;
-            padding: 10px;
-            border: none;
-            width: 220px;
-            margin: 0 auto;
+            grid-template-columns: repeat(3, 70px);
+            grid-template-rows: repeat(3, 70px);
+            gap: 10px;
+            width: 230px;
+            height: 230px;
         }
         
         .grid-item {
@@ -99,6 +106,10 @@
             cursor: pointer;
             transition: all 0.2s ease;
             overflow: hidden;
+            width: 70px;
+            height: 70px;
+            min-width: 70px;
+            min-height: 70px;
         }
         
         .grid-item:hover {
@@ -170,10 +181,12 @@
         }
         
         .relative-props-panel {
-            margin-top: 20px;
             background-color: #222;
             padding: 15px;
             border-radius: 5px;
+            width: 230px;
+            min-height: 100px;
+            margin-top: 20px;
         }
         
         .relative-props-panel h3 {
@@ -204,11 +217,12 @@
         }
         
         .stats-display {
-            margin-top: 30px;
             background-color: #222;
             padding: 15px;
             border-radius: 5px;
-            max-width: 300px;
+            width: 230px;
+            min-height: 150px;
+            margin-bottom: 20px;
         }
         
         .stats-display h3 {
@@ -251,6 +265,32 @@
         
         .confirm-button:hover {
             background-color: #2980b9;
+        }
+        
+        /* Options grid section */
+        .options-panel {
+            background-color: #222;
+            padding: 15px;
+            border-radius: 5px;
+            width: 300px;
+            min-height: 200px;
+        }
+        
+        .options-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+            width: 100%;
+            min-height: 150px;
+        }
+        
+        /* Left side container for side-by-side layout */
+        .left-side-container {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            align-items: flex-start;
         }
     </style>
 </head>

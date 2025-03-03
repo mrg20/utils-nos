@@ -1,4 +1,60 @@
+import Calculator from './Calculator.js';
+
+// Add this function to initialize the layout properly on page load
+function initializeLayout() {
+    // Create the left-side-container if it doesn't exist
+    let leftSideContainer = document.getElementById('left-side-container');
+    if (!leftSideContainer) {
+        // Create a new container
+        leftSideContainer = document.createElement('div');
+        leftSideContainer.id = 'left-side-container';
+        leftSideContainer.className = 'left-side-container';
+        
+        // Get the left container and the grid container
+        const leftContainer = document.querySelector('.left-container');
+        const gridContainer = document.querySelector('.grid-container');
+        
+        if (leftContainer && gridContainer) {
+            // Remove grid container from its parent
+            gridContainer.parentNode.removeChild(gridContainer);
+            
+            // Create stats display if it doesn't exist
+            let statsDisplay = document.getElementById('stats-display');
+            if (!statsDisplay) {
+                statsDisplay = document.createElement('div');
+                statsDisplay.id = 'stats-display';
+                statsDisplay.className = 'stats-display';
+                statsDisplay.innerHTML = '<h3>Accumulated Stats</h3><p>No stats accumulated yet</p>';
+            }
+            
+            // Add stats display and grid container to the new container
+            leftSideContainer.appendChild(statsDisplay);
+            leftSideContainer.appendChild(gridContainer);
+            
+            // Add the new container to the left container
+            leftContainer.appendChild(leftSideContainer);
+        }
+    }
+    
+    // Make sure options panel has the correct styles
+    const optionsPanel = document.getElementById('options-panel');
+    if (optionsPanel) {
+        optionsPanel.className = 'options-panel';
+    }
+    
+    // Make sure options grid has the correct styles
+    const optionsGrid = document.getElementById('options-grid');
+    if (optionsGrid) {
+        optionsGrid.className = 'options-grid';
+    }
+}
+
+// Call this function at the beginning of the DOMContentLoaded event
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize the layout first
+    initializeLayout();
+    
+    // Rest of your existing code...
     const gridItems = document.querySelectorAll('.grid-item');
     const optionsPanel = document.getElementById('options-panel');
     const optionsGrid = document.getElementById('options-grid');
@@ -256,9 +312,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // Adjust styling to position it properly
-        panel.style.marginTop = '20px';
-        panel.style.width = '220px';
+        // No need to set inline styles as they're defined in the CSS
     }
     
     // Completely rewritten SL_overall handling system
@@ -466,7 +520,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Create the stats display element
     function createStatsDisplay() {
-        let statsDisplay = document.createElement('div');
+        // Check if stats display already exists
+        let statsDisplay = document.getElementById('stats-display');
+        if (statsDisplay) {
+            // If it exists, just update its content
+            updateStatsDisplay();
+            return;
+        }
+        
+        // Create a new stats display if it doesn't exist
+        statsDisplay = document.createElement('div');
         statsDisplay.id = 'stats-display';
         statsDisplay.className = 'stats-display';
         
@@ -477,9 +540,6 @@ document.addEventListener('DOMContentLoaded', function() {
             leftSideContainer = document.createElement('div');
             leftSideContainer.id = 'left-side-container';
             leftSideContainer.className = 'left-side-container';
-            leftSideContainer.style.display = 'flex';
-            leftSideContainer.style.flexDirection = 'row';
-            leftSideContainer.style.gap = '20px';
             
             // Get the left container and the grid container
             const leftContainer = document.querySelector('.left-container');
@@ -545,6 +605,11 @@ document.addEventListener('DOMContentLoaded', function() {
         statsDisplay.innerHTML = statsHTML;
     }
 });
+
+function calculateDamage() {
+    const calculator = new Calculator(attacker, defender);
+    calculator.calculateDamage();
+}
 
 item_info = {
     "4148": {
