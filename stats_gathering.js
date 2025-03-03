@@ -1,4 +1,3 @@
-import Calculator from './Calculator.js';
 
 // Add this function to initialize the layout properly on page load
 function initializeLayout() {
