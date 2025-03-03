@@ -88,6 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Store the selected item
                 const optionId = this.getAttribute('data-option-id');
                 const itemInfo = item_info[optionId];
+                itemInfo.id = optionId
                 
                 // Remove previous selection for this item type
                 if (selectedItems[itemType]) {
@@ -136,10 +137,16 @@ document.addEventListener('DOMContentLoaded', function() {
         relativePanel.className = 'relative-props-panel';
         relativePanel.innerHTML = '<h3>Set Relative Properties</h3>';
         
+        // Store the current values for each property
+        const currentValues = {};
+        
         // Create input fields for each relative property
         relativeProps.forEach(prop => {
             const propName = prop.replace('relative_', '');
             const defaultValue = itemInfo.props[prop];
+            
+            // Store the default value
+            currentValues[prop] = defaultValue;
             
             const propContainer = document.createElement('div');
             propContainer.className = 'prop-container';
@@ -153,32 +160,56 @@ document.addEventListener('DOMContentLoaded', function() {
             input.setAttribute('data-prop', prop);
             input.setAttribute('data-item-id', itemInfo.id);
             
-            // Update the property value when input changes
+            // Update the stored value when input changes (but don't update stats yet)
             input.addEventListener('change', function() {
-                const itemId = this.getAttribute('data-item-id');
                 const propName = this.getAttribute('data-prop');
-                const itemType = itemInfo.type;
-                
-                // Update the stored value
-                if (selectedItems[itemType] && selectedItems[itemType].id === itemId) {
-                    // Subtract old value
-                    subtractItemStats(selectedItems[itemType]);
-                    
-                    // Update value
-                    selectedItems[itemType].props[propName] = parseFloat(this.value);
-                    
-                    // Add new value
-                    addItemStats(selectedItems[itemType]);
-                    
-                    // Update stats display
-                    updateStatsDisplay();
-                }
+                currentValues[propName] = parseFloat(this.value);
             });
             
             propContainer.appendChild(label);
             propContainer.appendChild(input);
             relativePanel.appendChild(propContainer);
         });
+        
+        // Add a confirm button
+        const confirmButtonContainer = document.createElement('div');
+        confirmButtonContainer.className = 'confirm-button-container';
+        
+        const confirmButton = document.createElement('button');
+        confirmButton.textContent = 'Confirm';
+        confirmButton.className = 'confirm-button';
+        
+        // Apply the relative properties when the button is clicked
+        confirmButton.addEventListener('click', function() {
+            const itemType = itemInfo.type;
+            const itemId = itemInfo.id;
+            
+            // Make sure this item is still selected
+            if (selectedItems[itemType] && selectedItems[itemType].id === itemId) {
+                // Remove any previously applied relative properties for this item type
+                removeRelativePropsFromStats(itemType);
+                
+                // Update the item's properties with the current values
+                Object.entries(currentValues).forEach(([prop, value]) => {
+                    selectedItems[itemType].props[prop] = value;
+                });
+                
+                // Add the confirmed values to the accumulated stats
+                addRelativePropsToStats(selectedItems[itemType]);
+                
+                // Update the stats display
+                updateStatsDisplay();
+                
+                // Visual feedback
+                this.textContent = 'Updated!';
+                setTimeout(() => {
+                    this.textContent = 'Confirm';
+                }, 1000);
+            }
+        });
+        
+        confirmButtonContainer.appendChild(confirmButton);
+        relativePanel.appendChild(confirmButtonContainer);
         
         // Check if we're using the left-side-container layout
         const leftSideContainer = document.getElementById('left-side-container');
@@ -215,7 +246,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!item || !item.props) return;
         
         Object.entries(item.props).forEach(([key, value]) => {
-            // Skip relative properties as they're handled separately
+            // Skip relative properties - they'll be added only when confirmed
             if (key.startsWith('relative_')) return;
             
             // Handle different types of values
@@ -235,8 +266,21 @@ document.addEventListener('DOMContentLoaded', function() {
     function subtractItemStats(item) {
         if (!item || !item.props) return;
         
+        // First remove any applied relative properties
+        if (item.appliedRelativeProps) {
+            Object.entries(item.appliedRelativeProps).forEach(([key, value]) => {
+                if (accumulatedStats[key]) {
+                    accumulatedStats[key] -= value;
+                    if (accumulatedStats[key] === 0) {
+                        delete accumulatedStats[key];
+                    }
+                }
+            });
+        }
+        
+        // Then remove regular properties
         Object.entries(item.props).forEach(([key, value]) => {
-            // Skip relative properties
+            // Skip relative properties - they were handled above
             if (key.startsWith('relative_')) return;
             
             // Handle different types of values
@@ -315,6 +359,44 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         statsDisplay.innerHTML = statsHTML;
+    }
+    
+    function addRelativePropsToStats(item) {
+        if (!item || !item.props) return;
+        
+        Object.entries(item.props).forEach(([key, value]) => {
+            if (key.startsWith('relative_')) {
+                const nonRelativeKey = key.replace('relative_', '');
+                if (!accumulatedStats[nonRelativeKey]) {
+                    accumulatedStats[nonRelativeKey] = 0;
+                }
+                accumulatedStats[nonRelativeKey] += value;
+                
+                // Mark this stat as coming from a relative property of this item type
+                if (!item.appliedRelativeProps) {
+                    item.appliedRelativeProps = {};
+                }
+                item.appliedRelativeProps[nonRelativeKey] = value;
+            }
+        });
+    }
+    
+    function removeRelativePropsFromStats(itemType) {
+        const item = selectedItems[itemType];
+        if (!item || !item.appliedRelativeProps) return;
+        
+        // Remove each previously applied relative property
+        Object.entries(item.appliedRelativeProps).forEach(([key, value]) => {
+            if (accumulatedStats[key]) {
+                accumulatedStats[key] -= value;
+                if (accumulatedStats[key] === 0) {
+                    delete accumulatedStats[key];
+                }
+            }
+        });
+        
+        // Clear the applied properties
+        item.appliedRelativeProps = {};
     }
 });
 
