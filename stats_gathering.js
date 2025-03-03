@@ -1,4 +1,3 @@
-
 // Add this function to initialize the layout properly on page load
 function initializeLayout() {
     // Create the left-side-container if it doesn't exist
@@ -46,6 +45,209 @@ function initializeLayout() {
     if (optionsGrid) {
         optionsGrid.className = 'options-grid';
     }
+    
+    // Add the next button
+    createNextButton();
+}
+
+// Add a function to create the next button and handle the transition to boss/buff/debuff selection
+function createNextButton() {
+    // Check if the button already exists
+    if (document.getElementById('next-button-container')) {
+        return;
+    }
+    
+    // Create container for the next button
+    const nextButtonContainer = document.createElement('div');
+    nextButtonContainer.id = 'next-button-container';
+    nextButtonContainer.className = 'next-button-container';
+    
+    // Create the next button
+    const nextButton = document.createElement('button');
+    nextButton.textContent = 'Next: Select Boss & Effects';
+    nextButton.className = 'next-button';
+    
+    // Add click event to show boss/buff/debuff sections
+    nextButton.addEventListener('click', function() {
+        showBossBuffDebuffSections();
+    });
+    
+    // Add button to container
+    nextButtonContainer.appendChild(nextButton);
+    
+    // Add to the main container
+    const leftContainer = document.querySelector('.left-container');
+    leftContainer.appendChild(nextButtonContainer);
+}
+
+// Function to show boss, buff, and debuff sections
+function showBossBuffDebuffSections() {
+    // Hide the character selection sections
+    const leftSideContainer = document.getElementById('left-side-container');
+    if (leftSideContainer) {
+        leftSideContainer.style.display = 'none';
+    }
+    
+    // Hide the options panel
+    const optionsPanel = document.getElementById('options-panel');
+    if (optionsPanel) {
+        optionsPanel.style.display = 'none';
+    }
+    
+    // Hide the next button
+    const nextButtonContainer = document.getElementById('next-button-container');
+    if (nextButtonContainer) {
+        nextButtonContainer.style.display = 'none';
+    }
+    
+    // Create or show the boss/buff/debuff container
+    let effectsContainer = document.getElementById('effects-container');
+    if (!effectsContainer) {
+        effectsContainer = document.createElement('div');
+        effectsContainer.id = 'effects-container';
+        effectsContainer.className = 'effects-container';
+        
+        // Create sections for boss, buffs, and debuffs
+        const sections = [
+            { id: 'boss-section', title: 'Boss', imageDir: 'image/boss_img' },
+            { id: 'buff-section', title: 'Buffs', imageDir: 'image/buff_img' },
+            { id: 'debuff-section', title: 'Debuffs', imageDir: 'image/debuff_img' }
+        ];
+        
+        sections.forEach(section => {
+            const sectionElement = createSection(section.id, section.title, section.imageDir);
+            effectsContainer.appendChild(sectionElement);
+        });
+        
+        // Add a calculate button
+        const calculateButtonContainer = document.createElement('div');
+        calculateButtonContainer.className = 'calculate-button-container';
+        
+        const calculateButton = document.createElement('button');
+        calculateButton.textContent = 'Calculate Damage';
+        calculateButton.className = 'calculate-button';
+        calculateButton.addEventListener('click', calculateDamage);
+        
+        calculateButtonContainer.appendChild(calculateButton);
+        effectsContainer.appendChild(calculateButtonContainer);
+        
+        // Add a back button
+        const backButtonContainer = document.createElement('div');
+        backButtonContainer.className = 'back-button-container';
+        
+        const backButton = document.createElement('button');
+        backButton.textContent = 'Back to Character Selection';
+        backButton.className = 'back-button';
+        backButton.addEventListener('click', function() {
+            effectsContainer.style.display = 'none';
+            if (leftSideContainer) leftSideContainer.style.display = 'flex';
+            if (optionsPanel) optionsPanel.style.display = 'block';
+            if (nextButtonContainer) nextButtonContainer.style.display = 'block';
+        });
+        
+        backButtonContainer.appendChild(backButton);
+        effectsContainer.appendChild(backButtonContainer);
+        
+        // Add to the main container
+        const leftContainer = document.querySelector('.left-container');
+        leftContainer.appendChild(effectsContainer);
+    } else {
+        effectsContainer.style.display = 'block';
+    }
+}
+
+// Function to create a section (boss, buff, or debuff)
+function createSection(id, title, imageDir) {
+    const section = document.createElement('div');
+    section.id = id;
+    section.className = 'effect-section';
+    
+    // Add title
+    const titleElement = document.createElement('h3');
+    titleElement.textContent = title;
+    section.appendChild(titleElement);
+    
+    // Create grid for images
+    const grid = document.createElement('div');
+    grid.className = 'effect-grid';
+    
+    // Load images from the directory
+    loadImagesForSection(grid, imageDir, id);
+    
+    section.appendChild(grid);
+    return section;
+}
+
+// Function to load images for a section
+function loadImagesForSection(grid, imageDir, sectionId) {
+    // For boss section, use the predefined images from the screenshot
+    if (sectionId === 'boss-section') {
+        const bossImages = [
+            'image/boss_img/poluto.png',
+            'image/boss_img/meca.png',
+            'image/boss_img/completo.png',
+            'image/boss_img/valehir.png',
+            'image/boss_img/alzanor.png'
+        ];
+        
+        bossImages.forEach(imagePath => {
+            addImageToGrid(grid, imagePath);
+        });
+    } 
+    // For buff section
+    else if (sectionId === 'buff-section') {
+        const buffImages = [
+            'image/buff_img/brillo.png',
+            'image/buff_img/forta.png',
+            'image/buff_img/holly.png',
+            'image/buff_img/lobo.png',
+            'image/buff_img/sader.png',
+            'image/buff_img/roja.png'
+        ];
+        
+        buffImages.forEach(imagePath => {
+            addImageToGrid(grid, imagePath);
+        });
+    }
+    // For debuff section
+    else if (sectionId === 'debuff-section') {
+        const debuffImages = [
+            'image/debuff_img/aliento.png',
+            'image/debuff_img/canto.png',
+            'image/debuff_img/ele_down_4.png',
+            'image/debuff_img/ele_down_5.png',
+            'image/debuff_img/gas_ulti.png',
+            'image/debuff_img/gas.png',
+            'image/debuff_img/last holy.png',
+            'image/debuff_img/ruptura.png',
+            'image/debuff_img/toxicosis_mejorada.png'
+        ];
+        
+        debuffImages.forEach(imagePath => {
+            addImageToGrid(grid, imagePath);
+        });
+    }
+}
+
+// Function to add an image to a grid
+function addImageToGrid(grid, imagePath) {
+    const imageContainer = document.createElement('div');
+    imageContainer.className = 'effect-item';
+    
+    // Set background image
+    imageContainer.style.backgroundImage = `url('${imagePath}')`;
+    
+    // Add click event to select this effect
+    imageContainer.addEventListener('click', function() {
+        // Remove selected class from all items in this grid
+        const siblings = Array.from(this.parentNode.children);
+        siblings.forEach(sibling => sibling.classList.remove('selected'));
+        
+        // Add selected class to this item
+        this.classList.add('selected');
+    });
+    
+    grid.appendChild(imageContainer);
 }
 
 // Call this function at the beginning of the DOMContentLoaded event
