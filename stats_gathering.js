@@ -328,17 +328,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
             }
         });
-        
-        console.log("After adding item stats:", {...accumulatedStats});
-        console.log("Item contributions:", {...item.contributions});
     }
     
     function removeItemStats(item) {
         if (!item || !item.contributions) return;
-        
-        console.log("Removing item stats for:", item);
-        console.log("Current accumulated stats:", {...accumulatedStats});
-        console.log("Item contributions to remove:", {...item.contributions});
         
         // Remove all tracked contributions
         Object.entries(item.contributions).forEach(([key, value]) => {
@@ -376,8 +369,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Clear the contributions
         item.contributions = {};
-        
-        console.log("After removal, accumulated stats:", {...accumulatedStats});
     }
     
     // Update the addRelativePropsToStats function to handle relative_SL_overall properly
@@ -438,17 +429,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
             }
         });
-        
-        console.log("After adding relative props:", {...accumulatedStats});
-        console.log("Applied relative props:", {...item.appliedRelativeProps});
     }
     
     function removeRelativePropsFromStats(itemType) {
         const item = selectedItems[itemType];
         if (!item || !item.appliedRelativeProps) return;
-        
-        console.log("Removing relative props for:", itemType);
-        console.log("Applied relative props to remove:", {...item.appliedRelativeProps});
         
         // Remove each previously applied relative property
         Object.entries(item.appliedRelativeProps).forEach(([key, value]) => {
@@ -477,8 +462,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Clear the applied properties
         item.appliedRelativeProps = {};
-        
-        console.log("After removing relative props:", {...accumulatedStats});
     }
     
     // Create the stats display element
