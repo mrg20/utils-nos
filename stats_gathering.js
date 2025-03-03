@@ -527,7 +527,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // First pass: Handle regular properties (except SL stats that might be affected by SL_overall)
         Object.entries(item.props).forEach(([key, value]) => {
             // Skip relative properties - they'll be added only when confirmed
-            if (key.startsWith('relative_')) return;
+            if (key.startsWith('relative_') || key.startsWith('set_')) return;
             
             // Skip SL stats as they'll be handled in the second pass
             if (key === 'SL_overall' || key === 'SL_damage' || key === 'SL_defense' || 
@@ -828,6 +828,41 @@ item_info = {
             "fairy": 5
         }
     },
+    "4683": {
+        "path": "image/items/alas_sp/4683.png",
+        "type": "alas_sp",
+        "props": {
+            "fairy": 5
+        }
+    },
+    "4911": {
+        "path": "image/items/alas_sp/4911.png",
+        "type": "alas_sp",
+        "props": {
+            "s%": 10
+        }
+    },
+    "7111": {
+        "path": "image/items/alas_sp/7111.png",
+        "type": "alas_sp",
+        "props": {
+            "s%": 10
+        }
+    },
+    "7144": {
+        "path": "image/items/alas_sp/7144.png",
+        "type": "alas_sp",
+        "props": {
+            "s%": 15
+        }
+    },
+    "7335": {
+        "path": "image/items/alas_sp/7335.png",
+        "type": "alas_sp",
+        "props": {
+            "s%": 15
+        }
+    },
     "588": {
         "path": "image/items/amuleto/588.png",
         "type": "amuleto",
@@ -1024,7 +1059,6 @@ item_info = {
         "type": "compa_sp",
         "props": {
             "relative_fairy": 10,
-            "relative_s%": 20,
             "companion_class": "sword"
         }
     },
@@ -1082,10 +1116,10 @@ item_info = {
     "4882": {
         "path": "image/items/gorro_disfraz/4882.png",
         "type": "gorro_disfraz",
+        "related_set": "4880",
         "props": {
             "s%": 5,
-            "set_s%": 5,
-            "set_related": 4880
+            "set_s%": 5
         }
     },
     "4934": {
@@ -2758,6 +2792,35 @@ item_info = {
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
             "relative_pp_energy": 0
+        }
+    },
+    "6446": {
+        "path": "image/items/tattoo/6446.png",
+        "type": "tattoo",
+        "props": {
+            "relative_s%": 20
+        }
+    },
+    "6454": {
+        "path": "image/items/tattoo/6454.png",
+        "type": "tattoo",
+        "props": {
+            "relative_crit_dmg": 25
+        }
+    },
+    "6459": {
+        "path": "image/items/tattoo/6459.png",
+        "type": "tattoo",
+        "props": {
+            "relative_crit_dmg": 36
+        }
+    },
+    "6462": {
+        "path": "image/items/tattoo/6462.png",
+        "type": "tattoo",
+        "props": {
+            "relative_magic_%": 25,
+            "relative_armor": 0
         }
     }
 }
