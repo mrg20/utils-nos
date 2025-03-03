@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Object to store accumulated stats
     const accumulatedStats = {};
     
+    // Initialize the stats display
+    createStatsDisplay();
+    
     gridItems.forEach(item => {
         item.addEventListener('click', function() {
             // Remove selected class from all items
@@ -88,33 +91,41 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Store the selected item
                 const optionId = this.getAttribute('data-option-id');
                 const itemInfo = item_info[optionId];
-                itemInfo.id = optionId
+                itemInfo.id = optionId;
                 
-                // Remove previous selection for this item type
-                if (selectedItems[itemType]) {
-                    // Subtract previous item's stats from accumulated stats
-                    subtractItemStats(selectedItems[itemType]);
-                }
-                
-                // Store new selection
-                selectedItems[itemType] = {
-                    id: optionId,
-                    type: itemType,
-                    props: itemInfo.props || {}
-                };
-                
-                // Add new item's stats to accumulated stats
-                addItemStats(selectedItems[itemType]);
+                // Handle item selection
+                selectItem(itemType, optionId, itemInfo);
                 
                 // Display relative properties input fields if any
                 displayRelativeProperties(itemInfo);
-                
-                // Update stats display
-                updateStatsDisplay();
             });
             
             optionsGrid.appendChild(optionElement);
         });
+    }
+    
+    // Function to handle item selection and stat updates
+    function selectItem(itemType, optionId, itemInfo) {
+        // Remove previous selection for this item type
+        if (selectedItems[itemType]) {
+            // Subtract previous item's stats from accumulated stats
+            removeItemStats(selectedItems[itemType]);
+        }
+        
+        // Store new selection
+        selectedItems[itemType] = {
+            id: optionId,
+            type: itemType,
+            props: JSON.parse(JSON.stringify(itemInfo.props || {})), // Deep copy to avoid reference issues
+            contributions: {}, // Track stat contributions from this item
+            appliedRelativeProps: {} // Track applied relative properties
+        };
+        
+        // Add new item's stats to accumulated stats
+        addItemStats(selectedItems[itemType]);
+        
+        // Update stats display
+        updateStatsDisplay();
     }
     
     function displayRelativeProperties(itemInfo) {
@@ -143,6 +154,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Create input fields for each relative property
         relativeProps.forEach(prop => {
             const propName = prop.replace('relative_', '');
+            // Format display name by replacing underscores with spaces
+            const displayName = propName.replace(/_/g, ' ');
             const defaultValue = itemInfo.props[prop];
             
             // Store the default value
@@ -152,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
             propContainer.className = 'prop-container';
             
             const label = document.createElement('label');
-            label.textContent = propName + ': ';
+            label.textContent = displayName + ': ';
             
             const input = document.createElement('input');
             input.type = 'number';
@@ -211,6 +224,12 @@ document.addEventListener('DOMContentLoaded', function() {
         confirmButtonContainer.appendChild(confirmButton);
         relativePanel.appendChild(confirmButtonContainer);
         
+        // Add the panel to the appropriate location
+        addPanelToLayout(relativePanel);
+    }
+    
+    // Helper function to add a panel to the layout
+    function addPanelToLayout(panel) {
         // Check if we're using the left-side-container layout
         const leftSideContainer = document.getElementById('left-side-container');
         
@@ -219,10 +238,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const gridContainer = leftSideContainer.querySelector('.grid-container');
             if (gridContainer) {
                 // Insert after the grid container
-                leftSideContainer.insertBefore(relativePanel, gridContainer.nextSibling);
+                leftSideContainer.insertBefore(panel, gridContainer.nextSibling);
             } else {
                 // Fallback - just append to the container
-                leftSideContainer.appendChild(relativePanel);
+                leftSideContainer.appendChild(panel);
             }
         } else {
             // Original layout - insert after the grid container in the left container
@@ -230,163 +249,224 @@ document.addEventListener('DOMContentLoaded', function() {
             const gridContainer = leftContainer.querySelector('.grid-container');
             
             if (gridContainer) {
-                leftContainer.insertBefore(relativePanel, gridContainer.nextSibling);
+                leftContainer.insertBefore(panel, gridContainer.nextSibling);
             } else {
                 // Fallback - just append to the left container
-                leftContainer.appendChild(relativePanel);
+                leftContainer.appendChild(panel);
             }
         }
         
         // Adjust styling to position it properly
-        relativePanel.style.marginTop = '20px';
-        relativePanel.style.width = '220px';
+        panel.style.marginTop = '20px';
+        panel.style.width = '220px';
     }
     
+    // Completely rewritten SL_overall handling system
     function addItemStats(item) {
         if (!item || !item.props) return;
         
+        // Initialize tracking for this item if not exists
+        if (!item.contributions) item.contributions = {};
+        
+        // First pass: Handle regular properties (except SL stats that might be affected by SL_overall)
         Object.entries(item.props).forEach(([key, value]) => {
             // Skip relative properties - they'll be added only when confirmed
             if (key.startsWith('relative_')) return;
+            
+            // Skip SL stats as they'll be handled in the second pass
+            if (key === 'SL_overall' || key === 'SL_damage' || key === 'SL_defense' || 
+                key === 'SL_power' || key === 'SL_energy') return;
             
             // Handle different types of values
             if (typeof value === 'string') {
                 // For string values, replace instead of add
                 accumulatedStats[key] = value;
+                // Track this contribution
+                item.contributions[key] = value;
             } else {
                 // For numeric values, add
                 if (!accumulatedStats[key]) {
                     accumulatedStats[key] = 0;
                 }
                 accumulatedStats[key] += value;
+                
+                // Track this contribution
+                item.contributions[key] = value;
             }
         });
+        
+        // Second pass: Handle SL stats with SL_overall distribution
+        const slStats = ['SL_damage', 'SL_defense', 'SL_power', 'SL_energy'];
+        const slOverall = item.props.SL_overall || 0;
+        
+        // Track SL_overall separately
+        if (slOverall !== 0) {
+            item.contributions.SL_overall = slOverall;
+        }
+        
+        // Process each SL stat
+        slStats.forEach(stat => {
+            // Get direct stat value (or 0 if not present)
+            const directValue = item.props[stat] || 0;
+            
+            // Total value is direct value plus SL_overall
+            const totalValue = directValue + slOverall;
+            
+            // Only add if there's a value
+            if (totalValue !== 0) {
+                // Add to accumulated stats
+                if (!accumulatedStats[stat]) {
+                    accumulatedStats[stat] = 0;
+                }
+                accumulatedStats[stat] += totalValue;
+                
+                // Track contributions separately
+                item.contributions[stat] = {
+                    direct: directValue,
+                    fromOverall: slOverall,
+                    total: totalValue
+                };
+            }
+        });
+        
+        console.log("After adding item stats:", {...accumulatedStats});
+        console.log("Item contributions:", {...item.contributions});
     }
     
-    function subtractItemStats(item) {
-        if (!item || !item.props) return;
+    function removeItemStats(item) {
+        if (!item || !item.contributions) return;
         
-        // First remove any applied relative properties
-        if (item.appliedRelativeProps) {
-            Object.entries(item.appliedRelativeProps).forEach(([key, value]) => {
+        console.log("Removing item stats for:", item);
+        console.log("Current accumulated stats:", {...accumulatedStats});
+        console.log("Item contributions to remove:", {...item.contributions});
+        
+        // Remove all tracked contributions
+        Object.entries(item.contributions).forEach(([key, value]) => {
+            // Skip SL_overall as it's not directly in accumulated stats
+            if (key === 'SL_overall') return;
+            
+            // Handle SL stats with their complex structure
+            if (typeof value === 'object' && value.total !== undefined) {
                 if (accumulatedStats[key]) {
+                    accumulatedStats[key] -= value.total;
+                    if (accumulatedStats[key] === 0) {
+                        delete accumulatedStats[key];
+                    }
+                }
+                return;
+            }
+            
+            // Handle regular stats
+            if (accumulatedStats[key]) {
+                if (typeof value === 'string') {
+                    // For string values, remove the property
+                    delete accumulatedStats[key];
+                } else {
+                    // For numeric values, subtract
                     accumulatedStats[key] -= value;
                     if (accumulatedStats[key] === 0) {
                         delete accumulatedStats[key];
                     }
                 }
-            });
-        }
-        
-        // Then remove regular properties
-        Object.entries(item.props).forEach(([key, value]) => {
-            // Skip relative properties - they were handled above
-            if (key.startsWith('relative_')) return;
-            
-            // Handle different types of values
-            if (typeof value === 'string') {
-                // For string values, remove the property
-                delete accumulatedStats[key];
-            } else {
-                // For numeric values, subtract
-                if (accumulatedStats[key]) {
-                    accumulatedStats[key] -= value;
-                    
-                    // Remove property if zero
-                    if (accumulatedStats[key] === 0) {
-                        delete accumulatedStats[key];
-                    }
-                }
             }
         });
+        
+        // Remove any applied relative properties
+        removeRelativePropsFromStats(item.type);
+        
+        // Clear the contributions
+        item.contributions = {};
+        
+        console.log("After removal, accumulated stats:", {...accumulatedStats});
     }
     
-    function updateStatsDisplay() {
-        // Check if stats display exists, create if not
-        let statsDisplay = document.getElementById('stats-display');
-        if (!statsDisplay) {
-            statsDisplay = document.createElement('div');
-            statsDisplay.id = 'stats-display';
-            statsDisplay.className = 'stats-display';
-            
-            // Create a container for the left side content
-            let leftSideContainer = document.getElementById('left-side-container');
-            if (!leftSideContainer) {
-                // Create a new container to hold both the stats display and grid container
-                leftSideContainer = document.createElement('div');
-                leftSideContainer.id = 'left-side-container';
-                leftSideContainer.className = 'left-side-container';
-                leftSideContainer.style.display = 'flex';
-                leftSideContainer.style.flexDirection = 'row';
-                leftSideContainer.style.gap = '20px';
-                
-                // Get the left container and the grid container
-                const leftContainer = document.querySelector('.left-container');
-                const gridContainer = document.querySelector('.grid-container');
-                
-                // Remove grid container from its parent
-                gridContainer.parentNode.removeChild(gridContainer);
-                
-                // Add stats display and grid container to the new container
-                leftSideContainer.appendChild(statsDisplay);
-                leftSideContainer.appendChild(gridContainer);
-                
-                // Add the new container to the left container
-                leftContainer.appendChild(leftSideContainer);
-            } else {
-                // If the container already exists, just add the stats display to it
-                leftSideContainer.insertBefore(statsDisplay, leftSideContainer.firstChild);
-            }
-        }
-        
-        // Update the content
-        let statsHTML = '<h3>Accumulated Stats</h3>';
-        
-        if (Object.keys(accumulatedStats).length === 0) {
-            statsHTML += '<p>No stats accumulated yet</p>';
-        } else {
-            statsHTML += '<ul>';
-            Object.entries(accumulatedStats).forEach(([key, value]) => {
-                // Format the value based on type
-                let displayValue = value;
-                if (typeof value === 'string' && value !== '0') {
-                    // For strings, don't append 0
-                    displayValue = value;
-                }
-                statsHTML += `<li><strong>${key}:</strong> ${displayValue}</li>`;
-            });
-            statsHTML += '</ul>';
-        }
-        
-        statsDisplay.innerHTML = statsHTML;
-    }
-    
+    // Update the addRelativePropsToStats function to handle relative_SL_overall properly
     function addRelativePropsToStats(item) {
         if (!item || !item.props) return;
         
+        // Initialize tracking
+        if (!item.appliedRelativeProps) item.appliedRelativeProps = {};
+        
+        // First handle regular relative properties (except SL stats)
         Object.entries(item.props).forEach(([key, value]) => {
-            if (key.startsWith('relative_')) {
+            if (key.startsWith('relative_') && 
+                key !== 'relative_SL_overall' && 
+                !key.startsWith('relative_SL_')) {
+                
                 const nonRelativeKey = key.replace('relative_', '');
                 if (!accumulatedStats[nonRelativeKey]) {
                     accumulatedStats[nonRelativeKey] = 0;
                 }
                 accumulatedStats[nonRelativeKey] += value;
                 
-                // Mark this stat as coming from a relative property of this item type
-                if (!item.appliedRelativeProps) {
-                    item.appliedRelativeProps = {};
-                }
+                // Track this contribution
                 item.appliedRelativeProps[nonRelativeKey] = value;
             }
         });
+        
+        // Then handle SL stats with SL_overall distribution
+        const slStats = ['SL_damage', 'SL_defense', 'SL_power', 'SL_energy'];
+        const relativeSlOverall = item.props.relative_SL_overall || 0;
+        
+        // Track relative_SL_overall separately
+        if (relativeSlOverall !== 0) {
+            item.appliedRelativeProps.relative_SL_overall = relativeSlOverall;
+        }
+        
+        // Process each relative SL stat
+        slStats.forEach(stat => {
+            const relativeStat = 'relative_' + stat;
+            // Get direct relative stat value (or 0 if not present)
+            const directValue = item.props[relativeStat] || 0;
+            
+            // Total value is direct value plus relative_SL_overall
+            const totalValue = directValue + relativeSlOverall;
+            
+            // Only add if there's a value
+            if (totalValue !== 0) {
+                // Add to accumulated stats
+                if (!accumulatedStats[stat]) {
+                    accumulatedStats[stat] = 0;
+                }
+                accumulatedStats[stat] += totalValue;
+                
+                // Track contributions with details
+                item.appliedRelativeProps[stat] = {
+                    direct: directValue,
+                    fromOverall: relativeSlOverall,
+                    total: totalValue
+                };
+            }
+        });
+        
+        console.log("After adding relative props:", {...accumulatedStats});
+        console.log("Applied relative props:", {...item.appliedRelativeProps});
     }
     
     function removeRelativePropsFromStats(itemType) {
         const item = selectedItems[itemType];
         if (!item || !item.appliedRelativeProps) return;
         
+        console.log("Removing relative props for:", itemType);
+        console.log("Applied relative props to remove:", {...item.appliedRelativeProps});
+        
         // Remove each previously applied relative property
         Object.entries(item.appliedRelativeProps).forEach(([key, value]) => {
+            // Skip the tracking key for relative_SL_overall
+            if (key === 'relative_SL_overall') return;
+            
+            // Handle complex SL stat structure
+            if (typeof value === 'object' && value.total !== undefined) {
+                if (accumulatedStats[key]) {
+                    accumulatedStats[key] -= value.total;
+                    if (accumulatedStats[key] === 0) {
+                        delete accumulatedStats[key];
+                    }
+                }
+                return;
+            }
+            
+            // Handle regular stats
             if (accumulatedStats[key]) {
                 accumulatedStats[key] -= value;
                 if (accumulatedStats[key] === 0) {
@@ -397,6 +477,89 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Clear the applied properties
         item.appliedRelativeProps = {};
+        
+        console.log("After removing relative props:", {...accumulatedStats});
+    }
+    
+    // Create the stats display element
+    function createStatsDisplay() {
+        let statsDisplay = document.createElement('div');
+        statsDisplay.id = 'stats-display';
+        statsDisplay.className = 'stats-display';
+        
+        // Create a container for the left side content
+        let leftSideContainer = document.getElementById('left-side-container');
+        if (!leftSideContainer) {
+            // Create a new container to hold both the stats display and grid container
+            leftSideContainer = document.createElement('div');
+            leftSideContainer.id = 'left-side-container';
+            leftSideContainer.className = 'left-side-container';
+            leftSideContainer.style.display = 'flex';
+            leftSideContainer.style.flexDirection = 'row';
+            leftSideContainer.style.gap = '20px';
+            
+            // Get the left container and the grid container
+            const leftContainer = document.querySelector('.left-container');
+            const gridContainer = document.querySelector('.grid-container');
+            
+            // Remove grid container from its parent
+            gridContainer.parentNode.removeChild(gridContainer);
+            
+            // Add stats display and grid container to the new container
+            leftSideContainer.appendChild(statsDisplay);
+            leftSideContainer.appendChild(gridContainer);
+            
+            // Add the new container to the left container
+            leftContainer.appendChild(leftSideContainer);
+        } else {
+            // If the container already exists, just add the stats display to it
+            leftSideContainer.insertBefore(statsDisplay, leftSideContainer.firstChild);
+        }
+        
+        // Initialize with empty content
+        updateStatsDisplay();
+    }
+    
+    // Update the stats display
+    function updateStatsDisplay() {
+        let statsDisplay = document.getElementById('stats-display');
+        if (!statsDisplay) return;
+        
+        // Update the content
+        let statsHTML = '<h3>Accumulated Stats</h3>';
+        
+        if (Object.keys(accumulatedStats).length === 0) {
+            statsHTML += '<p>No stats accumulated yet</p>';
+        } else {
+            statsHTML += '<ul>';
+            
+            // Filter out stats with value of 0 before displaying
+            const filteredStats = Object.entries(accumulatedStats).filter(([_, value]) => {
+                // Keep the stat if it's not 0 (either as number or string)
+                return value !== 0 && value !== '0';
+            });
+            
+            if (filteredStats.length === 0) {
+                statsHTML += '<p>No stats accumulated yet</p>';
+            } else {
+                filteredStats.forEach(([key, value]) => {
+                    // Format the display key by replacing underscores with spaces
+                    const displayKey = key.replace(/_/g, ' ');
+                    
+                    // Format the value based on type
+                    let displayValue = value;
+                    if (typeof value === 'string' && value !== '0') {
+                        // For strings, don't append 0
+                        displayValue = value;
+                    }
+                    statsHTML += `<li><strong>${displayKey}:</strong> ${displayValue}</li>`;
+                });
+            }
+            
+            statsHTML += '</ul>';
+        }
+        
+        statsDisplay.innerHTML = statsHTML;
     }
 });
 
@@ -419,28 +582,28 @@ item_info = {
         "path": "image/items/amuleto/588.png",
         "type": "amuleto",
         "props": {
-            "increased": 250
+            "enhanced": 250
         }
     },
     "660": {
         "path": "image/items/amuleto/660.png",
         "type": "amuleto",
         "props": {
-            "increased": 150
+            "enhanced": 150
         }
     },
     "661": {
         "path": "image/items/amuleto/661.png",
         "type": "amuleto",
         "props": {
-            "increased": 250
+            "enhanced": 250
         }
     },
     "4649": {
         "path": "image/items/anillo/4649.png",
         "type": "anillo",
         "props": {
-            "increased": 30,
+            "enhanced": 30,
             "fairy": 3
         }
     },
@@ -448,7 +611,7 @@ item_info = {
         "path": "image/items/anillo/4974.png",
         "type": "anillo",
         "props": {
-            "increased": 15,
+            "enhanced": 15,
             "fairy": 2
         }
     },
@@ -456,7 +619,7 @@ item_info = {
         "path": "image/items/anillo/4975.png",
         "type": "anillo",
         "props": {
-            "increased": 50,
+            "enhanced": 50,
             "fairy": 5,
             "elements": 30
         }
@@ -535,7 +698,7 @@ item_info = {
         "type": "brazalete",
         "props": {
             "fairy": 3,
-            "increased": 30
+            "enhanced": 30
         }
     },
     "4970": {
@@ -543,7 +706,7 @@ item_info = {
         "type": "brazalete",
         "props": {
             "fairy": 5,
-            "increased": 50,
+            "enhanced": 50,
             "elements": 30
         }
     },
@@ -552,7 +715,7 @@ item_info = {
         "type": "brazalete",
         "props": {
             "fairy": 2,
-            "increased": 15
+            "enhanced": 15
         }
     },
     "4644": {
@@ -560,7 +723,7 @@ item_info = {
         "type": "collar",
         "props": {
             "fairy": 4,
-            "increased": 40
+            "enhanced": 40
         }
     },
     "4978": {
@@ -568,7 +731,7 @@ item_info = {
         "type": "collar",
         "props": {
             "fairy": 3,
-            "increased": 20
+            "enhanced": 20
         }
     },
     "4979": {
@@ -576,7 +739,7 @@ item_info = {
         "type": "collar",
         "props": {
             "fairy": 7,
-            "increased": 60,
+            "enhanced": 60,
             "elements": 40
         }
     },
@@ -709,7 +872,12 @@ item_info = {
         "type": "hadas",
         "props": {
             "relative_fairy": 80,
-            "res": 3
+            "res": 3,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_fairy_option": 0
         }
     },
     "4981": {
@@ -717,7 +885,12 @@ item_info = {
         "type": "hadas",
         "props": {
             "relative_fairy": 80,
-            "res": 3
+            "res": 3,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_fairy_option": 0
         }
     },
     "4983": {
@@ -725,7 +898,12 @@ item_info = {
         "type": "hadas",
         "props": {
             "relative_fairy": 80,
-            "res": 3
+            "res": 3,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_fairy_option": 0
         }
     },
     "4984": {
@@ -733,35 +911,60 @@ item_info = {
         "type": "hadas",
         "props": {
             "relative_fairy": 80,
-            "res": 3
+            "res": 3,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_fairy_option": 0
         }
     },
     "987": {
         "path": "image/items/hadas/987.png",
         "type": "hadas",
         "props": {
-            "relative_fairy": 80
+            "relative_fairy": 80,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_fairy_option": 0
         }
     },
     "988": {
         "path": "image/items/hadas/988.png",
         "type": "hadas",
         "props": {
-            "relative_fairy": 80
+            "relative_fairy": 80,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_fairy_option": 0
         }
     },
     "989": {
         "path": "image/items/hadas/989.png",
         "type": "hadas",
         "props": {
-            "relative_fairy": 80
+            "relative_fairy": 80,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_fairy_option": 0
         }
     },
     "993": {
         "path": "image/items/hadas/993.png",
         "type": "hadas",
         "props": {
-            "relative_fairy": 80
+            "relative_fairy": 80,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_fairy_option": 0
         }
     },
     "227": {
@@ -769,7 +972,7 @@ item_info = {
         "type": "mascara",
         "props": {
             "elements": 10,
-            "increased": 13
+            "enhanced": 13
         }
     },
     "4966": {
@@ -848,7 +1051,28 @@ item_info = {
             "relative_max_dmg": 1015,
             "crit_prob": 27,
             "crit_dmg": 270,
-            "class": "artist"
+            "class": "artist",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4629": {
@@ -863,7 +1087,28 @@ item_info = {
             "relative_max_dmg": 1060,
             "crit_prob": 17,
             "crit_dmg": 280,
-            "class": "sword"
+            "class": "sword",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4631": {
@@ -878,7 +1123,28 @@ item_info = {
             "relative_max_dmg": 1074,
             "crit_prob": 0,
             "crit_dmg": 0,
-            "class": "mage"
+            "class": "mage",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4633": {
@@ -893,7 +1159,28 @@ item_info = {
             "relative_max_dmg": 1040,
             "crit_prob": 21,
             "crit_dmg": 290,
-            "class": "archer"
+            "class": "archer",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4944": {
@@ -908,7 +1195,28 @@ item_info = {
             "relative_max_dmg": 1162,
             "crit_prob": 17,
             "crit_dmg": 260,
-            "class": "sword"
+            "class": "sword",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4945": {
@@ -923,7 +1231,28 @@ item_info = {
             "relative_max_dmg": 1394,
             "crit_prob": 20,
             "crit_dmg": 325,
-            "class": "sword"
+            "class": "sword",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4946": {
@@ -938,7 +1267,28 @@ item_info = {
             "relative_max_dmg": 1368,
             "crit_prob": 26,
             "crit_dmg": 335,
-            "class": "archer"
+            "class": "archer",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4947": {
@@ -953,7 +1303,28 @@ item_info = {
             "relative_max_dmg": 1140,
             "crit_prob": 21,
             "crit_dmg": 270,
-            "class": "archer"
+            "class": "archer",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4948": {
@@ -966,7 +1337,28 @@ item_info = {
             "increase": 60,
             "relative_min_dmg": 1028,
             "relative_max_dmg": 1176,
-            "class": "mage"
+            "class": "mage",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4949": {
@@ -979,7 +1371,28 @@ item_info = {
             "increase": 65,
             "relative_min_dmg": 1234,
             "relative_max_dmg": 1411,
-            "class": "mage"
+            "class": "mage",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4950": {
@@ -994,7 +1407,28 @@ item_info = {
             "relative_max_dmg": 1167,
             "crit_prob": 27,
             "crit_dmg": 250,
-            "class": "artist"
+            "class": "artist",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4951": {
@@ -1009,7 +1443,28 @@ item_info = {
             "relative_max_dmg": 1400,
             "crit_prob": 31,
             "crit_dmg": 310,
-            "class": "artist"
+            "class": "artist",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4635": {
@@ -1018,14 +1473,26 @@ item_info = {
         "props": {
             "res": 27,
             "elements": 30,
-            "increased": 280,
+            "enhanced": 280,
             "increase_prob": 15,
             "increase": 50,
             "relative_min_dmg": 843,
             "relative_max_dmg": 988,
             "crit_prob": 23,
             "crit_dmg": 265,
-            "class": "sword"
+            "class": "sword",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4637": {
@@ -1040,7 +1507,19 @@ item_info = {
             "relative_max_dmg": 757,
             "crit_prob": 25,
             "crit_dmg": 437,
-            "class": "archer"
+            "class": "archer",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4639": {
@@ -1055,7 +1534,19 @@ item_info = {
             "relative_max_dmg": 1004,
             "crit_prob": 22,
             "crit_dmg": 292,
-            "class": "mage"
+            "class": "mage",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4641": {
@@ -1063,14 +1554,26 @@ item_info = {
         "type": "secundaria",
         "props": {
             "res": 25,
-            "increased": 260,
+            "enhanced": 260,
             "increase_prob": 10,
             "increase": 70,
             "relative_min_dmg": 614,
             "relative_max_dmg": 796,
             "crit_prob": 20,
             "crit_dmg": 282,
-            "class": "artist"
+            "class": "artist",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4936": {
@@ -1078,7 +1581,7 @@ item_info = {
         "type": "secundaria",
         "props": {
             "res": 25,
-            "increased": 290,
+            "enhanced": 290,
             "elements": 30,
             "increase_prob": 15,
             "increase": 45,
@@ -1086,7 +1589,19 @@ item_info = {
             "relative_max_dmg": 1136,
             "crit_prob": 23,
             "crit_dmg": 245,
-            "class": "sword"
+            "class": "sword",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4937": {
@@ -1094,7 +1609,7 @@ item_info = {
         "type": "secundaria",
         "props": {
             "res": 32,
-            "increased": 320,
+            "enhanced": 320,
             "elements": 36,
             "increase_prob": 15,
             "increase": 55,
@@ -1102,7 +1617,19 @@ item_info = {
             "relative_max_dmg": 1363,
             "crit_prob": 26,
             "crit_dmg": 315,
-            "class": "sword"
+            "class": "sword",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4938": {
@@ -1117,7 +1644,19 @@ item_info = {
             "relative_max_dmg": 925,
             "crit_prob": 25,
             "crit_dmg": 417,
-            "class": "archer"
+            "class": "archer",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4939": {
@@ -1132,7 +1671,19 @@ item_info = {
             "relative_max_dmg": 1110,
             "crit_prob": 30,
             "crit_dmg": 497,
-            "class": "archer"
+            "class": "archer",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4940": {
@@ -1147,7 +1698,19 @@ item_info = {
             "relative_max_dmg": 1155,
             "crit_prob": 22,
             "crit_dmg": 272,
-            "class": "mage"
+            "class": "mage",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4941": {
@@ -1162,7 +1725,19 @@ item_info = {
             "relative_max_dmg": 1386,
             "crit_prob": 26,
             "crit_dmg": 322,
-            "class": "mage"
+            "class": "mage",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4942": {
@@ -1170,14 +1745,26 @@ item_info = {
         "type": "secundaria",
         "props": {
             "res": 23,
-            "increased": 270,
+            "enhanced": 270,
             "increase_prob": 10,
             "increase": 65,
             "relative_min_dmg": 706,
             "relative_max_dmg": 915,
             "crit_prob": 20,
             "crit_dmg": 262,
-            "class": "artist"
+            "class": "artist",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4943": {
@@ -1185,14 +1772,26 @@ item_info = {
         "type": "secundaria",
         "props": {
             "res": 30,
-            "increased": 300,
+            "enhanced": 300,
             "increase_prob": 10,
             "increase": 65,
             "relative_min_dmg": 847,
             "relative_max_dmg": 1098,
             "crit_prob": 24,
             "crit_dmg": 318,
-            "class": "artist"
+            "class": "artist",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "2918": {

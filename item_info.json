@@ -17,28 +17,28 @@
         "path": "image/items/amuleto/588.png",
         "type": "amuleto",
         "props": {
-            "increased": 250
+            "enhanced": 250
         }
     },
     "660": {
         "path": "image/items/amuleto/660.png",
         "type": "amuleto",
         "props": {
-            "increased": 150
+            "enhanced": 150
         }
     },
     "661": {
         "path": "image/items/amuleto/661.png",
         "type": "amuleto",
         "props": {
-            "increased": 250
+            "enhanced": 250
         }
     },
     "4649": {
         "path": "image/items/anillo/4649.png",
         "type": "anillo",
         "props": {
-            "increased": 30,
+            "enhanced": 30,
             "fairy": 3
         }
     },
@@ -46,7 +46,7 @@
         "path": "image/items/anillo/4974.png",
         "type": "anillo",
         "props": {
-            "increased": 15,
+            "enhanced": 15,
             "fairy": 2
         }
     },
@@ -54,7 +54,7 @@
         "path": "image/items/anillo/4975.png",
         "type": "anillo",
         "props": {
-            "increased": 50,
+            "enhanced": 50,
             "fairy": 5,
             "elements": 30
         }
@@ -133,7 +133,7 @@
         "type": "brazalete",
         "props": {
             "fairy": 3,
-            "increased": 30
+            "enhanced": 30
         }
     },
     "4970": {
@@ -141,7 +141,7 @@
         "type": "brazalete",
         "props": {
             "fairy": 5,
-            "increased": 50,
+            "enhanced": 50,
             "elements": 30
         }
     },
@@ -150,7 +150,7 @@
         "type": "brazalete",
         "props": {
             "fairy": 2,
-            "increased": 15
+            "enhanced": 15
         }
     },
     "4644": {
@@ -158,7 +158,7 @@
         "type": "collar",
         "props": {
             "fairy": 4,
-            "increased": 40
+            "enhanced": 40
         }
     },
     "4978": {
@@ -166,7 +166,7 @@
         "type": "collar",
         "props": {
             "fairy": 3,
-            "increased": 20
+            "enhanced": 20
         }
     },
     "4979": {
@@ -174,7 +174,7 @@
         "type": "collar",
         "props": {
             "fairy": 7,
-            "increased": 60,
+            "enhanced": 60,
             "elements": 40
         }
     },
@@ -307,7 +307,12 @@
         "type": "hadas",
         "props": {
             "relative_fairy": 80,
-            "res": 3
+            "res": 3,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_fairy_option": 0
         }
     },
     "4981": {
@@ -315,7 +320,12 @@
         "type": "hadas",
         "props": {
             "relative_fairy": 80,
-            "res": 3
+            "res": 3,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_fairy_option": 0
         }
     },
     "4983": {
@@ -323,7 +333,12 @@
         "type": "hadas",
         "props": {
             "relative_fairy": 80,
-            "res": 3
+            "res": 3,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_fairy_option": 0
         }
     },
     "4984": {
@@ -331,35 +346,60 @@
         "type": "hadas",
         "props": {
             "relative_fairy": 80,
-            "res": 3
+            "res": 3,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_fairy_option": 0
         }
     },
     "987": {
         "path": "image/items/hadas/987.png",
         "type": "hadas",
         "props": {
-            "relative_fairy": 80
+            "relative_fairy": 80,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_fairy_option": 0
         }
     },
     "988": {
         "path": "image/items/hadas/988.png",
         "type": "hadas",
         "props": {
-            "relative_fairy": 80
+            "relative_fairy": 80,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_fairy_option": 0
         }
     },
     "989": {
         "path": "image/items/hadas/989.png",
         "type": "hadas",
         "props": {
-            "relative_fairy": 80
+            "relative_fairy": 80,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_fairy_option": 0
         }
     },
     "993": {
         "path": "image/items/hadas/993.png",
         "type": "hadas",
         "props": {
-            "relative_fairy": 80
+            "relative_fairy": 80,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_fairy_option": 0
         }
     },
     "227": {
@@ -367,7 +407,7 @@
         "type": "mascara",
         "props": {
             "elements": 10,
-            "increased": 13
+            "enhanced": 13
         }
     },
     "4966": {
@@ -446,7 +486,28 @@
             "relative_max_dmg": 1015,
             "crit_prob": 27,
             "crit_dmg": 270,
-            "class": "artist"
+            "class": "artist",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4629": {
@@ -461,7 +522,28 @@
             "relative_max_dmg": 1060,
             "crit_prob": 17,
             "crit_dmg": 280,
-            "class": "sword"
+            "class": "sword",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4631": {
@@ -476,7 +558,28 @@
             "relative_max_dmg": 1074,
             "crit_prob": 0,
             "crit_dmg": 0,
-            "class": "mage"
+            "class": "mage",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4633": {
@@ -491,7 +594,28 @@
             "relative_max_dmg": 1040,
             "crit_prob": 21,
             "crit_dmg": 290,
-            "class": "archer"
+            "class": "archer",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4944": {
@@ -506,7 +630,28 @@
             "relative_max_dmg": 1162,
             "crit_prob": 17,
             "crit_dmg": 260,
-            "class": "sword"
+            "class": "sword",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4945": {
@@ -521,7 +666,28 @@
             "relative_max_dmg": 1394,
             "crit_prob": 20,
             "crit_dmg": 325,
-            "class": "sword"
+            "class": "sword",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4946": {
@@ -536,7 +702,28 @@
             "relative_max_dmg": 1368,
             "crit_prob": 26,
             "crit_dmg": 335,
-            "class": "archer"
+            "class": "archer",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4947": {
@@ -551,7 +738,28 @@
             "relative_max_dmg": 1140,
             "crit_prob": 21,
             "crit_dmg": 270,
-            "class": "archer"
+            "class": "archer",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4948": {
@@ -564,7 +772,28 @@
             "increase": 60,
             "relative_min_dmg": 1028,
             "relative_max_dmg": 1176,
-            "class": "mage"
+            "class": "mage",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4949": {
@@ -577,7 +806,28 @@
             "increase": 65,
             "relative_min_dmg": 1234,
             "relative_max_dmg": 1411,
-            "class": "mage"
+            "class": "mage",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4950": {
@@ -592,7 +842,28 @@
             "relative_max_dmg": 1167,
             "crit_prob": 27,
             "crit_dmg": 250,
-            "class": "artist"
+            "class": "artist",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4951": {
@@ -607,7 +878,28 @@
             "relative_max_dmg": 1400,
             "crit_prob": 31,
             "crit_dmg": 310,
-            "class": "artist"
+            "class": "artist",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0,
+            "relative_rune_s%": 0,
+            "relative_rune_crit_prob": 0,
+            "relative_rune_crit_dmg": 0,
+            "relative_rune_enhanced": 0,
+            "relative_rune_SL_power": 0,
+            "relative_rune_SL_damage": 0,
+            "relative_rune_fairy": 0,
+            "relative_rune_monster": 0,
+            "relative_rune_dragon": 0
         }
     },
     "4635": {
@@ -616,14 +908,26 @@
         "props": {
             "res": 27,
             "elements": 30,
-            "increased": 280,
+            "enhanced": 280,
             "increase_prob": 15,
             "increase": 50,
             "relative_min_dmg": 843,
             "relative_max_dmg": 988,
             "crit_prob": 23,
             "crit_dmg": 265,
-            "class": "sword"
+            "class": "sword",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4637": {
@@ -638,7 +942,19 @@
             "relative_max_dmg": 757,
             "crit_prob": 25,
             "crit_dmg": 437,
-            "class": "archer"
+            "class": "archer",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4639": {
@@ -653,7 +969,19 @@
             "relative_max_dmg": 1004,
             "crit_prob": 22,
             "crit_dmg": 292,
-            "class": "mage"
+            "class": "mage",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4641": {
@@ -661,14 +989,26 @@
         "type": "secundaria",
         "props": {
             "res": 25,
-            "increased": 260,
+            "enhanced": 260,
             "increase_prob": 10,
             "increase": 70,
             "relative_min_dmg": 614,
             "relative_max_dmg": 796,
             "crit_prob": 20,
             "crit_dmg": 282,
-            "class": "artist"
+            "class": "artist",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4936": {
@@ -676,7 +1016,7 @@
         "type": "secundaria",
         "props": {
             "res": 25,
-            "increased": 290,
+            "enhanced": 290,
             "elements": 30,
             "increase_prob": 15,
             "increase": 45,
@@ -684,7 +1024,19 @@
             "relative_max_dmg": 1136,
             "crit_prob": 23,
             "crit_dmg": 245,
-            "class": "sword"
+            "class": "sword",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4937": {
@@ -692,7 +1044,7 @@
         "type": "secundaria",
         "props": {
             "res": 32,
-            "increased": 320,
+            "enhanced": 320,
             "elements": 36,
             "increase_prob": 15,
             "increase": 55,
@@ -700,7 +1052,19 @@
             "relative_max_dmg": 1363,
             "crit_prob": 26,
             "crit_dmg": 315,
-            "class": "sword"
+            "class": "sword",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4938": {
@@ -715,7 +1079,19 @@
             "relative_max_dmg": 925,
             "crit_prob": 25,
             "crit_dmg": 417,
-            "class": "archer"
+            "class": "archer",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4939": {
@@ -730,7 +1106,19 @@
             "relative_max_dmg": 1110,
             "crit_prob": 30,
             "crit_dmg": 497,
-            "class": "archer"
+            "class": "archer",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4940": {
@@ -745,7 +1133,19 @@
             "relative_max_dmg": 1155,
             "crit_prob": 22,
             "crit_dmg": 272,
-            "class": "mage"
+            "class": "mage",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4941": {
@@ -760,7 +1160,19 @@
             "relative_max_dmg": 1386,
             "crit_prob": 26,
             "crit_dmg": 322,
-            "class": "mage"
+            "class": "mage",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4942": {
@@ -768,14 +1180,26 @@
         "type": "secundaria",
         "props": {
             "res": 23,
-            "increased": 270,
+            "enhanced": 270,
             "increase_prob": 10,
             "increase": 65,
             "relative_min_dmg": 706,
             "relative_max_dmg": 915,
             "crit_prob": 20,
             "crit_dmg": 262,
-            "class": "artist"
+            "class": "artist",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "4943": {
@@ -783,14 +1207,26 @@
         "type": "secundaria",
         "props": {
             "res": 30,
-            "increased": 300,
+            "enhanced": 300,
             "increase_prob": 10,
             "increase": 65,
             "relative_min_dmg": 847,
             "relative_max_dmg": 1098,
             "crit_prob": 24,
             "crit_dmg": 318,
-            "class": "artist"
+            "class": "artist",
+            "relative_SL_damage": 0,
+            "relative_SL_power": 0,
+            "relative_SL_overall": 0,
+            "relative_enhanced": 0,
+            "relative_s%": 0,
+            "relative_crit_dmg": 0,
+            "relative_crit_prob": 0,
+            "relative_plant": 0,
+            "relative_animal": 0,
+            "relative_monster": 0,
+            "relative_undead": 0,
+            "relative_lower_society_monster": 0
         }
     },
     "2918": {
