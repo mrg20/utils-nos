@@ -183,6 +183,7 @@ function loadImagesForSection(grid, imageDir, sectionId) {
     // For boss section, use the predefined images from the screenshot
     if (sectionId === 'boss-section') {
         const bossImages = [
+            'image/boss_img/dander.png',
             'image/boss_img/poluto.png',
             'image/boss_img/meca.png',
             'image/boss_img/completo.png',
