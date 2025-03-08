@@ -2794,25 +2794,202 @@ item_info = {
             "relative_pp_energy": 0
         }
     },
-    "6446": {
-        "path": "image/items/tattoo/6446.png",
+    "6446_1": {
+        "path": "image/items/tattoo/6446_1.png",
         "type": "tattoo",
         "props": {
-            "relative_s%": 20
+            "s%": 3
         }
     },
-    "6454": {
-        "path": "image/items/tattoo/6454.png",
+    "6446_2": {
+        "path": "image/items/tattoo/6446_2.png",
         "type": "tattoo",
         "props": {
-            "relative_crit_dmg": 25
+            "s%": 4
         }
     },
-    "6459": {
-        "path": "image/items/tattoo/6459.png",
+    "6446_3": {
+        "path": "image/items/tattoo/6446_3.png",
         "type": "tattoo",
         "props": {
-            "relative_crit_dmg": 36
+            "s%": 5
+        }
+    },
+    "6446_4": {
+        "path": "image/items/tattoo/6446_4.png",
+        "type": "tattoo",
+        "props": {
+            "s%": 6
+        }
+    },
+    "6446_5": {
+        "path": "image/items/tattoo/6446_5.png",
+        "type": "tattoo",
+        "props": {
+            "s%": 8
+        }
+    },
+    "6446_6": {
+        "path": "image/items/tattoo/6446_6.png",
+        "type": "tattoo",
+        "props": {
+            "s%": 10
+        }
+    },
+    "6446_7": {
+        "path": "image/items/tattoo/6446_7.png",
+        "type": "tattoo",
+        "props": {
+            "s%": 13
+        }
+    },
+    "6446_8": {
+        "path": "image/items/tattoo/6446_8.png",
+        "type": "tattoo",
+        "props": {
+            "s%": 16
+        }
+    },
+    "6446_9": {
+        "path": "image/items/tattoo/6446_9.png",
+        "type": "tattoo",
+        "props": {
+            "s%": 20
+        }
+    },
+    "6454_1": {
+        "path": "image/items/tattoo/6454_1.png",
+        "type": "tattoo",
+        "props": {
+            "crit_prob": 1,
+            "crit_dmg": 6
+        }
+    },
+    "6454_2": {
+        "path": "image/items/tattoo/6454_2.png",
+        "type": "tattoo",
+        "props": {
+            "crit_prob": 1,
+            "crit_dmg": 7
+        }
+    },
+    "6454_3": {
+        "path": "image/items/tattoo/6454_3.png",
+        "type": "tattoo",
+        "props": {
+            "crit_prob": 2,
+            "crit_dmg": 8
+        }
+    },
+    "6454_4": {
+        "path": "image/items/tattoo/6454_4.png",
+        "type": "tattoo",
+        "props": {
+            "crit_prob": 2,
+            "crit_dmg": 9
+        }
+    },
+    "6454_5": {
+        "path": "image/items/tattoo/6454_5.png",
+        "type": "tattoo",
+        "props": {
+            "crit_prob": 3,
+            "crit_dmg": 10
+        }
+    },
+    "6454_6": {
+        "path": "image/items/tattoo/6454_6.png",
+        "type": "tattoo",
+        "props": {
+            "crit_prob": 3,
+            "crit_dmg": 13
+        }
+    },
+    "6454_7": {
+        "path": "image/items/tattoo/6454_7.png",
+        "type": "tattoo",
+        "props": {
+            "crit_prob": 4,
+            "crit_dmg": 16
+        }
+    },
+    "6454_8": {
+        "path": "image/items/tattoo/6454_8.png",
+        "type": "tattoo",
+        "props": {
+            "crit_prob": 4,
+            "crit_dmg": 20
+        }
+    },
+    "6454_9": {
+        "path": "image/items/tattoo/6454_9.png",
+        "type": "tattoo",
+        "props": {
+            "crit_prob": 5,
+            "crit_dmg": 25
+        }
+    },
+    "6459_1": {
+        "path": "image/items/tattoo/6459_1.png",
+        "type": "tattoo",
+        "props": {
+            "crit_dmg": 6
+        }
+    },
+    "6459_2": {
+        "path": "image/items/tattoo/6459_2.png",
+        "type": "tattoo",
+        "props": {
+            "crit_dmg": 8
+        }
+    },
+    "6459_3": {
+        "path": "image/items/tattoo/6459_3.png",
+        "type": "tattoo",
+        "props": {
+            "crit_dmg": 10
+        }
+    },
+    "6459_4": {
+        "path": "image/items/tattoo/6459_4.png",
+        "type": "tattoo",
+        "props": {
+            "crit_dmg": 12
+        }
+    },
+    "6459_5": {
+        "path": "image/items/tattoo/6459_5.png",
+        "type": "tattoo",
+        "props": {
+            "crit_dmg": 14
+        }
+    },
+    "6459_6": {
+        "path": "image/items/tattoo/6459_6.png",
+        "type": "tattoo",
+        "props": {
+            "crit_dmg": 18
+        }
+    },
+    "6459_7": {
+        "path": "image/items/tattoo/6459_7.png",
+        "type": "tattoo",
+        "props": {
+            "crit_dmg": 22
+        }
+    },
+    "6459_8": {
+        "path": "image/items/tattoo/6459_8.png",
+        "type": "tattoo",
+        "props": {
+            "crit_dmg": 28
+        }
+    },
+    "6459_9": {
+        "path": "image/items/tattoo/6459_9.png",
+        "type": "tattoo",
+        "props": {
+            "crit_dmg": 36
         }
     }
 }
