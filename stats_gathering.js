@@ -192,7 +192,7 @@ function loadImagesForSection(grid, imageDir, sectionId) {
         ];
         
         bossImages.forEach(imagePath => {
-            addImageToGrid(grid, imagePath);
+            controlSecondSectionSelection(grid, imagePath);
         });
     } 
     // For buff section
@@ -207,7 +207,7 @@ function loadImagesForSection(grid, imageDir, sectionId) {
         ];
         
         buffImages.forEach(imagePath => {
-            addImageToGrid(grid, imagePath);
+            controlSecondSectionSelection(grid, imagePath);
         });
     }
     // For debuff section
@@ -225,27 +225,65 @@ function loadImagesForSection(grid, imageDir, sectionId) {
         ];
         
         debuffImages.forEach(imagePath => {
-            addImageToGrid(grid, imagePath);
+            controlSecondSectionSelection(grid, imagePath);
         });
     }
 }
 
+// Object to track selected images by section
+const selectedImgs = {
+    boss: null,
+    buffs: new Set(),
+    debuffs: new Set()
+};
+
+// Helper function to get image type and name
+function getImageInfo(imagePath) {
+    const imgName = imagePath.split('/').pop().replace('.png', '');
+    const type = imagePath.includes('boss_img') ? 'boss' :
+                imagePath.includes('/buff_img') ? 'buff' : 
+                imagePath.includes('/debuff_img') ? 'debuff' : null;
+    return { imgName, type };
+}
+
+// Helper function to handle image selection state
+function updateSelectionState(container, imageInfo, selectedState) {
+    const { imgName, type } = imageInfo;
+    
+    if (selectedState) {
+        if (type === 'boss') {
+            // For boss images, unselect any previously selected boss
+            Array.from(container.parentNode.children)
+                .forEach(sibling => sibling.classList.remove('selected'));
+            selectedImgs.boss = imgName;
+        } else if (type === 'buff') {
+            selectedImgs.buffs.add(imgName);
+        } else if (type === 'debuff') {
+            selectedImgs.debuffs.add(imgName);
+        }
+        container.classList.add('selected');
+    } else {
+        container.classList.remove('selected');
+        if (type === 'boss') {
+            selectedImgs.boss = null;
+        } else if (type === 'buff') {
+            selectedImgs.buffs.delete(imgName);
+        } else if (type === 'debuff') {
+            selectedImgs.debuffs.delete(imgName);
+        }
+    }
+}
+
 // Function to add an image to a grid
-function addImageToGrid(grid, imagePath) {
+function controlSecondSectionSelection(grid, imagePath) {
     const imageContainer = document.createElement('div');
     imageContainer.className = 'effect-item';
-    
-    // Set background image
     imageContainer.style.backgroundImage = `url('${imagePath}')`;
     
-    // Add click event to select this effect
     imageContainer.addEventListener('click', function() {
-        // Remove selected class from all items in this grid
-        const siblings = Array.from(this.parentNode.children);
-        siblings.forEach(sibling => sibling.classList.remove('selected'));
-        
-        // Add selected class to this item
-        this.classList.add('selected');
+        const imageInfo = getImageInfo(imagePath);
+        const isSelected = this.classList.contains('selected');
+        updateSelectionState(this, imageInfo, !isSelected);
     });
     
     grid.appendChild(imageContainer);
@@ -810,6 +848,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function calculateDamage() {
     console.log(selectedItems);
+    console.log(selectedImgs);
     //const calculator = new Calculator(attacker, defender);
     //calculator.calculateDamage();
 }
