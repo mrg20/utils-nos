@@ -2814,13 +2814,5 @@ item_info = {
         "props": {
             "relative_crit_dmg": 36
         }
-    },
-    "6462": {
-        "path": "image/items/tattoo/6462.png",
-        "type": "tattoo",
-        "props": {
-            "relative_magic_%": 25,
-            "relative_armor": 0
-        }
     }
 }
