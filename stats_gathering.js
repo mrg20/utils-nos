@@ -1,3 +1,5 @@
+
+
 // Add this function to initialize the layout properly on page load
 function initializeLayout() {
     // Create the left-side-container if it doesn't exist
@@ -846,11 +848,86 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+
+
 function calculateDamage() {
     console.log(selectedItems);
     console.log(selectedImgs);
     //const calculator = new Calculator(attacker, defender);
     //calculator.calculateDamage();
+}
+
+function sumPropertyValues(items, propertyKey) {
+    return Object.values(items).reduce((sum, item) => {
+        const propValue = (item.props && item.props[propertyKey]) || 0;
+        const relativeValue = (item.appliedRelativeProps && item.appliedRelativeProps[propertyKey]) || 0;
+        return sum + Number(propValue) + Number(relativeValue);
+    }, 0);
+}
+
+function setWeaponUp() {
+    if (selectedItems.SP.props.weapon == "primary") {
+        return selectedItems.primaria.appliedRelativeProps.weapon_up;
+    }
+    return selectedItems.secundaria.appliedRelativeProps.weapon_up;
+}
+
+function mapper() {
+    attacker = {
+        "buffs": Array.from(selectedImgs.buffs),
+        "fairy": sumPropertyValues(selectedItems, 'fairy'),
+        "weaponUp": setWeaponUp(),
+        "atkIncrease": "number",
+        "playerLevel": "number",
+        "dmgIncrease": "number",
+        "mobDamage": "number",
+        "atkBase": "number",
+        "atkEquipMin": "number",
+        "atkEquipMax": "number",
+        "atkSkill": "number",
+        "atkBonus": "number",
+        "dmgIncreaseEqProb": "number",
+        "dmgIncreaseSkin": "number",
+        "dmgIncreaseCostume": "number",
+        "atkSp": "number",
+        "eneSp": "number",
+        "atkPP": "number",
+        "atkWeaponUp": "number",
+        "elePropIncrease": "number",
+        "atkSkillElement": "number",
+        "eleSp": "number",
+        "elePP": "number",
+        "type": "string",
+        "resReduction": "number",
+        "atkOil": "number",
+        "attackType": "string",
+        "critDmg": "number",
+        "critProb": "number",
+        "atkHat": "number",
+        "atkTitle": "number",
+        "atkPot": "number",
+        "atkPet": "number",
+        "atkCostume": "number",
+        "dmgIncreaseRune": "number",
+        "atkFairy": "number",
+        "atkFamily": "number",
+        "atkSkin": "number",
+        "dmgIncreaseTattoo": "number",
+        "critDmgTattoo": "number",
+        "probAugmentEq": "number",
+        "probAugmentSkin": "number",
+        "probAugmentCostume": "number"
+    }
+    defender = {
+        "debuffs": Array.from(selectedImgs.debuffs),
+        "armorUp": "number",
+        "defEquip": "number",
+        "dmgReduction": "number",
+        "critDmgReduction": "number",
+        "res": "number",
+        "defType": "string",
+        "mobLevel": "number"
+    }
 }
 
 boss_info = {
@@ -1484,6 +1561,7 @@ item_info = {
         "path": "image/items/primaria/4627.png",
         "type": "primaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 35,
             "elements": 205,
             "increase_prob": 40,
@@ -1520,6 +1598,7 @@ item_info = {
         "path": "image/items/primaria/4629.png",
         "type": "primaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 33,
             "elements": 210,
             "increase_prob": 40,
@@ -1556,6 +1635,7 @@ item_info = {
         "path": "image/items/primaria/4631.png",
         "type": "primaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 40,
             "elements": 300,
             "increase_prob": 25,
@@ -1592,6 +1672,7 @@ item_info = {
         "path": "image/items/primaria/4633.png",
         "type": "primaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 35,
             "elements": 190,
             "increase_prob": 30,
@@ -1628,6 +1709,7 @@ item_info = {
         "path": "image/items/primaria/4944.png",
         "type": "primaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 31,
             "elements": 230,
             "increase_prob": 40,
@@ -1664,6 +1746,7 @@ item_info = {
         "path": "image/items/primaria/4945.png",
         "type": "primaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 38,
             "elements": 276,
             "increase_prob": 40,
@@ -1700,6 +1783,7 @@ item_info = {
         "path": "image/items/primaria/4946.png",
         "type": "primaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 40,
             "elements": 259,
             "increase_prob": 35,
@@ -1736,6 +1820,7 @@ item_info = {
         "path": "image/items/primaria/4947.png",
         "type": "primaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 33,
             "elements": 216,
             "increase_prob": 35,
@@ -1772,6 +1857,7 @@ item_info = {
         "path": "image/items/primaria/4948.png",
         "type": "primaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 38,
             "elements": 300,
             "increase_prob": 25,
@@ -1806,6 +1892,7 @@ item_info = {
         "path": "image/items/primaria/4949.png",
         "type": "primaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 45,
             "elements": 324,
             "increase_prob": 30,
@@ -1840,6 +1927,7 @@ item_info = {
         "path": "image/items/primaria/4950.png",
         "type": "primaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 33,
             "elements": 240,
             "increase_prob": 40,
@@ -1876,6 +1964,7 @@ item_info = {
         "path": "image/items/primaria/4951.png",
         "type": "primaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 40,
             "elements": 246,
             "increase_prob": 40,
@@ -1912,6 +2001,7 @@ item_info = {
         "path": "image/items/secundaria/4635.png",
         "type": "secundaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 27,
             "elements": 30,
             "enhanced": 280,
@@ -1940,6 +2030,7 @@ item_info = {
         "path": "image/items/secundaria/4637.png",
         "type": "secundaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 25,
             "elements": 20,
             "increase_prob": 6,
@@ -1967,6 +2058,7 @@ item_info = {
         "path": "image/items/secundaria/4639.png",
         "type": "secundaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 25,
             "elements": 21,
             "increase_prob": 30,
@@ -1994,6 +2086,7 @@ item_info = {
         "path": "image/items/secundaria/4641.png",
         "type": "secundaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 25,
             "enhanced": 260,
             "increase_prob": 10,
@@ -2021,6 +2114,7 @@ item_info = {
         "path": "image/items/secundaria/4936.png",
         "type": "secundaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 25,
             "enhanced": 290,
             "elements": 30,
@@ -2049,6 +2143,7 @@ item_info = {
         "path": "image/items/secundaria/4937.png",
         "type": "secundaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 32,
             "enhanced": 320,
             "elements": 36,
@@ -2077,6 +2172,7 @@ item_info = {
         "path": "image/items/secundaria/4938.png",
         "type": "secundaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 23,
             "elements": 20,
             "increase_prob": 6,
@@ -2104,6 +2200,7 @@ item_info = {
         "path": "image/items/secundaria/4939.png",
         "type": "secundaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 30,
             "elements": 24,
             "increase_prob": 10,
@@ -2131,6 +2228,7 @@ item_info = {
         "path": "image/items/secundaria/4940.png",
         "type": "secundaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 23,
             "elements": 23,
             "increase_prob": 30,
@@ -2158,6 +2256,7 @@ item_info = {
         "path": "image/items/secundaria/4941.png",
         "type": "secundaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 30,
             "elements": 25,
             "increase_prob": 30,
@@ -2185,6 +2284,7 @@ item_info = {
         "path": "image/items/secundaria/4942.png",
         "type": "secundaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 23,
             "enhanced": 270,
             "increase_prob": 10,
@@ -2212,6 +2312,7 @@ item_info = {
         "path": "image/items/secundaria/4943.png",
         "type": "secundaria",
         "props": {
+            "relative_weapon_up": 8,
             "res": 30,
             "enhanced": 300,
             "increase_prob": 10,
