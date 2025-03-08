@@ -251,6 +251,10 @@ function addImageToGrid(grid, imagePath) {
     grid.appendChild(imageContainer);
 }
 
+// Object to store selected items and their properties
+const selectedItems = {};
+// Object to store accumulated stats
+const accumulatedStats = {};
 // Call this function at the beginning of the DOMContentLoaded event
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize the layout first
@@ -262,10 +266,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const optionsGrid = document.getElementById('options-grid');
     let currentSelectedItem = null;
     
-    // Object to store selected items and their properties
-    const selectedItems = {};
-    // Object to store accumulated stats
-    const accumulatedStats = {};
     
     // Initialize the stats display
     createStatsDisplay();
@@ -809,8 +809,126 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function calculateDamage() {
-    const calculator = new Calculator(attacker, defender);
-    calculator.calculateDamage();
+    console.log(selectedItems);
+    //const calculator = new Calculator(attacker, defender);
+    //calculator.calculateDamage();
+}
+
+boss_info = {
+    "poluto": {
+        "path": "image/boss/poluto.png",
+        "props": {
+            'mobLevel': 100,
+            'armorUp': 10,
+            'defEquipMelee': 1810,
+            'defEquipDistance': 1233,
+            'defEquipMagic': 1802,
+            'dmgReductionMelee': 58,
+            'dmgReductionDistance': 58,
+            'dmgReductionMagic': 58,
+            'critDmgReduction': 115,
+            'resFire': 140,
+            'resWater': 140,
+            'resLight': 140,
+            'resShadow': 140,
+            'defType': 'NO_ELEMENT'
+        }
+    },
+    "meca": {
+        "path": "image/boss/meca.png",
+        "props": {
+            'mobLevel': 100,
+            'armorUp': 10,
+            'defEquipMelee': 1958,
+            'defEquipDistance': 2129,
+            'defEquipMagic': 1378,
+            'dmgReductionMelee': 70,
+            'dmgReductionDistance': 75,
+            'dmgReductionMagic': 80,
+            'critDmgReduction': 115,
+            'resFire': 160,
+            'resWater': 150,
+            'resLight': 165,
+            'resShadow': 155,
+            'defType': 'LIGHT'
+        }
+    },
+    "completo": {
+        "path": "image/boss/completo.png",
+        "props": {
+            'mobLevel': 100,
+            'armorUp': 10,
+            'defEquipMelee': 2349,
+            'defEquipDistance': 2554,
+            'defEquipMagic': 2253,
+            'dmgReductionMelee': 70,
+            'dmgReductionDistance': 75,
+            'dmgReductionMagic': 80,
+            'critDmgReduction': 115,
+            'resFire': 155,
+            'resWater': 170,
+            'resLight': 165,
+            'resShadow': 160,
+            'defType': 'WATER'
+        }
+    },
+    "valehir": {
+        "path": "image/boss/valehir.png",
+        "props": {
+            'mobLevel': 100,
+            'armorUp': 9,
+            'defEquipMelee': 1207,
+            'defEquipDistance': 1233,
+            'defEquipMagic': 1202,
+            'dmgReductionMelee': 75,
+            'dmgReductionDistance': 80,
+            'dmgReductionMagic': 70,
+            'critDmgReduction': 85,
+            'resFire': 140,
+            'resWater': 150,
+            'resLight': 140,
+            'resShadow': 200,
+            'defType': 'SHADOW'
+        }
+    },
+    "alzanor": {
+        "path": "image/boss/alzanor.png",
+        "props": {
+            'mobLevel': 100,
+            'armorUp': 9,
+            'defEquipMelee': 1177,
+            'defEquipDistance': 1233,
+            'defEquipMagic': 1202,
+            'dmgReductionMelee': 75,
+            'dmgReductionDistance': 80,
+            'dmgReductionMagic': 70,
+            'critDmgReduction': 70,
+            'resFire': 140,
+            'resWater': 200,
+            'resLight': 160,
+            'resShadow': 150,
+            'defType': 'WATER'
+        }
+    },
+    "dander": {
+        "path": "image/boss/dander.png",
+        "props": {
+            'mobLevel': 1,
+            'armorUp': 0,
+            'defEquipMelee': 18,
+            'defEquipDistance': 17,
+            'defEquipMagic': 13,
+            'dmgReductionMelee': 0,
+            'dmgReductionDistance': 0,
+            'dmgReductionMagic': 0,
+            'critDmgReduction': 0,
+            'resFire': 0,
+            'resWater': 0,
+            'resLight': 0,
+            'resShadow': 0,
+            'defType': 'NO_ELEMENT'
+        }
+    }
 }
 
 item_info = {
