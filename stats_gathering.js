@@ -102,6 +102,12 @@ function showBossBuffDebuffSections() {
         nextButtonContainer.style.display = 'none';
     }
     
+    // Hide the character info div
+    const characterInfoDiv = document.getElementById('character-info');
+    if (characterInfoDiv) {
+        characterInfoDiv.style.display = 'none';
+    }
+    
     // Create or show the boss/buff/debuff container
     let effectsContainer = document.getElementById('effects-container');
     if (!effectsContainer) {
@@ -145,6 +151,7 @@ function showBossBuffDebuffSections() {
             if (leftSideContainer) leftSideContainer.style.display = 'flex';
             if (optionsPanel) optionsPanel.style.display = 'block';
             if (nextButtonContainer) nextButtonContainer.style.display = 'block';
+            if (characterInfoDiv) characterInfoDiv.style.display = 'block';
         });
         
         backButtonContainer.appendChild(backButton);

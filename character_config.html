@@ -430,29 +430,31 @@
         <p style="color: #858585; font-size: 14px;">Click an icon below to select your character's properties</p>
     </div>
     
+
+    <div id="character-info" style="background-color: #222; padding: 15px; border-radius: 5px; width: 230px; margin-bottom: 20px; margin-left: auto; margin-right: auto;">
+        <h3 style="color: #3498db; margin-top: 0; margin-bottom: 15px; font-size: 16px;">Character Info</h3>
+        <div class="info-field" style="margin-bottom: 10px; display: flex; align-items: center;">
+            <label for="player-level" style="flex: 0 0 100px; color: #ddd;">Player level:</label>
+            <input type="number" id="player-level" min="1" max="99" style="background-color: #333; border: 1px solid #444; color: white; padding: 5px; border-radius: 3px; width: 60px;">
+        </div>
+        <div class="info-field" style="margin-bottom: 10px; display: flex; align-items: center;">
+            <label for="base-attack" style="flex: 0 0 100px; color: #ddd;">Base attack:</label>
+            <input type="number" id="base-attack" min="0" style="background-color: #333; border: 1px solid #444; color: white; padding: 5px; border-radius: 3px; width: 60px;">
+            <button class="help-button" id="base-attack-help" style="margin-left: 5px; background-color: #3498db; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-size: 12px;">?</button>
+        </div>
+    </div>
+    
+    <!-- Popup for base attack help -->
+    <div id="base-attack-popup" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.8);">
+        <div style="background-color: #222; margin: 10% auto; padding: 20px; border-radius: 5px; width: 80%; max-width: 500px; position: relative;">
+            <span id="close-base-attack-popup" style="position: absolute; top: 10px; right: 15px; color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+            <h3 style="color: #3498db; margin-top: 0;">Base Attack Information</h3>
+            <p style="color: #ddd; margin-bottom: 15px;">This is your character's base attack value without any equipment or buffs:</p>
+            <img src="image/utils/atkBase.png" alt="Base Attack Help" style="max-width: 100%; display: block; margin: 0 auto;">
+        </div>
+    </div>
+
     <div class="main-container">
-        <div class="character-info" style="background-color: #222; padding: 15px; border-radius: 5px; width: 230px; margin-bottom: 20px;">
-            <h3 style="color: #3498db; margin-top: 0; margin-bottom: 15px; font-size: 16px;">Character Info</h3>
-            <div class="info-field" style="margin-bottom: 10px; display: flex; align-items: center;">
-                <label for="player-level" style="flex: 0 0 100px; color: #ddd;">Player level:</label>
-                <input type="number" id="player-level" min="1" max="99" style="background-color: #333; border: 1px solid #444; color: white; padding: 5px; border-radius: 3px; width: 60px;">
-            </div>
-            <div class="info-field" style="margin-bottom: 10px; display: flex; align-items: center;">
-                <label for="base-attack" style="flex: 0 0 100px; color: #ddd;">Base attack:</label>
-                <input type="number" id="base-attack" min="0" style="background-color: #333; border: 1px solid #444; color: white; padding: 5px; border-radius: 3px; width: 60px;">
-                <button class="help-button" id="base-attack-help" style="margin-left: 5px; background-color: #3498db; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-size: 12px;">?</button>
-            </div>
-        </div>
-        
-        <!-- Popup for base attack help -->
-        <div id="base-attack-popup" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.8);">
-            <div style="background-color: #222; margin: 10% auto; padding: 20px; border-radius: 5px; width: 80%; max-width: 500px; position: relative;">
-                <span id="close-base-attack-popup" style="position: absolute; top: 10px; right: 15px; color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
-                <h3 style="color: #3498db; margin-top: 0;">Base Attack Information</h3>
-                <p style="color: #ddd; margin-bottom: 15px;">This is your character's base attack value without any equipment or buffs:</p>
-                <img src="image/utils/atkBase.png" alt="Base Attack Help" style="max-width: 100%; display: block; margin: 0 auto;">
-            </div>
-        </div>
         <div class="left-container">
             <div class="grid-container">
                 <!-- Row 1 -->
