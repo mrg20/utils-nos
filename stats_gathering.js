@@ -903,14 +903,28 @@ function setAttackType() {
     return mapper[selectedImgs.SP.props.class][selectedItems.SP.props.weapon]
 }
 
+function setAttackPet() {
+    minipet = selectedItems.mini_pet.props.hasOwnProperty('s%') ? selectedItems.mini_pet.props['s%'] : 0;
+    pet = selectedItems.mascota.props.hasOwnProperty('s%') ? selectedItems.mascota.props['s%'] : 0;
+    compa = selectedItems.compa.props.hasOwnProperty('s%') ? selectedItems.compa.props['s%'] : 0;
+    compa_sp = selectedItems.compa_sp.appliedRelativeProps.hasOwnProperty('s%') ? selectedItems.compa_sp.appliedRelativeProps['s%'] : 0;
+    return minipet + pet + compa + compa_sp;
+}
+
+function setRuneDamage() {
+    rune_dmg = selectedItems.primaria.appliedRelativeProps.hasOwnProperty('rune_s%') ? selectedItems.primaria.appliedRelativeProps['s%'] : 0;
+    rune_mob = selectedItems.primaria.appliedRelativeProps.hasOwnProperty('rune_'+boss_info[selectedImgs.boss].props.type) ? selectedItems.primaria.appliedRelativeProps['rune_'+boss_info[selectedImgs.boss].props.type] : 0;
+    return rune_dmg + rune_mob;
+}
+
 function mapper() {
     attacker = {
         "buffs": Array.from(selectedImgs.buffs),
-        "fairy": sumPropertyValues(selectedItems, 'fairy'),
+        "fairy": sumPropertyValues(selectedItems, 'fairy') + sumPropertyValues(selectedItems, 'fairy_option'),
         "atkIncrease": sumPropertyValues(selectedItems, 'enhanced'),
         "playerLevel": document.getElementById('player-level').value,
         "dmgIncrease": selectedItems.SP.props.weapon == "primary" ? selectedItems.primaria.appliedRelativeProps['s%'] : selectedItems.secundaria.appliedRelativeProps['s%'],
-        "mobDamage": setMobDamage(selectedImgs.boss),
+        "mobDamage": setMobDamage(boss_info[selectedImgs.boss].props.type),
         "atkBase": document.getElementById('base-attack').value,
         "atkEquipMin": selectedItems.SP.props.weapon == "primary" ? selectedItems.primaria.appliedRelativeProps.min_dmg : selectedItems.secundaria.appliedRelativeProps.min_dmg,
         "atkEquipMax": selectedItems.SP.props.weapon == "primary" ? selectedItems.primaria.appliedRelativeProps.max_dmg : selectedItems.secundaria.appliedRelativeProps.max_dmg,
@@ -935,13 +949,13 @@ function mapper() {
         "critProb": sumPropertyValues(selectedItems, 'crit_prob'),
         "atkHat": selectedItems.gorro.props.hasOwnProperty('s%') ? selectedItems.gorro.props['s%'] : 0,
         "atkTitle": "number", // TODO: ADD TITLE OPTION IN THE INTERFACE.
-        "atkPot": "number",
-        "atkPet": "number",
+        "atkPot": Array.from(selectedImgs.buffs).includes('roja') ? 10 : 0,
+        "atkPet": setAttackPet(),
         "atkCostume": selectedItems.disfraz.props.hasOwnProperty('s%') ? selectedItems.disfraz.props['s%'] : 0,
-        "dmgIncreaseRune": "number",
-        "atkFairy": "number",
-        "atkFamily": "number",
-        "atkSkin": "number",
+        "dmgIncreaseRune": setRuneDamage(),
+        "atkFairy": selectedItems.hadas.appliedRelativeProps.hasOwnProperty('s%') ? selectedItems.hadas.appliedRelativeProps['s%'] : 0,
+        "atkFamily": 10, // TODO: add family option in the interface
+        "atkSkin": selectedItems.skin.props.hasOwnProperty('s%') ? selectedItems.skin.props['s%'] : 0,
         "dmgIncreaseTattoo": sumPropertyValues(selectedItems, 's%_tattoo'),
         "critDmgTattoo": sumPropertyValues(selectedItems, 'crit_dmg_tattoo'),
         "probAugmentEq": selectedItems.primaria.props.increase_prob + selectedItems.secundaria.props.increase_prob,
