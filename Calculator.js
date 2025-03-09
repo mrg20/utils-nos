@@ -10,6 +10,25 @@ const crit_dmg_sp = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 
 const en_sp_bonus = [0, 0, 0, 0, 5, 5, 5, 5, 5, 10, 10, 10, 10, 10, 15, 15, 15, 15, 15, 20, 20, 20, 20, 20, 25, 25, 25, 25, 25, 30, 30, 30, 30, 30, 35, 35, 35, 35, 35, 40, 40, 40, 40, 40, 50, 50, 50, 50, 50, 60, 60, 60, 60, 60, 70, 70, 70, 70, 70, 80, 80, 80, 80, 80, 90, 90, 90, 90, 90, 100, 100, 100, 100, 100, 115, 115, 115, 115, 115, 130, 130, 130, 130, 130, 145, 145, 145, 145, 145, 160, 160, 160, 160, 160, 180, 180, 180, 180, 180, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 230, 230, 230, 230, 230, 230, 230, 230, 230, 230, 230];
 
+const type_matchups = {
+    "FIRE>WATER": 1,
+    "WATER>FIRE": 1,
+    "LIGHT>SHADOW": 2,
+    "SHADOW>LIGHT": 2,
+    "FIRE>SHADOW": 0.5,
+    "SHADOW>WATER": 0.5,
+    "WATER>LIGHT": 0.5,
+    "LIGHT>FIRE": 0.5,
+    "FIRE>NO_ELEMENT": 0.3,
+    "WATER>NO_ELEMENT": 0.3,
+    "LIGHT>NO_ELEMENT": 0.3,
+    "SHADOW>NO_ELEMENT": 0.3,
+    "NO_ELEMENT>FIRE": 0.3,
+    "NO_ELEMENT>WATER": 0.3,
+    "NO_ELEMENT>LIGHT": 0.3,
+    "NO_ELEMENT>SHADOW": 0.3,
+    "NO_ELEMENT>NO_ELEMENT": 0.3
+};
 
 
 export class Calculator {

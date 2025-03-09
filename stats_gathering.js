@@ -1083,8 +1083,22 @@ function calculate() {
     <p>Possible Max Soft Crit: ${Math.floor(damage.softDmgMaxNormalCrit).toLocaleString()}</p>
     `;
 
+    // Create a result container if it doesn't exist
+    let resultContainer = document.getElementById('damage-result');
+    if (!resultContainer) {
+        resultContainer = document.createElement('div');
+        resultContainer.id = 'damage-result';
+        resultContainer.style.margin = '20px auto';
+        resultContainer.style.maxWidth = '800px';
+        resultContainer.style.padding = '15px';
+        resultContainer.style.backgroundColor = '#222';
+        resultContainer.style.borderRadius = '5px';
+        resultContainer.style.color = 'white';
+        document.body.appendChild(resultContainer);
+    }
+    
     // Display the result
-    document.getElementById('damage-result').innerHTML = summaryInfo + resultTable;
+    resultContainer.innerHTML = summaryInfo + resultTable;
 }
 
 let boss_info = {
