@@ -416,9 +416,8 @@
     <div style="text-align: center; margin: 20px 0;">
         <h2 style="color: #3498db; margin-bottom: 10px;">Damage calculator</h2>
         <p style="color: #e6e6e6; font-size: 14px; line-height: 1.6; max-width: 800px; margin: 0 auto;">
-            <span style="font-weight: bold; color: #3498db;">Hi, I'm Dell.</span> I created this tool to help you calculate your damage in the game. 
+            <span style="font-weight: bold; color: #3498db;">Hi, I'm Noki.</span> I created this tool to help you calculate your damage in the game. 
             It is not 100% finished yet, since some partial buffs need to be included, but most of the latest things are included in the tool.
-            If you have any suggestions, feel free to contact me ingame or contribute to the <a href="https://github.com/mrg20/utils-nos.git" target="_blank" style="color: #3498db; text-decoration: none; border-bottom: 1px dotted #3498db;">github repository</a>.
             <br>
             <br>
             I've iterated the formula a lot of times, but some things need better empirical testing (like the SP wings).
@@ -441,6 +440,20 @@
             <label for="base-attack" style="flex: 0 0 100px; color: #ddd;">Base attack:</label>
             <input type="number" id="base-attack" min="0" style="background-color: #333; border: 1px solid #444; color: white; padding: 5px; border-radius: 3px; width: 60px;">
             <button class="help-button" id="base-attack-help" style="margin-left: 5px; background-color: #3498db; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; font-size: 12px;">?</button>
+        </div>
+        <div class="info-field" style="margin-bottom: 10px; display: flex; align-items: center;">
+            <label for="fam-damage" style="flex: 0 0 100px; color: #ddd;">Family damage %:</label>
+            <input type="number" id="fam-damage" min="1" max="30" style="background-color: #333; border: 1px solid #444; color: white; padding: 5px; border-radius: 3px; width: 60px;">
+        </div>
+        <div class="info-field" style="margin-bottom: 10px; display: flex; align-items: center;">
+            <label for="title-select" style="flex: 0 0 100px; color: #ddd;">Title:</label>
+            <select id="title-select" style="background-color: #333; border: 1px solid #444; color: white; padding: 5px; border-radius: 3px; width: 120px;">
+                <option value="none">No title</option>
+                <option value="eternal">Eternal</option>
+                <option value="legendary_hero">Legendary Hero</option>
+                <option value="master_trainer">Master Trainer</option>
+                <option value="godlike">Godlike</option>
+            </select>
         </div>
     </div>
     

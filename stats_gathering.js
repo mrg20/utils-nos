@@ -895,7 +895,7 @@ function setIncreaseCostume() {
 }
 
 function setAttackType() {
-    mapper = {
+    let mapper = {
         "sword": {"primary": "Melee", "secondary": "Distance"},
         "archer": {"primary": "Distance", "secondary": "Melee"},
         "mage": {"primary": "Magic", "secondary": "Distance"}
@@ -904,17 +904,33 @@ function setAttackType() {
 }
 
 function setAttackPet() {
-    minipet = selectedItems.mini_pet.props.hasOwnProperty('s%') ? selectedItems.mini_pet.props['s%'] : 0;
-    pet = selectedItems.mascota.props.hasOwnProperty('s%') ? selectedItems.mascota.props['s%'] : 0;
-    compa = selectedItems.compa.props.hasOwnProperty('s%') ? selectedItems.compa.props['s%'] : 0;
-    compa_sp = selectedItems.compa_sp.appliedRelativeProps.hasOwnProperty('s%') ? selectedItems.compa_sp.appliedRelativeProps['s%'] : 0;
+    let minipet = selectedItems.mini_pet.props.hasOwnProperty('s%') ? selectedItems.mini_pet.props['s%'] : 0;
+    let pet = selectedItems.mascota.props.hasOwnProperty('s%') ? selectedItems.mascota.props['s%'] : 0;
+    let compa = selectedItems.compa.props.hasOwnProperty('s%') ? selectedItems.compa.props['s%'] : 0;
+    let compa_sp = selectedItems.compa_sp.appliedRelativeProps.hasOwnProperty('s%') ? selectedItems.compa_sp.appliedRelativeProps['s%'] : 0;
     return minipet + pet + compa + compa_sp;
 }
 
 function setRuneDamage() {
-    rune_dmg = selectedItems.primaria.appliedRelativeProps.hasOwnProperty('rune_s%') ? selectedItems.primaria.appliedRelativeProps['s%'] : 0;
-    rune_mob = selectedItems.primaria.appliedRelativeProps.hasOwnProperty('rune_'+boss_info[selectedImgs.boss].props.type) ? selectedItems.primaria.appliedRelativeProps['rune_'+boss_info[selectedImgs.boss].props.type] : 0;
+    let rune_dmg = selectedItems.primaria.appliedRelativeProps.hasOwnProperty('rune_s%') ? selectedItems.primaria.appliedRelativeProps['s%'] : 0;
+    let rune_mob = selectedItems.primaria.appliedRelativeProps.hasOwnProperty('rune_'+boss_info[selectedImgs.boss].props.type) ? selectedItems.primaria.appliedRelativeProps['rune_'+boss_info[selectedImgs.boss].props.type] : 0;
     return rune_dmg + rune_mob;
+}
+
+function setTitle() {
+    let title = document.getElementById('title-select').value;
+    if (title == "none") {
+        return 0;
+    } else if (title == "eternal") {
+        return 8;
+    } else if (title == "legendary_hero") {
+        return 5;
+    } else if (title == "master_trainer") {
+        return 10;
+    } else if (title == "godlike") {
+        return 7;
+    }
+    return 0;
 }
 
 function mapper() {
@@ -928,7 +944,7 @@ function mapper() {
         "atkBase": document.getElementById('base-attack').value,
         "atkEquipMin": selectedItems.SP.props.weapon == "primary" ? selectedItems.primaria.appliedRelativeProps.min_dmg : selectedItems.secundaria.appliedRelativeProps.min_dmg,
         "atkEquipMax": selectedItems.SP.props.weapon == "primary" ? selectedItems.primaria.appliedRelativeProps.max_dmg : selectedItems.secundaria.appliedRelativeProps.max_dmg,
-        "atkSkill": 100, // TODO: add skill from the SP
+        "atkSkill": selectedItems.SP.appliedRelativeProps.hasOwnProperty('atkSkill') ? selectedItems.SP.appliedRelativeProps.atkSkill : 0,
         "atkBonus": 0,
         "dmgIncreaseEqProb": selectedItems.primaria.props.increase + selectedItems.secundaria.props.increase,
         "dmgIncreaseSkin": setIncreaseSkin(),
@@ -938,7 +954,7 @@ function mapper() {
         "atkPP": selectedItems.SP.appliedRelativeProps.hasOwnProperty('pp_damage') ? selectedItems.SP.appliedRelativeProps.pp_damage : 0,
         "atkWeaponUp": selectedItems.SP.props.weapon == "primary" ? selectedItems.primaria.appliedRelativeProps.weapon_up : selectedItems.secundaria.appliedRelativeProps.weapon_up,
         "elePropIncrease": sumPropertyValues(selectedItems, 'elements'),
-        "atkSkillElement": 100, // TODO: add skill from the SP
+        "atkSkillElement": selectedItems.SP.appliedRelativeProps.hasOwnProperty('atkSkillElement') ? selectedItems.SP.appliedRelativeProps.atkSkillElement : 0,
         "eleSp": selectedItems.SP.appliedRelativeProps.SL_power,
         "elePP": selectedItems.SP.appliedRelativeProps.pp_power,
         "type": selectedItems.SP.props.element,
@@ -948,13 +964,13 @@ function mapper() {
         "critDmg": sumPropertyValues(selectedItems, 'crit_dmg'),
         "critProb": sumPropertyValues(selectedItems, 'crit_prob'),
         "atkHat": selectedItems.gorro.props.hasOwnProperty('s%') ? selectedItems.gorro.props['s%'] : 0,
-        "atkTitle": "number", // TODO: ADD TITLE OPTION IN THE INTERFACE.
+        "atkTitle": setTitle(),
         "atkPot": Array.from(selectedImgs.buffs).includes('roja') ? 10 : 0,
         "atkPet": setAttackPet(),
         "atkCostume": selectedItems.disfraz.props.hasOwnProperty('s%') ? selectedItems.disfraz.props['s%'] : 0,
         "dmgIncreaseRune": setRuneDamage(),
         "atkFairy": selectedItems.hadas.appliedRelativeProps.hasOwnProperty('s%') ? selectedItems.hadas.appliedRelativeProps['s%'] : 0,
-        "atkFamily": 10, // TODO: add family option in the interface
+        "atkFamily": document.getElementById('fam-damage').value,
         "atkSkin": selectedItems.skin.props.hasOwnProperty('s%') ? selectedItems.skin.props['s%'] : 0,
         "dmgIncreaseTattoo": sumPropertyValues(selectedItems, 's%_tattoo'),
         "critDmgTattoo": sumPropertyValues(selectedItems, 'crit_dmg_tattoo'),
@@ -2333,7 +2349,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 90,
+            "atkSkillElement": 70
         }
     },
     "2545": {
@@ -2350,7 +2368,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 80,
+            "atkSkillElement": 120
         }
     },
     "2546": {
@@ -2367,7 +2387,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 100,
+            "atkSkillElement": 180
         }
     },
     "2588": {
@@ -2384,7 +2406,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 60,
+            "atkSkillElement": 40
         }
     },
     "2589": {
@@ -2401,7 +2425,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 100,
+            "atkSkillElement": 100
         }
     },
     "2590": {
@@ -2418,7 +2444,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 100,
+            "atkSkillElement": 150
         }
     },
     "2654": {
@@ -2435,7 +2463,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 85,
+            "atkSkillElement": 75
         }
     },
     "2655": {
@@ -2452,7 +2482,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 110,
+            "atkSkillElement": 120
         }
     },
     "2656": {
@@ -2469,7 +2501,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 120,
+            "atkSkillElement": 120
         }
     },
     "2706": {
@@ -2486,7 +2520,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 85,
+            "atkSkillElement": 70
         }
     },
     "2707": {
@@ -2503,7 +2539,10 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 105,
+            "atkSkillElement": 110,
+            "probCrit": 5
         }
     },
     "2708": {
@@ -2520,7 +2559,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 80,
+            "atkSkillElement": 100
         }
     },
     "4048": {
@@ -2537,7 +2578,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 120,
+            "atkSkillElement": 20
         }
     },
     "4093": {
@@ -2554,7 +2597,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 100,
+            "atkSkillElement": 100
         }
     },
     "4126": {
@@ -2571,7 +2616,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 100,
+            "atkSkillElement": 100
         }
     },
     "4151": {
@@ -2588,7 +2635,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 150,
+            "atkSkillElement": 100
         }
     },
     "4494": {
@@ -2605,7 +2654,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 150,
+            "atkSkillElement": 100
         }
     },
     "4495": {
@@ -2622,7 +2673,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 150,
+            "atkSkillElement": 150
         }
     },
     "4496": {
@@ -2639,7 +2692,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 200,
+            "atkSkillElement": 150
         }
     },
     "4497": {
@@ -2656,7 +2711,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 150,
+            "atkSkillElement": 200
         }
     },
     "4860": {
@@ -2673,7 +2730,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 150,
+            "atkSkillElement": 170
         }
     },
     "4861": {
@@ -2690,7 +2749,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 220,
+            "atkSkillElement": 190
         }
     },
     "4862": {
@@ -2707,7 +2768,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 220,
+            "atkSkillElement": 170
         }
     },
     "4863": {
@@ -2724,7 +2787,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 200,
+            "atkSkillElement": 190
         }
     },
     "7138": {
@@ -2741,7 +2806,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 220,
+            "atkSkillElement": 100
         }
     },
     "7139": {
@@ -2758,7 +2825,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 200,
+            "atkSkillElement": 180
         }
     },
     "7140": {
@@ -2775,7 +2844,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 200,
+            "atkSkillElement": 210
         }
     },
     "7141": {
@@ -2792,7 +2863,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 190,
+            "atkSkillElement": 230
         }
     },
     "901": {
@@ -2809,7 +2882,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 80,
+            "atkSkillElement": 120
         }
     },
     "902": {
@@ -2826,7 +2901,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 90,
+            "atkSkillElement": 70
         }
     },
     "903": {
@@ -2843,7 +2920,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 80,
+            "atkSkillElement": 120
         }
     },
     "904": {
@@ -2860,7 +2939,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 50,
+            "atkSkillElement": 80
         }
     },
     "905": {
@@ -2877,7 +2958,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 100,
+            "atkSkillElement": 250
         }
     },
     "906": {
@@ -2894,7 +2977,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 40,
+            "atkSkillElement": 90
         }
     },
     "909": {
@@ -2911,7 +2996,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 150,
+            "atkSkillElement": 200
         }
     },
     "910": {
@@ -2928,7 +3015,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 120,
+            "atkSkillElement": 150
         }
     },
     "911": {
@@ -2945,7 +3034,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 150,
+            "atkSkillElement": 180
         }
     },
     "912": {
@@ -2962,7 +3053,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 110,
+            "atkSkillElement": 160
         }
     },
     "913": {
@@ -2979,7 +3072,9 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 120,
+            "atkSkillElement": 250
         }
     },
     "914": {
@@ -2996,7 +3091,10 @@ item_info = {
             "relative_pp_damage": 0,
             "relative_pp_defense": 0,
             "relative_pp_power": 0,
-            "relative_pp_energy": 0
+            "relative_pp_energy": 0,
+            "atkSkill": 160,
+            "atkSkillElement": 250,
+            "probCrit": 10
         }
     },
     "6446_1": {
