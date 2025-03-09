@@ -1,4 +1,4 @@
-
+import { Calculator } from './Calculator.js';
 
 // Add this function to initialize the layout properly on page load
 function initializeLayout() {
@@ -134,7 +134,7 @@ function showBossBuffDebuffSections() {
         const calculateButton = document.createElement('button');
         calculateButton.textContent = 'Calculate Damage';
         calculateButton.className = 'calculate-button';
-        calculateButton.addEventListener('click', calculateDamage);
+        calculateButton.addEventListener('click', calculate);
         
         calculateButtonContainer.appendChild(calculateButton);
         effectsContainer.appendChild(calculateButtonContainer);
@@ -900,7 +900,7 @@ function setAttackType() {
         "archer": {"primary": "Distance", "secondary": "Melee"},
         "mage": {"primary": "Magic", "secondary": "Distance"}
     }
-    return mapper[selectedImgs.SP.props.class][selectedItems.SP.props.weapon]
+    return mapper[selectedItems.SP.props.class][selectedItems.SP.props.weapon]
 }
 
 function setAttackPet() {
@@ -934,12 +934,14 @@ function setTitle() {
 }
 
 function mapper() {
-    attacker = {
+    let attacker = {
         "buffs": Array.from(selectedImgs.buffs),
         "fairy": sumPropertyValues(selectedItems, 'fairy') + sumPropertyValues(selectedItems, 'fairy_option'),
         "atkIncrease": sumPropertyValues(selectedItems, 'enhanced'),
         "playerLevel": document.getElementById('player-level').value,
-        "dmgIncrease": selectedItems.SP.props.weapon == "primary" ? selectedItems.primaria.appliedRelativeProps['s%'] : selectedItems.secundaria.appliedRelativeProps['s%'],
+        "dmgIncrease": selectedItems.SP.props.weapon == "primary" ? 
+        selectedItems.primaria.appliedRelativeProps.hasOwnProperty('s%') ? selectedItems.primaria.appliedRelativeProps['s%'] : 0 : 
+        selectedItems.secundaria.appliedRelativeProps.hasOwnProperty('s%') ? selectedItems.secundaria.appliedRelativeProps['s%'] : 0,
         "mobDamage": setMobDamage(boss_info[selectedImgs.boss].props.type),
         "atkBase": document.getElementById('base-attack').value,
         "atkEquipMin": selectedItems.SP.props.weapon == "primary" ? selectedItems.primaria.appliedRelativeProps.min_dmg : selectedItems.secundaria.appliedRelativeProps.min_dmg,
@@ -978,12 +980,114 @@ function mapper() {
         "probAugmentSkin": selectedItems.skin.props.hasOwnProperty('high_increase_prob') ? selectedItems.skin.props.high_increase_prob : 0,
         "probAugmentCostume": selectedItems.disfraz.props.hasOwnProperty('high_increase_prob') ? selectedItems.disfraz.props.high_increase_prob : 0
     }
-    defender = boss_info[selectedImgs.boss].props
+    let defender = boss_info[selectedImgs.boss].props
     defender['debuffs'] = Array.from(selectedImgs.debuffs)
     return {attacker, defender}
 }
 
-boss_info = {
+function calculate() {
+    let {attacker, defender} = mapper()
+    let calculator = new Calculator(attacker, defender)
+    let damage = calculator.calculate_damage()
+    console.log(damage)
+    // Create a table to display the damage results
+    let resultTable = `<table border="1">
+        <tr>
+            <th>Damage Type</th>
+            <th>Min</th>
+            <th>Max</th>
+            <th>Min Crit</th>
+            <th>Max Crit</th>
+        </tr>`;
+
+    // Define damage types
+    const damageTypes = [
+        'normal', 'soft Eq', 'soft Skin+Costume', 'soft All'
+    ];
+
+    // Add rows for each damage type
+    damageTypes.forEach(type => {
+        const prefix = type.replace('+', '').replace(' ', '').replace('All', '');
+        resultTable += `
+        <tr>
+            <td class="damage-type">${type}</td>
+            <td class="damage-value">${Math.floor(damage[prefix + 'DmgMinNormal']).toLocaleString()}</td>
+            <td class="damage-value">${Math.floor(damage[prefix + 'DmgMaxNormal']).toLocaleString()}</td>
+            <td class="damage-value crit">${Math.floor(damage[prefix + 'DmgMinNormalCrit']).toLocaleString()}</td>
+            <td class="damage-value crit">${Math.floor(damage[prefix + 'DmgMaxNormalCrit']).toLocaleString()}</td>
+        </tr>`;
+    });
+
+    // Add CSS styles for the table
+    const tableStyles = `
+    <style>
+        #damage-result table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-family: Arial, sans-serif;
+        }
+        #damage-result th, #damage-result td {
+            padding: 12px;
+            text-align: right;
+            border: 1px solid var(--border-color);
+        }
+        #damage-result th {
+            background-color: var(--header-bg-color);
+            font-weight: bold;
+            text-align: center;
+            color: var(--text-color);
+        }
+        #damage-result .damage-type {
+            text-align: left;
+            font-weight: bold;
+        }
+        #damage-result .damage-value {
+            font-family: 'Courier New', monospace;
+        }
+        #damage-result tr:nth-child(even) {
+            background-color: var(--even-row-bg-color);
+        }
+        #damage-result tr:nth-child(odd) {
+            background-color: var(--odd-row-bg-color);
+        }
+        #damage-result tr:hover {
+            background-color: var(--hover-bg-color);
+        }
+        .dark-mode #damage-result table {
+            color: var(--dark-text-color);
+        }
+        .dark-mode #damage-result th {
+            background-color: var(--dark-header-bg-color);
+        }
+        .dark-mode #damage-result tr:nth-child(even) {
+            background-color: var(--dark-even-row-bg-color);
+        }
+        .dark-mode #damage-result tr:nth-child(odd) {
+            background-color: var(--dark-odd-row-bg-color);
+        }
+        .dark-mode #damage-result tr:hover {
+            background-color: var(--dark-hover-bg-color);
+        }
+    </style>`;
+
+    resultTable = tableStyles + resultTable + '</table>';
+
+    // Add summary information
+    const summaryInfo = `
+    <h3>Summary</h3>
+    <p>Average Damage: ${Math.floor(damage.averageDmg).toLocaleString()}</p>
+    <p>Damage Min without crits: ${Math.floor(damage.normalDmgMinNormal).toLocaleString()}</p>
+    <p>Damage Max without crits: ${Math.floor(damage.normalDmgMaxNormal).toLocaleString()}</p>
+    <p>Possible Max Soft damage: ${Math.floor(damage.softDmgMaxNormal).toLocaleString()}</p>
+    <p>Possible Max Soft Crit: ${Math.floor(damage.softDmgMaxNormalCrit).toLocaleString()}</p>
+    `;
+
+    // Display the result
+    document.getElementById('damage-result').innerHTML = summaryInfo + resultTable;
+}
+
+let boss_info = {
     "poluto": {
         "path": "image/boss/poluto.png",
         "props": {
@@ -1106,7 +1210,7 @@ boss_info = {
     }
 }
 
-item_info = {
+let item_info = {
     "4148": {
         "path": "image/items/alas/4148.png",
         "type": "alas",
