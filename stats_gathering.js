@@ -914,7 +914,7 @@ function mapper() {
         "atkBase": document.getElementById('base-attack').value,
         "atkEquipMin": selectedItems.SP.props.weapon == "primary" ? selectedItems.primaria.appliedRelativeProps.min_dmg : selectedItems.secundaria.appliedRelativeProps.min_dmg,
         "atkEquipMax": selectedItems.SP.props.weapon == "primary" ? selectedItems.primaria.appliedRelativeProps.max_dmg : selectedItems.secundaria.appliedRelativeProps.max_dmg,
-        "atkSkill": 100, // TODO: add skill option in the future
+        "atkSkill": 100, // TODO: add skill from the SP
         "atkBonus": 0,
         "dmgIncreaseEqProb": selectedItems.primaria.props.increase + selectedItems.secundaria.props.increase,
         "dmgIncreaseSkin": setIncreaseSkin(),
@@ -924,17 +924,17 @@ function mapper() {
         "atkPP": selectedItems.SP.appliedRelativeProps.hasOwnProperty('pp_damage') ? selectedItems.SP.appliedRelativeProps.pp_damage : 0,
         "atkWeaponUp": selectedItems.SP.props.weapon == "primary" ? selectedItems.primaria.appliedRelativeProps.weapon_up : selectedItems.secundaria.appliedRelativeProps.weapon_up,
         "elePropIncrease": sumPropertyValues(selectedItems, 'elements'),
-        "atkSkillElement": 100, // TODO: add skill option in the future
+        "atkSkillElement": 100, // TODO: add skill from the SP
         "eleSp": selectedItems.SP.appliedRelativeProps.SL_power,
         "elePP": selectedItems.SP.appliedRelativeProps.pp_power,
         "type": selectedItems.SP.props.element,
         "resReduction": sumPropertyValues(selectedItems, 'resReduction'),
-        "atkOil": 0, // TODO: add oil option in the future
+        "atkOil": 0, // TODO: add oil option in the interface
         "attackType": setAttackType(),
         "critDmg": sumPropertyValues(selectedItems, 'crit_dmg'),
         "critProb": sumPropertyValues(selectedItems, 'crit_prob'),
         "atkHat": selectedItems.gorro.props.hasOwnProperty('s%') ? selectedItems.gorro.props['s%'] : 0,
-        "atkTitle": "number",
+        "atkTitle": "number", // TODO: ADD TITLE OPTION IN THE INTERFACE.
         "atkPot": "number",
         "atkPet": "number",
         "atkCostume": selectedItems.disfraz.props.hasOwnProperty('s%') ? selectedItems.disfraz.props['s%'] : 0,
