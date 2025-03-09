@@ -131,10 +131,10 @@ class Calculator {
             return
         const buffEffects = {
             'brillo': () => this.attacker.fairy += 5,
-            'holly': () => this.attacker.weaponUp += 1,
+            'holly': () => this.attacker.atkWeaponUp += 1,
             'lobo': () => this.attacker.atkIncrease += 396,
             'sader': () => {
-                this.attacker.weaponUp += 1;
+                this.attacker.atkWeaponUp += 1;
                 this.attacker.playerLevel += 5;
             },
             'sol': () => this.attacker.atkIncrease += 250,

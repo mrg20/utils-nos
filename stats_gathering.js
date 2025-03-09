@@ -872,69 +872,85 @@ function sumPropertyValues(items, propertyKey) {
     }, 0);
 }
 
-function setWeaponUp() {
-    if (selectedItems.SP.props.weapon == "primary") {
-        return selectedItems.primaria.appliedRelativeProps.weapon_up;
+function setMobDamage(boss) {
+    let weapon = selectedItems.SP.props.weapon == "primary" ? selectedItems.primaria : selectedItems.secundaria;
+    if (weapon.appliedRelativeProps.hasOwnProperty(boss)) {
+        return weapon.appliedRelativeProps['boss'];
     }
-    return selectedItems.secundaria.appliedRelativeProps.weapon_up;
+    return 0;
+}
+
+function setIncreaseSkin() {
+    if (selectedItems.skin.props.hasOwnProperty('high_increase')) {
+        return document.getElementById('player-level').value < boss_info[selectedImgs.boss].props.mobLevel ? selectedItems.skin.props.high_increase : 0;
+    }
+    return 0;
+}
+
+function setIncreaseCostume() {
+    if (selectedItems.disfraz.props.hasOwnProperty('high_increase')) {
+        return document.getElementById('player-level').value < boss_info[selectedImgs.boss].props.mobLevel ? selectedItems.disfraz.props.high_increase : 0;
+    }
+    return 0;
+}
+
+function setAttackType() {
+    mapper = {
+        "sword": {"primary": "Melee", "secondary": "Distance"},
+        "archer": {"primary": "Distance", "secondary": "Melee"},
+        "mage": {"primary": "Magic", "secondary": "Distance"}
+    }
+    return mapper[selectedImgs.SP.props.class][selectedItems.SP.props.weapon]
 }
 
 function mapper() {
     attacker = {
         "buffs": Array.from(selectedImgs.buffs),
         "fairy": sumPropertyValues(selectedItems, 'fairy'),
-        "weaponUp": setWeaponUp(),
-        "atkIncrease": "number",
-        "playerLevel": "number",
-        "dmgIncrease": "number",
-        "mobDamage": "number",
-        "atkBase": "number",
-        "atkEquipMin": "number",
-        "atkEquipMax": "number",
-        "atkSkill": "number",
-        "atkBonus": "number",
-        "dmgIncreaseEqProb": "number",
-        "dmgIncreaseSkin": "number",
-        "dmgIncreaseCostume": "number",
-        "atkSp": "number",
-        "eneSp": "number",
-        "atkPP": "number",
-        "atkWeaponUp": "number",
-        "elePropIncrease": "number",
-        "atkSkillElement": "number",
-        "eleSp": "number",
-        "elePP": "number",
-        "type": "string",
-        "resReduction": "number",
-        "atkOil": "number",
-        "attackType": "string",
-        "critDmg": "number",
-        "critProb": "number",
-        "atkHat": "number",
+        "atkIncrease": sumPropertyValues(selectedItems, 'enhanced'),
+        "playerLevel": document.getElementById('player-level').value,
+        "dmgIncrease": selectedItems.SP.props.weapon == "primary" ? selectedItems.primaria.appliedRelativeProps['s%'] : selectedItems.secundaria.appliedRelativeProps['s%'],
+        "mobDamage": setMobDamage(selectedImgs.boss),
+        "atkBase": document.getElementById('base-attack').value,
+        "atkEquipMin": selectedItems.SP.props.weapon == "primary" ? selectedItems.primaria.appliedRelativeProps.min_dmg : selectedItems.secundaria.appliedRelativeProps.min_dmg,
+        "atkEquipMax": selectedItems.SP.props.weapon == "primary" ? selectedItems.primaria.appliedRelativeProps.max_dmg : selectedItems.secundaria.appliedRelativeProps.max_dmg,
+        "atkSkill": 100, // TODO: add skill option in the future
+        "atkBonus": 0,
+        "dmgIncreaseEqProb": selectedItems.primaria.props.increase + selectedItems.secundaria.props.increase,
+        "dmgIncreaseSkin": setIncreaseSkin(),
+        "dmgIncreaseCostume": setIncreaseCostume(),
+        "atkSp": selectedItems.SP.appliedRelativeProps.hasOwnProperty('SL_damage') ? selectedItems.SP.appliedRelativeProps.SL_damage : 0,
+        "eneSp": selectedItems.SP.appliedRelativeProps.hasOwnProperty('SL_energy') ? selectedItems.SP.appliedRelativeProps.SL_energy : 0,
+        "atkPP": selectedItems.SP.appliedRelativeProps.hasOwnProperty('pp_damage') ? selectedItems.SP.appliedRelativeProps.pp_damage : 0,
+        "atkWeaponUp": selectedItems.SP.props.weapon == "primary" ? selectedItems.primaria.appliedRelativeProps.weapon_up : selectedItems.secundaria.appliedRelativeProps.weapon_up,
+        "elePropIncrease": sumPropertyValues(selectedItems, 'elements'),
+        "atkSkillElement": 100, // TODO: add skill option in the future
+        "eleSp": selectedItems.SP.appliedRelativeProps.SL_power,
+        "elePP": selectedItems.SP.appliedRelativeProps.pp_power,
+        "type": selectedItems.SP.props.element,
+        "resReduction": sumPropertyValues(selectedItems, 'resReduction'),
+        "atkOil": 0, // TODO: add oil option in the future
+        "attackType": setAttackType(),
+        "critDmg": sumPropertyValues(selectedItems, 'crit_dmg'),
+        "critProb": sumPropertyValues(selectedItems, 'crit_prob'),
+        "atkHat": selectedItems.gorro.props.hasOwnProperty('s%') ? selectedItems.gorro.props['s%'] : 0,
         "atkTitle": "number",
         "atkPot": "number",
         "atkPet": "number",
-        "atkCostume": "number",
+        "atkCostume": selectedItems.disfraz.props.hasOwnProperty('s%') ? selectedItems.disfraz.props['s%'] : 0,
         "dmgIncreaseRune": "number",
         "atkFairy": "number",
         "atkFamily": "number",
         "atkSkin": "number",
-        "dmgIncreaseTattoo": "number",
-        "critDmgTattoo": "number",
-        "probAugmentEq": "number",
-        "probAugmentSkin": "number",
-        "probAugmentCostume": "number"
+        "dmgIncreaseTattoo": sumPropertyValues(selectedItems, 's%_tattoo'),
+        "critDmgTattoo": sumPropertyValues(selectedItems, 'crit_dmg_tattoo'),
+        "probAugmentEq": selectedItems.primaria.props.increase_prob + selectedItems.secundaria.props.increase_prob,
+        "probAugmentSkin": selectedItems.skin.props.hasOwnProperty('high_increase_prob') ? selectedItems.skin.props.high_increase_prob : 0,
+        "probAugmentCostume": selectedItems.disfraz.props.hasOwnProperty('high_increase_prob') ? selectedItems.disfraz.props.high_increase_prob : 0
     }
-    defender = {
-        "debuffs": Array.from(selectedImgs.debuffs),
-        "armorUp": "number",
-        "defEquip": "number",
-        "dmgReduction": "number",
-        "critDmgReduction": "number",
-        "res": "number",
-        "defType": "string",
-        "mobLevel": "number"
-    }
+    defender = boss_info[selectedImgs.boss].props
+    defender['debuffs'] = Array.from(selectedImgs.debuffs)
+    return {attacker, defender}
 }
 
 boss_info = {
@@ -954,7 +970,8 @@ boss_info = {
             'resWater': 140,
             'resLight': 140,
             'resShadow': 140,
-            'defType': 'NO_ELEMENT'
+            'defType': 'NO_ELEMENT',
+            'type': 'plant'
         }
     },
     "meca": {
@@ -973,7 +990,8 @@ boss_info = {
             'resWater': 150,
             'resLight': 165,
             'resShadow': 155,
-            'defType': 'LIGHT'
+            'defType': 'LIGHT',
+            "type": "robot"
         }
     },
     "completo": {
@@ -992,7 +1010,8 @@ boss_info = {
             'resWater': 170,
             'resLight': 165,
             'resShadow': 160,
-            'defType': 'WATER'
+            'defType': 'WATER',
+            "type": "robot"
         }
     },
     "valehir": {
@@ -1011,7 +1030,8 @@ boss_info = {
             'resWater': 150,
             'resLight': 140,
             'resShadow': 200,
-            'defType': 'SHADOW'
+            'defType': 'SHADOW',
+            "type": "dragon"
         }
     },
     "alzanor": {
@@ -1030,7 +1050,8 @@ boss_info = {
             'resWater': 200,
             'resLight': 160,
             'resShadow': 150,
-            'defType': 'WATER'
+            'defType': 'WATER',
+            "type": "dragon"
         }
     },
     "dander": {
@@ -1049,7 +1070,8 @@ boss_info = {
             'resWater': 0,
             'resLight': 0,
             'resShadow': 0,
-            'defType': 'NO_ELEMENT'
+            'defType': 'NO_ELEMENT',
+            "type": "plant"
         }
     }
 }
@@ -1350,7 +1372,6 @@ item_info = {
         "path": "image/items/gorro/4960.png",
         "type": "gorro",
         "props": {
-            "SL_power": 2,
             "s%": 7
         }
     },
@@ -1504,7 +1525,6 @@ item_info = {
         "path": "image/items/mascara/4966.png",
         "type": "mascara",
         "props": {
-            "SL_power": 2,
             "s%": 3
         }
     },
@@ -1578,9 +1598,6 @@ item_info = {
             "crit_prob": 27,
             "crit_dmg": 270,
             "class": "artist",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -1594,8 +1611,6 @@ item_info = {
             "relative_rune_crit_prob": 0,
             "relative_rune_crit_dmg": 0,
             "relative_rune_enhanced": 0,
-            "relative_rune_SL_power": 0,
-            "relative_rune_SL_damage": 0,
             "relative_rune_fairy": 0,
             "relative_rune_monster": 0,
             "relative_rune_dragon": 0
@@ -1615,9 +1630,6 @@ item_info = {
             "crit_prob": 17,
             "crit_dmg": 280,
             "class": "sword",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -1631,8 +1643,6 @@ item_info = {
             "relative_rune_crit_prob": 0,
             "relative_rune_crit_dmg": 0,
             "relative_rune_enhanced": 0,
-            "relative_rune_SL_power": 0,
-            "relative_rune_SL_damage": 0,
             "relative_rune_fairy": 0,
             "relative_rune_monster": 0,
             "relative_rune_dragon": 0
@@ -1652,9 +1662,6 @@ item_info = {
             "crit_prob": 0,
             "crit_dmg": 0,
             "class": "mage",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -1668,8 +1675,6 @@ item_info = {
             "relative_rune_crit_prob": 0,
             "relative_rune_crit_dmg": 0,
             "relative_rune_enhanced": 0,
-            "relative_rune_SL_power": 0,
-            "relative_rune_SL_damage": 0,
             "relative_rune_fairy": 0,
             "relative_rune_monster": 0,
             "relative_rune_dragon": 0
@@ -1689,9 +1694,6 @@ item_info = {
             "crit_prob": 21,
             "crit_dmg": 290,
             "class": "archer",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -1705,8 +1707,6 @@ item_info = {
             "relative_rune_crit_prob": 0,
             "relative_rune_crit_dmg": 0,
             "relative_rune_enhanced": 0,
-            "relative_rune_SL_power": 0,
-            "relative_rune_SL_damage": 0,
             "relative_rune_fairy": 0,
             "relative_rune_monster": 0,
             "relative_rune_dragon": 0
@@ -1726,9 +1726,6 @@ item_info = {
             "crit_prob": 17,
             "crit_dmg": 260,
             "class": "sword",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -1742,8 +1739,6 @@ item_info = {
             "relative_rune_crit_prob": 0,
             "relative_rune_crit_dmg": 0,
             "relative_rune_enhanced": 0,
-            "relative_rune_SL_power": 0,
-            "relative_rune_SL_damage": 0,
             "relative_rune_fairy": 0,
             "relative_rune_monster": 0,
             "relative_rune_dragon": 0
@@ -1763,9 +1758,6 @@ item_info = {
             "crit_prob": 20,
             "crit_dmg": 325,
             "class": "sword",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -1779,8 +1771,6 @@ item_info = {
             "relative_rune_crit_prob": 0,
             "relative_rune_crit_dmg": 0,
             "relative_rune_enhanced": 0,
-            "relative_rune_SL_power": 0,
-            "relative_rune_SL_damage": 0,
             "relative_rune_fairy": 0,
             "relative_rune_monster": 0,
             "relative_rune_dragon": 0
@@ -1800,9 +1790,6 @@ item_info = {
             "crit_prob": 26,
             "crit_dmg": 335,
             "class": "archer",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -1816,8 +1803,6 @@ item_info = {
             "relative_rune_crit_prob": 0,
             "relative_rune_crit_dmg": 0,
             "relative_rune_enhanced": 0,
-            "relative_rune_SL_power": 0,
-            "relative_rune_SL_damage": 0,
             "relative_rune_fairy": 0,
             "relative_rune_monster": 0,
             "relative_rune_dragon": 0
@@ -1837,9 +1822,6 @@ item_info = {
             "crit_prob": 21,
             "crit_dmg": 270,
             "class": "archer",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -1853,8 +1835,6 @@ item_info = {
             "relative_rune_crit_prob": 0,
             "relative_rune_crit_dmg": 0,
             "relative_rune_enhanced": 0,
-            "relative_rune_SL_power": 0,
-            "relative_rune_SL_damage": 0,
             "relative_rune_fairy": 0,
             "relative_rune_monster": 0,
             "relative_rune_dragon": 0
@@ -1872,9 +1852,6 @@ item_info = {
             "relative_min_dmg": 1028,
             "relative_max_dmg": 1176,
             "class": "mage",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -1888,8 +1865,6 @@ item_info = {
             "relative_rune_crit_prob": 0,
             "relative_rune_crit_dmg": 0,
             "relative_rune_enhanced": 0,
-            "relative_rune_SL_power": 0,
-            "relative_rune_SL_damage": 0,
             "relative_rune_fairy": 0,
             "relative_rune_monster": 0,
             "relative_rune_dragon": 0
@@ -1907,9 +1882,7 @@ item_info = {
             "relative_min_dmg": 1234,
             "relative_max_dmg": 1411,
             "class": "mage",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
+
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -1923,8 +1896,6 @@ item_info = {
             "relative_rune_crit_prob": 0,
             "relative_rune_crit_dmg": 0,
             "relative_rune_enhanced": 0,
-            "relative_rune_SL_power": 0,
-            "relative_rune_SL_damage": 0,
             "relative_rune_fairy": 0,
             "relative_rune_monster": 0,
             "relative_rune_dragon": 0
@@ -1944,9 +1915,7 @@ item_info = {
             "crit_prob": 27,
             "crit_dmg": 250,
             "class": "artist",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
+
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -1960,8 +1929,6 @@ item_info = {
             "relative_rune_crit_prob": 0,
             "relative_rune_crit_dmg": 0,
             "relative_rune_enhanced": 0,
-            "relative_rune_SL_power": 0,
-            "relative_rune_SL_damage": 0,
             "relative_rune_fairy": 0,
             "relative_rune_monster": 0,
             "relative_rune_dragon": 0
@@ -1981,9 +1948,6 @@ item_info = {
             "crit_prob": 31,
             "crit_dmg": 310,
             "class": "artist",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -1997,8 +1961,6 @@ item_info = {
             "relative_rune_crit_prob": 0,
             "relative_rune_crit_dmg": 0,
             "relative_rune_enhanced": 0,
-            "relative_rune_SL_power": 0,
-            "relative_rune_SL_damage": 0,
             "relative_rune_fairy": 0,
             "relative_rune_monster": 0,
             "relative_rune_dragon": 0
@@ -2019,9 +1981,6 @@ item_info = {
             "crit_prob": 23,
             "crit_dmg": 265,
             "class": "sword",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -2047,9 +2006,6 @@ item_info = {
             "crit_prob": 25,
             "crit_dmg": 437,
             "class": "archer",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -2075,9 +2031,6 @@ item_info = {
             "crit_prob": 22,
             "crit_dmg": 292,
             "class": "mage",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -2103,9 +2056,6 @@ item_info = {
             "crit_prob": 20,
             "crit_dmg": 282,
             "class": "artist",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -2132,9 +2082,6 @@ item_info = {
             "crit_prob": 23,
             "crit_dmg": 245,
             "class": "sword",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -2161,9 +2108,6 @@ item_info = {
             "crit_prob": 26,
             "crit_dmg": 315,
             "class": "sword",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -2189,9 +2133,6 @@ item_info = {
             "crit_prob": 25,
             "crit_dmg": 417,
             "class": "archer",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -2217,9 +2158,6 @@ item_info = {
             "crit_prob": 30,
             "crit_dmg": 497,
             "class": "archer",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -2245,9 +2183,6 @@ item_info = {
             "crit_prob": 22,
             "crit_dmg": 272,
             "class": "mage",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -2273,9 +2208,6 @@ item_info = {
             "crit_prob": 26,
             "crit_dmg": 322,
             "class": "mage",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -2301,9 +2233,6 @@ item_info = {
             "crit_prob": 20,
             "crit_dmg": 262,
             "class": "artist",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -2329,9 +2258,6 @@ item_info = {
             "crit_prob": 24,
             "crit_dmg": 318,
             "class": "artist",
-            "relative_SL_damage": 0,
-            "relative_SL_power": 0,
-            "relative_SL_overall": 0,
             "relative_enhanced": 0,
             "relative_s%": 0,
             "relative_crit_dmg": 0,
@@ -3063,63 +2989,63 @@ item_info = {
         "path": "image/items/tattoo/6446_1.png",
         "type": "tattoo",
         "props": {
-            "s%": 3
+            "s%_tattoo": 3
         }
     },
     "6446_2": {
         "path": "image/items/tattoo/6446_2.png",
         "type": "tattoo",
         "props": {
-            "s%": 4
+            "s%_tattoo": 4
         }
     },
     "6446_3": {
         "path": "image/items/tattoo/6446_3.png",
         "type": "tattoo",
         "props": {
-            "s%": 5
+            "s%_tattoo": 5
         }
     },
     "6446_4": {
         "path": "image/items/tattoo/6446_4.png",
         "type": "tattoo",
         "props": {
-            "s%": 6
+            "s%_tattoo": 6
         }
     },
     "6446_5": {
         "path": "image/items/tattoo/6446_5.png",
         "type": "tattoo",
         "props": {
-            "s%": 8
+            "s%_tattoo": 8
         }
     },
     "6446_6": {
         "path": "image/items/tattoo/6446_6.png",
         "type": "tattoo",
         "props": {
-            "s%": 10
+            "s%_tattoo": 10
         }
     },
     "6446_7": {
         "path": "image/items/tattoo/6446_7.png",
         "type": "tattoo",
         "props": {
-            "s%": 13
+            "s%_tattoo": 13
         }
     },
     "6446_8": {
         "path": "image/items/tattoo/6446_8.png",
         "type": "tattoo",
         "props": {
-            "s%": 16
+            "s%_tattoo": 16
         }
     },
     "6446_9": {
         "path": "image/items/tattoo/6446_9.png",
         "type": "tattoo",
         "props": {
-            "s%": 20
+            "s%_tattoo": 20
         }
     },
     "6454_1": {
@@ -3127,7 +3053,7 @@ item_info = {
         "type": "tattoo",
         "props": {
             "crit_prob": 1,
-            "crit_dmg": 6
+            "crit_dmg_tattoo": 6
         }
     },
     "6454_2": {
@@ -3135,7 +3061,7 @@ item_info = {
         "type": "tattoo",
         "props": {
             "crit_prob": 1,
-            "crit_dmg": 7
+            "crit_dmg_tattoo": 7
         }
     },
     "6454_3": {
@@ -3143,7 +3069,7 @@ item_info = {
         "type": "tattoo",
         "props": {
             "crit_prob": 2,
-            "crit_dmg": 8
+            "crit_dmg_tattoo": 8
         }
     },
     "6454_4": {
@@ -3151,7 +3077,7 @@ item_info = {
         "type": "tattoo",
         "props": {
             "crit_prob": 2,
-            "crit_dmg": 9
+            "crit_dmg_tattoo": 9
         }
     },
     "6454_5": {
@@ -3159,7 +3085,7 @@ item_info = {
         "type": "tattoo",
         "props": {
             "crit_prob": 3,
-            "crit_dmg": 10
+            "crit_dmg_tattoo": 10
         }
     },
     "6454_6": {
@@ -3167,7 +3093,7 @@ item_info = {
         "type": "tattoo",
         "props": {
             "crit_prob": 3,
-            "crit_dmg": 13
+            "crit_dmg_tattoo": 13
         }
     },
     "6454_7": {
@@ -3175,7 +3101,7 @@ item_info = {
         "type": "tattoo",
         "props": {
             "crit_prob": 4,
-            "crit_dmg": 16
+            "crit_dmg_tattoo": 16
         }
     },
     "6454_8": {
@@ -3183,7 +3109,7 @@ item_info = {
         "type": "tattoo",
         "props": {
             "crit_prob": 4,
-            "crit_dmg": 20
+            "crit_dmg_tattoo": 20
         }
     },
     "6454_9": {
@@ -3191,70 +3117,70 @@ item_info = {
         "type": "tattoo",
         "props": {
             "crit_prob": 5,
-            "crit_dmg": 25
+            "crit_dmg_tattoo": 25
         }
     },
     "6459_1": {
         "path": "image/items/tattoo/6459_1.png",
         "type": "tattoo",
         "props": {
-            "crit_dmg": 6
+            "crit_dmg_tattoo": 6
         }
     },
     "6459_2": {
         "path": "image/items/tattoo/6459_2.png",
         "type": "tattoo",
         "props": {
-            "crit_dmg": 8
+            "crit_dmg_tattoo": 8
         }
     },
     "6459_3": {
         "path": "image/items/tattoo/6459_3.png",
         "type": "tattoo",
         "props": {
-            "crit_dmg": 10
+            "crit_dmg_tattoo": 10
         }
     },
     "6459_4": {
         "path": "image/items/tattoo/6459_4.png",
         "type": "tattoo",
         "props": {
-            "crit_dmg": 12
+            "crit_dmg_tattoo": 12
         }
     },
     "6459_5": {
         "path": "image/items/tattoo/6459_5.png",
         "type": "tattoo",
         "props": {
-            "crit_dmg": 14
+            "crit_dmg_tattoo": 14
         }
     },
     "6459_6": {
         "path": "image/items/tattoo/6459_6.png",
         "type": "tattoo",
         "props": {
-            "crit_dmg": 18
+            "crit_dmg_tattoo": 18
         }
     },
     "6459_7": {
         "path": "image/items/tattoo/6459_7.png",
         "type": "tattoo",
         "props": {
-            "crit_dmg": 22
+            "crit_dmg_tattoo": 22
         }
     },
     "6459_8": {
         "path": "image/items/tattoo/6459_8.png",
         "type": "tattoo",
         "props": {
-            "crit_dmg": 28
+            "crit_dmg_tattoo": 28
         }
     },
     "6459_9": {
         "path": "image/items/tattoo/6459_9.png",
         "type": "tattoo",
         "props": {
-            "crit_dmg": 36
+            "crit_dmg_tattoo": 36
         }
     }
 }
