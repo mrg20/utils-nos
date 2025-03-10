@@ -46,6 +46,12 @@ function loadRaidSetup() {
             <div class="image-option" onclick="selectBoss(this)">
                 <img src="boss_img/alzanor.png" alt="alzanor">
             </div>
+            <div class="image-option" onclick="selectBoss(this)">
+                <img src="boss_img/erenia.png" alt="erenia">
+            </div>
+            <div class="image-option" onclick="selectBoss(this)">
+                <img src="boss_img/zenas.png" alt="zenas">
+            </div>
         </div>
     </div>
 
