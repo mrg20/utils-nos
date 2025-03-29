@@ -115,6 +115,40 @@ const alzanor_profile = {
     'defType': 'WATER'
 }
 
+const erenia_profile = {
+    'mobLevel': 93,
+    'armorUp': 8,
+    'defEquipMelee': 755,
+    'defEquipDistance': 880,
+    'defEquipMagic': 650,
+    'dmgReductionMelee': 40,
+    'dmgReductionDistance': 80,
+    'dmgReductionMagic': 50,
+    'critDmgReduction': 0,
+    'resFire': 100,
+    'resWater': 100,
+    'resLight': 100,
+    'resShadow': 100,
+    'defType': 'SHADOW'
+}
+
+const zenas_profile = {
+    'mobLevel': 93,
+    'armorUp': 10,
+    'defEquipMelee': 755,
+    'defEquipDistance': 880,
+    'defEquipMagic': 650,
+    'dmgReductionMelee': 45,
+    'dmgReductionDistance': 70,
+    'dmgReductionMagic': 55,
+    'critDmgReduction': 0,
+    'resFire': 100,
+    'resWater': 100,
+    'resLight': 100,
+    'resShadow': 100,
+    'defType': 'LIGHT'
+}
+
 class Calculator {
     constructor(attacker, defender) {
         this.attacker = attacker;
