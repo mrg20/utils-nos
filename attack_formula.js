@@ -176,7 +176,8 @@ class Calculator {
                 this.attacker.critProbDebuff.push(20);
             },
             'last holy': () => this.defender.res -= 5,
-            'ruptura': () => this.defender.armorUp -= 5
+            'ruptura': () => this.defender.armorUp -= 3,
+            'intimidacion': () => this.defender.armorUp -= 2
         };
 
         this.defender.debuffs.forEach(debuff => {
@@ -284,6 +285,8 @@ class Calculator {
 
         // Calculate crit damage values
         const calculateCritDamage = (minDmg, maxDmg, critMultiplier) => {
+            minDmg = minDmg / (1 - (this.defender.dmgReduction/100));
+            maxDmg = maxDmg / (1 - (this.defender.dmgReduction/100));
             const avgBonus = (maxDmg - minDmg) / 1.5;
             return {
                 min: this.attacker.attackType === "Magic" ? 0 : (minDmg + avgBonus) * critMultiplier * (1 - (this.defender.dmgReduction/100)),
