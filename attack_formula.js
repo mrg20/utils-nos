@@ -319,12 +319,10 @@ class Calculator {
 
         // Calculate crit damage values
         const calculateCritDamage = (minDmg, maxDmg, critMultiplier) => {
-            minDmg = minDmg / (1 - (this.defender.dmgReduction/100));
-            maxDmg = maxDmg / (1 - (this.defender.dmgReduction/100));
             const avgBonus = (maxDmg - minDmg) / 1.5;
             return {
-                min: this.attacker.attackType === "Magic" ? 0 : (minDmg + avgBonus) * critMultiplier * (1 - (this.defender.dmgReduction/100)),
-                max: this.attacker.attackType === "Magic" ? 0 : maxDmg * critMultiplier * (1 - (this.defender.dmgReduction/100))
+                min: this.attacker.attackType === "Magic" ? 0 : (minDmg + avgBonus) * critMultiplier,
+                max: this.attacker.attackType === "Magic" ? 0 : maxDmg * critMultiplier
             };
         };
 
