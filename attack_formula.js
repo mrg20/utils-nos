@@ -149,6 +149,23 @@ const zenas_profile = {
     'defType': 'LIGHT'
 }
 
+const kiro_profile = {
+    'mobLevel': 99,
+    'armorUp': 10,
+    'defEquipMelee': 1124,
+    'defEquipDistance': 1130,
+    'defEquipMagic': 1119,
+    'dmgReductionMelee': 50,
+    'dmgReductionDistance': 70,
+    'dmgReductionMagic': 50,
+    'critDmgReduction': 0,
+    'resFire': 130,
+    'resWater': 130,
+    'resLight': 130,
+    'resShadow': 130,
+    'defType': 'WATER'
+}
+
 class Calculator {
     constructor(attacker, defender) {
         this.attacker = attacker;
