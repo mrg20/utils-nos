@@ -182,10 +182,10 @@ class Calculator {
             return
         const buffEffects = {
             'brillo': () => this.attacker.fairy += 5,
-            'holly': () => this.attacker.weaponUp += 1,
+            'holly': () => this.attacker.atkWeaponUp += 1,
             'lobo': () => this.attacker.atkIncrease += 396,
             'sader': () => {
-                this.attacker.weaponUp += 1;
+                this.attacker.atkWeaponUp += 1;
                 this.attacker.playerLevel += 5;
             },
             'sol': () => this.attacker.atkIncrease += 250,
@@ -283,7 +283,7 @@ class Calculator {
 
     levelBonus() {
         if (this.attacker.atkWeaponUp <= this.defender.armorUp) {
-            return 1 - equip_up_bonus[this.defender.armorUp-this.attacker.atkWeaponUp];
+            return 1;
         }
         let upDiff = this.attacker.atkWeaponUp - this.defender.armorUp;
         return 1 + equip_up_bonus[upDiff];
