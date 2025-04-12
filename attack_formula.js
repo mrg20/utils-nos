@@ -390,12 +390,19 @@ class Calculator {
     }
 
     dmg(){
+        if (this.attacker.dinoWings){
+            this.attacker.atkCostume -= 5;
+            this.attacker.atkCostumeWings = 5;
+        } else {
+            this.attacker.atkCostumeWings = 0;
+        }
         let morale = this.attacker.playerLevel / this.defender.mobLevel;
         let Sdmg = ((1 + (this.attacker.atkHat/100)) + (this.attacker.atkTitle/100)
         + (this.attacker.atkPot/100)
         + (this.attacker.atkPet/100) 
         + (this.attacker.atkCostume/100) + (this.attacker.dmgIncreaseRune/100))
         * (1 + (this.attacker.atkFairy/100))
+        * (1 + (this.attacker.atkCostumeWings/100))
         * (1 + ((this.attacker.atkFamily/100) + (this.attacker.atkSkin/100)) + (this.attacker.dmgIncreaseTattoo/100));
 
         this.attacker.critDmgTattoo = 1 + (this.attacker.critDmgTattoo / 100);
