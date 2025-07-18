@@ -38,8 +38,6 @@ function parseDamageText(text, probCritInput) {
   let probReduc = reduc_prob ? parseFloat(reduc_prob) / 100 : 0;
 
   // All probability combinations
-  let probAll = probEq * probSkinCostume * probReduc;
-  let probAllCrit = probAll * probCrit;
   let probNone = (1 - probEq) * (1 - probSkinCostume) * (1 - probReduc) * (1 - probCrit);
   let probNoneCrit = (1 - probEq) * (1 - probSkinCostume) * (1 - probReduc) * probCrit;
   let probEqCrit = probEq * probCrit * (1 - probSkinCostume) * (1 - probReduc);
@@ -56,8 +54,11 @@ function parseDamageText(text, probCritInput) {
 
   let weightSum = probNone +
     probNoneCrit +
+    probEq +
     probEqCrit +
+    probSkinCostume +
     probSkinCostumeCrit +
+    probReduc +
     probReducCrit +
     probEqReduc +
     probEqReducCrit +
