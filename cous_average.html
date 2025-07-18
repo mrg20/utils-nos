@@ -96,6 +96,7 @@
 </head>
 <body>
   <div class="container">
+    <div style="text-align:center;font-size:0.7rem;color:#2563eb;font-weight:500;margin-bottom:8px;">ñaño marica</div>
     <label for="hit">Probabilidad de crítico</label>
     <input type="number" id="hit" min="0" max="100" placeholder="Ej: 25" required>
 
@@ -103,8 +104,43 @@
     <textarea id="texto" placeholder="pega aquí todo el texto que te da la calculadora de cous"></textarea>
 
     <button id="parseBtn">Calcular Average</button>
+    <button id="helpBtn" style="background:#e0e7ff;color:#2563eb;font-weight:600;margin-top:4px;">Ayuda</button>
 
     <div id="output" class="result"></div>
+    <div id="helpModal" style="display:none;position:fixed;z-index:1000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.18);align-items:center;justify-content:center;">
+      <div style="background:#fff;padding:28px 22px 18px 22px;border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,0.12);max-width:350px;width:90%;position:relative;display:flex;flex-direction:column;align-items:center;">
+        <button id="closeHelp" style="position:absolute;top:10px;right:14px;background:none;border:none;font-size:1.3rem;color:#888;cursor:pointer;">&times;</button>
+        <h2 style="color:#2563eb;font-size:1.3rem;margin-bottom:10px;">¿Cómo usar?</h2>
+        <ol style="text-align:left;font-size:1rem;color:#333;padding-left:18px;margin-bottom:10px;">
+          <li>Ve a la calculadora de nosapki e introduce tu cálculo.<br><a href="https://nosapki.com/es/calculators/dmg_pve" target="_blank" style="color:#4f8cff;word-break:break-all;">@https://nosapki.com/es/calculators/dmg_pve</a></li>
+          <li>Indica tu probabilidad de crítico.</li>
+          <li>
+            Copia todo el resultado final:<br>
+            <img id="helpImgThumb" src="./results.png" alt="Ejemplo resultado" style="width:100%;max-width:700px;min-width:320px;min-height:180px;aspect-ratio:16/9;margin:18px 0 10px 0;border-radius:14px;box-shadow:0 6px 32px rgba(0,0,0,0.13);display:block;cursor:zoom-in;">
+            <div id="imgModal" style="display:none;position:fixed;z-index:2000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.45);align-items:center;justify-content:center;">
+              <span id="closeImgModal" style="position:absolute;top:18px;right:32px;font-size:2.2rem;color:#fff;cursor:pointer;font-weight:bold;z-index:2010;">&times;</span>
+              <img src="./results.png" alt="Ejemplo resultado grande" style="max-width:90vw;max-height:85vh;border-radius:18px;box-shadow:0 8px 40px rgba(0,0,0,0.18);background:#fff;">
+            </div>
+          </li>
+          <li>Pega el resultado final aquí.</li>
+        </ol>
+      </div>
+    </div>
+    <script>
+      // Image modal logic
+      document.addEventListener('DOMContentLoaded', function() {
+        var thumb = document.getElementById('helpImgThumb');
+        var imgModal = document.getElementById('imgModal');
+        var closeImg = document.getElementById('closeImgModal');
+        if (thumb && imgModal && closeImg) {
+          thumb.onclick = function() { imgModal.style.display = 'flex'; };
+          closeImg.onclick = function() { imgModal.style.display = 'none'; };
+          imgModal.onclick = function(e) {
+            if (e.target === imgModal) imgModal.style.display = 'none';
+          };
+        }
+      });
+    </script>
   </div>
 
   <script src="cous_average.js"></script>
@@ -125,6 +161,12 @@
       const average = window.parseDamageText(texto, hit);
       output.innerHTML = '<span class="result-label">Tu average:</span><span class="result-value">' + average.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</span>';
       output.style.display = 'block';
+    };
+    document.getElementById('helpBtn').onclick = function() {
+      document.getElementById('helpModal').style.display = 'flex';
+    };
+    document.getElementById('closeHelp').onclick = function() {
+      document.getElementById('helpModal').style.display = 'none';
     };
   </script>
 </body>
