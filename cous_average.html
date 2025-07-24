@@ -39,6 +39,13 @@
       border-radius: 6px;
       font-size: 1rem;
       margin-bottom: 10px;
+      background: #fff;
+      transition: background 0.2s;
+    }
+    input[type="number"].readonly {
+      background: #f3f4f6 !important;
+      text-decoration: line-through;
+      color: #b0b0b0;
     }
     textarea {
       width: 100%;
@@ -92,10 +99,29 @@
       font-weight: 900;
       margin-top: 6px;
     }
+    .mago-check {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 6px;
+      font-size: 1rem;
+      user-select: none;
+    }
+    .mago-check input[type="checkbox"] {
+      accent-color: #4f8cff;
+      width: 18px;
+      height: 18px;
+      margin: 0;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <div class="container">
+    <div class="mago-check">
+      <input type="checkbox" id="magoCheck">
+      <label for="magoCheck" style="margin:0;cursor:pointer;">Mago</label>
+    </div>
     <label for="hit">Probabilidad de crítico</label>
     <input type="number" id="hit" min="0" max="100" placeholder="Ej: 25" required>
 
@@ -140,12 +166,30 @@
         }
       });
     </script>
+    <script>
+      // Mago checkbox logic
+      document.addEventListener('DOMContentLoaded', function() {
+        const magoCheck = document.getElementById('magoCheck');
+        const hitInput = document.getElementById('hit');
+        magoCheck.addEventListener('change', function() {
+          if (this.checked) {
+            hitInput.value = 100;
+            hitInput.readOnly = true;
+            hitInput.classList.add('readonly');
+          } else {
+            hitInput.readOnly = false;
+            hitInput.classList.remove('readonly');
+          }
+        });
+      });
+    </script>
   </div>
 
   <script src="cous_average.js"></script>
   <script>
     document.getElementById('parseBtn').onclick = function() {
-      const hit = document.getElementById('hit').value;
+      const mago = document.getElementById('magoCheck').checked;
+      const hit = mago ? 100 : document.getElementById('hit').value;
       const texto = document.getElementById('texto').value;
       const output = document.getElementById('output');
       output.style.display = 'none';
