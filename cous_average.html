@@ -1,216 +1,81 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Parser de Cous Prob</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f7f7fa;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-    }
-    .container {
-      background: #fff;
-      margin-top: 40px;
-      padding: 32px 28px 24px 28px;
-      border-radius: 16px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-      max-width: 480px;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-    label {
-      font-weight: 500;
-      margin-bottom: 6px;
-      color: #333;
-    }
-    input[type="number"] {
-      width: 100%;
-      padding: 8px 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
-      margin-bottom: 10px;
-      background: #fff;
-      transition: background 0.2s;
-    }
-    input[type="number"].readonly {
-      background: #f3f4f6 !important;
-      text-decoration: line-through;
-      color: #b0b0b0;
-    }
-    textarea {
-      width: 100%;
-      min-height: 120px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
-      resize: vertical;
-      margin-bottom: 10px;
-    }
-    button {
-      background: #4f8cff;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      padding: 10px 0;
-      font-size: 1.1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    button:hover {
-      background: #2563eb;
-    }
-    .result {
-      background: #f0f4fa;
-      border-radius: 8px;
-      padding: 24px 14px;
-      font-size: 1.5rem;
-      color: #222;
-      white-space: pre-wrap;
-      word-break: break-all;
-      margin-top: 18px;
-      max-height: 300px;
-      overflow: auto;
-      text-align: center;
-      font-weight: bold;
-      display: none;
-    }
-    .result-label {
-      font-size: 1.2rem;
-      color: #2563eb;
-      font-weight: 700;
-      margin-bottom: 8px;
-      display: block;
-    }
-    .result-value {
-      font-size: 2.2rem;
-      color: #111;
-      font-weight: 900;
-      margin-top: 6px;
-    }
-    .mago-check {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      margin-bottom: 6px;
-      font-size: 1rem;
-      user-select: none;
-    }
-    .mago-check input[type="checkbox"] {
-      accent-color: #4f8cff;
-      width: 18px;
-      height: 18px;
-      margin: 0;
-      cursor: pointer;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Daño Promedio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <div class="container">
-    <div class="mago-check">
-      <input type="checkbox" id="magoCheck">
-      <label for="magoCheck" style="margin:0;cursor:pointer;">Mago</label>
-    </div>
-    <label for="hit">Probabilidad de crítico</label>
-    <input type="number" id="hit" min="0" max="100" placeholder="Ej: 25" required>
+    <div class="container">
+        <header>
+            <h1>Calculadora de Daño Promedio</h1>
+            <p class="subtitle">Calcula promedios ponderados de distribuciones de daño de NosTale usando nosapki</p>
+        </header>
 
-    <label for="texto">Texto de la calculadora</label>
-    <textarea id="texto" placeholder="pega aquí todo el texto que te da la calculadora de cous"></textarea>
+        <main>
+            <div class="input-section">
+                <div class="form-group">
+                    <label for="crit-chance">Probabilidad de Golpe Crítico (%)</label>
+                    <input type="number" id="crit-chance" placeholder="ej. 10" min="0" max="100" step="0.1">
+                    <span class="hint">Dejar vacío si no aplica (magos)</span>
+                </div>
 
-    <button id="parseBtn">Calcular Average</button>
-    <button id="helpBtn" style="background:#e0e7ff;color:#2563eb;font-weight:600;margin-top:4px;">Ayuda</button>
+                <div class="form-group">
+                    <label for="data-input">Pegar datos de NosApki</label>
+                    <textarea id="data-input" placeholder="Pega el texto de la distribución de daño aquí..."></textarea>
+                </div>
 
-    <div id="output" class="result"></div>
-    <div id="helpModal" style="display:none;position:fixed;z-index:1000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.18);align-items:center;justify-content:center;">
-      <div style="background:#fff;padding:28px 22px 18px 22px;border-radius:14px;box-shadow:0 4px 24px rgba(0,0,0,0.12);max-width:350px;width:90%;position:relative;display:flex;flex-direction:column;align-items:center;">
-        <button id="closeHelp" style="position:absolute;top:10px;right:14px;background:none;border:none;font-size:1.3rem;color:#888;cursor:pointer;">&times;</button>
-        <h2 style="color:#2563eb;font-size:1.3rem;margin-bottom:10px;">¿Cómo usar?</h2>
-        <ol style="text-align:left;font-size:1rem;color:#333;padding-left:18px;margin-bottom:10px;">
-          <li>Ve a la calculadora de nosapki e introduce tu cálculo.<br><a href="https://nosapki.com/es/calculators/dmg_pve" target="_blank" style="color:#4f8cff;word-break:break-all;">@https://nosapki.com/es/calculators/dmg_pve</a></li>
-          <li>Indica tu probabilidad de crítico.</li>
-          <li>
-            Copia todo el resultado final:<br>
-            <img id="helpImgThumb" src="./results.png" alt="Ejemplo resultado" style="width:100%;max-width:700px;min-width:320px;min-height:180px;aspect-ratio:16/9;margin:18px 0 10px 0;border-radius:14px;box-shadow:0 6px 32px rgba(0,0,0,0.13);display:block;cursor:zoom-in;">
-            <div id="imgModal" style="display:none;position:fixed;z-index:2000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.45);align-items:center;justify-content:center;">
-              <span id="closeImgModal" style="position:absolute;top:18px;right:32px;font-size:2.2rem;color:#fff;cursor:pointer;font-weight:bold;z-index:2010;">&times;</span>
-              <img src="./results.png" alt="Ejemplo resultado grande" style="max-width:90vw;max-height:85vh;border-radius:18px;box-shadow:0 8px 40px rgba(0,0,0,0.18);background:#fff;">
+                <div class="button-group">
+                    <button id="calculate-btn">Calcular Promedio</button>
+                    <button id="help-btn" class="secondary-btn">Ayuda</button>
+                </div>
             </div>
-          </li>
-          <li>Pega el resultado final aquí.</li>
-        </ol>
-      </div>
-    </div>
-    <script>
-      // Image modal logic
-      document.addEventListener('DOMContentLoaded', function() {
-        var thumb = document.getElementById('helpImgThumb');
-        var imgModal = document.getElementById('imgModal');
-        var closeImg = document.getElementById('closeImgModal');
-        if (thumb && imgModal && closeImg) {
-          thumb.onclick = function() { imgModal.style.display = 'flex'; };
-          closeImg.onclick = function() { imgModal.style.display = 'none'; };
-          imgModal.onclick = function(e) {
-            if (e.target === imgModal) imgModal.style.display = 'none';
-          };
-        }
-      });
-    </script>
-    <script>
-      // Mago checkbox logic
-      document.addEventListener('DOMContentLoaded', function() {
-        const magoCheck = document.getElementById('magoCheck');
-        const hitInput = document.getElementById('hit');
-        magoCheck.addEventListener('change', function() {
-          if (this.checked) {
-            hitInput.value = 100;
-            hitInput.readOnly = true;
-            hitInput.classList.add('readonly');
-          } else {
-            hitInput.readOnly = false;
-            hitInput.classList.remove('readonly');
-          }
-        });
-      });
-    </script>
-  </div>
 
-  <script src="cous_average.js"></script>
-  <script>
-    document.getElementById('parseBtn').onclick = function() {
-      const mago = document.getElementById('magoCheck').checked;
-      const hit = mago ? 100 : document.getElementById('hit').value;
-      const texto = document.getElementById('texto').value;
-      const output = document.getElementById('output');
-      output.style.display = 'none';
-      if (!hit || isNaN(hit) || hit < 0 || hit > 100) {
-        alert('Por favor, ingresa la probabilidad de crítico (0-100).');
-        return;
-      }
-      if (!texto.trim()) {
-        alert('Por favor, pega el texto de la calculadora.');
-        return;
-      }
-      const average = window.parseDamageText(texto, hit);
-      output.innerHTML = '<span class="result-label">Tu average:</span><span class="result-value">' + average.toLocaleString(undefined, {maximumFractionDigits: 2}) + '</span>';
-      output.style.display = 'block';
-    };
-    document.getElementById('helpBtn').onclick = function() {
-      document.getElementById('helpModal').style.display = 'flex';
-    };
-    document.getElementById('closeHelp').onclick = function() {
-      document.getElementById('helpModal').style.display = 'none';
-    };
-  </script>
+            <div class="output-section">
+                <div id="result-card" class="result-card hidden">
+                    <h2>Daño Promedio</h2>
+                    <div class="result-value" id="result-value">0</div>
+                </div>
+                <div id="error-message" class="error-message hidden"></div>
+            </div>
+        </main>
+
+        <!-- Help Modal -->
+        <div id="help-modal" class="modal hidden">
+            <div class="modal-content">
+                <button id="close-help" class="close-btn">&times;</button>
+                <h2>¿Cómo usar?</h2>
+                <ol>
+                    <li>Ve a la calculadora de nosapki e introduce tu cálculo. <a
+                            href="https://nosapki.com/es/calculators/dmg_pve" target="_blank">Ir a NosApki</a></li>
+                    <li>Indica tu probabilidad de crítico.</li>
+                    <li>
+                        Copia todo el resultado final:
+                        <div class="image-container">
+                            <img id="help-img-thumb" src="results.png" alt="Ejemplo resultado">
+                            <div class="overlay">
+                                <span>Click para ampliar</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>Pega el resultado final aquí.</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Image Modal -->
+        <div id="img-modal" class="modal hidden image-modal">
+            <span id="close-img-modal" class="close-btn-large">&times;</span>
+            <img class="modal-image" src="results.png" alt="Ejemplo resultado grande">
+        </div>
+    </div>
+    <script src="cous_average.js"></script>
 </body>
-</html> 
+
+</html>
