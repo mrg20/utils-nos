@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>¿Quién tiene razón?</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(ellipse at center, #1a0a2e 0%, #0d0618 100%);
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+    }
+
+    h1 {
+      color: #fff;
+      font-size: 2.6rem;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      text-shadow: 0 0 20px #c084fc, 0 0 40px #7c3aed;
+    }
+
+    /* ── Wheel wrapper ── */
+    .wheel-wrapper {
+      position: relative;
+      width: 400px;
+      height: 400px;
+    }
+
+    /* Top pointer */
+    .pointer {
+      position: absolute;
+      top: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 18px solid transparent;
+      border-right: 18px solid transparent;
+      border-top: 36px solid #facc15;
+      filter: drop-shadow(0 0 8px #facc15);
+      z-index: 10;
+    }
+
+    canvas {
+      border-radius: 50%;
+      box-shadow: 0 0 40px #7c3aed88, 0 0 80px #4f1d9644;
+    }
+
+    /* Center hub */
+    .hub {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff 0%, #e2e8f0 60%, #94a3b8 100%);
+      border: 4px solid #7c3aed;
+      box-shadow: 0 0 16px #7c3aed;
+      z-index: 5;
+    }
+
+    /* ── Button ── */
+    button#spin {
+      margin-top: 36px;
+      padding: 16px 56px;
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #1e0a3c;
+      background: linear-gradient(135deg, #facc15 0%, #f97316 100%);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 4px 24px #f97316aa;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    button#spin:hover:not(:disabled) {
+      transform: scale(1.06);
+      box-shadow: 0 6px 32px #facc15cc;
+    }
+    button#spin:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    /* ── Popup overlay ── */
+    #overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.72);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.3s ease;
+    }
+    #overlay.show { display: flex; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .popup {
+      background: linear-gradient(160deg, #2e1065 0%, #1e0a3c 100%);
+      border: 3px solid #c084fc;
+      border-radius: 24px;
+      padding: 52px 64px;
+      text-align: center;
+      box-shadow: 0 0 60px #7c3aed, 0 0 120px #4f1d9644;
+      animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
+    .popup p {
+      font-size: 3rem;
+      font-weight: 900;
+      color: #facc15;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      text-shadow: 0 0 20px #facc15, 0 0 40px #f97316;
+    }
+
+    .popup-icon {
+      width: 110px;
+      height: 110px;
+      object-fit: contain;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 0 14px #c084fc);
+      animation: bounce 0.6s ease infinite alternate;
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-10px); }
+    }
+
+    .popup button {
+      margin-top: 28px;
+      padding: 12px 40px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #1e0a3c;
+      background: linear-gradient(135deg, #c084fc, #7c3aed);
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .popup button:hover { transform: scale(1.07); }
+  </style>
+</head>
+<body>
+
+  <h1>¿Quién tiene razón?</h1>
+
+  <div class="wheel-wrapper">
+    <div class="pointer"></div>
+    <canvas id="wheel" width="400" height="400"></canvas>
+    <div class="hub"></div>
+  </div>
+
+  <button id="spin">Gira la rueda</button>
+
+  <div id="overlay">
+    <div class="popup">
+      <img class="popup-icon" src="https://imgs.search.brave.com/bdPFDyQEMsPld1t_uoze4SYuzWTnoQe380On4pCNHKA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudGVtcGxvZGVz/bG90cy5lcy9waWN0/LzE1NDMwMi9CaWct/QmFzcy1Cb25hbnph/LnBuZz90aW1lc3Rh/bXA9MTY1MzQ0OTQ2/NzAwMCZpbWFnZURh/dGFJZD0yMTkyMjYm/d2lkdGg9MjcwJmhl/aWdodD0yMDg" alt="icon" />
+      <p>¡Tú tienes razón!</p>
+      <button onclick="closePopup()">¡Genial!</button>
+    </div>
+  </div>
+
+  <script>
+    const SEGMENTS = 8;
+    const IMG_SRC  = 'https://imgs.search.brave.com/bdPFDyQEMsPld1t_uoze4SYuzWTnoQe380On4pCNHKA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudGVtcGxvZGVz/bG90cy5lcy9waWN0/LzE1NDMwMi9CaWct/QmFzcy1Cb25hbnph/LnBuZz90aW1lc3Rh/bXA9MTY1MzQ0OTQ2/NzAwMCZpbWFnZURh/dGFJZD0yMTkyMjYm/d2lkdGg9MjcwJmhl/aWdodD0yMDg';
+    const COLORS   = [
+      '#7c3aed','#6d28d9','#5b21b6','#4c1d95',
+      '#6d28d9','#7c3aed','#5b21b6','#4c1d95'
+    ];
+
+    const canvas = document.getElementById('wheel');
+    const ctx    = canvas.getContext('2d');
+    const btn    = document.getElementById('spin');
+    const overlay = document.getElementById('overlay');
+
+    const arc = (2 * Math.PI) / SEGMENTS;
+    const cx  = canvas.width  / 2;
+    const cy  = canvas.height / 2;
+    const r   = cx - 6;
+
+    let angle    = 0;
+    let spinning = false;
+
+    // Pre-load icon
+    const icon = new Image();
+    icon.src = IMG_SRC;
+    icon.onload = () => drawWheel(angle);
+
+    function drawWheel(rot) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = 0; i < SEGMENTS; i++) {
+        const start = rot + i * arc;
+        const end   = start + arc;
+
+        // Slice fill
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, r, start, end);
+        ctx.closePath();
+        ctx.fillStyle = COLORS[i];
+        ctx.fill();
+
+        // Slice border
+        ctx.strokeStyle = '#c084fc';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Draw icon centered in slice
+        const midAngle = start + arc / 2;
+        const imgR     = r * 0.56;
+        const ix       = cx + imgR * Math.cos(midAngle);
+        const iy       = cy + imgR * Math.sin(midAngle);
+        const imgSize  = 58;
+
+        ctx.save();
+        ctx.translate(ix, iy);
+        ctx.rotate(midAngle + Math.PI / 2);
+        ctx.drawImage(icon, -imgSize / 2, -imgSize / 2, imgSize, imgSize);
+        ctx.restore();
+      }
+
+      // Outer ring
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+      ctx.strokeStyle = '#c084fc';
+      ctx.lineWidth = 5;
+      ctx.stroke();
+    }
+
+    function spinWheel() {
+      if (spinning) return;
+      spinning = true;
+      btn.disabled = true;
+
+      // Random spin: 5–10 full rotations + random extra
+      const extraSpins = (5 + Math.random() * 5) * 2 * Math.PI;
+      const extraAngle = Math.random() * 2 * Math.PI;
+      const totalDelta = extraSpins + extraAngle;
+      const duration   = 4000 + Math.random() * 1500; // ms
+
+      const startTime  = performance.now();
+      const startAngle = angle;
+
+      function easeOut(t) {
+        return 1 - Math.pow(1 - t, 4);
+      }
+
+      function frame(now) {
+        const elapsed = now - startTime;
+        const t       = Math.min(elapsed / duration, 1);
+        angle = startAngle + totalDelta * easeOut(t);
+        drawWheel(angle);
+
+        if (t < 1) {
+          requestAnimationFrame(frame);
+        } else {
+          angle = angle % (2 * Math.PI);
+          spinning = false;
+          setTimeout(showPopup, 400);
+        }
+      }
+
+      requestAnimationFrame(frame);
+    }
+
+    function showPopup() {
+      overlay.classList.add('show');
+    }
+
+    function closePopup() {
+      overlay.classList.remove('show');
+      btn.disabled = false;
+    }
+
+    btn.addEventListener('click', spinWheel);
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closePopup();
+    });
+
+    // Initial draw (wait for image)
+    if (icon.complete) drawWheel(angle);
+  </script>
+</body>
+</html>
